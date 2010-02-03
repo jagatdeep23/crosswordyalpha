@@ -7,9 +7,9 @@ package yalpha;
 
 /**
  *
- * @author Bob
+ * @author Team Yalpha
  */
-public class Main {
+public class Controller {
 
     /**
      * @param args the command line arguments
