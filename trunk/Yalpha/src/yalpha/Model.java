@@ -14,11 +14,16 @@ public class Model {
     puzzle  m_puzzle;
     private WordList m_list = null;
 
+    public Model()
+    {
+        m_list = new WordList();
+    }
+
     public void choosePuzzle(enPuzzle puzType)
     {
         if(puzType == enPuzzle.CROSSWORD)
         {
-            m_puzzle = new enPuzzle.Crossword();
+            m_puzzle = new Crossword();
         }
         else if (puzType == enPuzzle.WORDSEARCH)
         {
