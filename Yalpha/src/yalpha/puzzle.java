@@ -14,12 +14,13 @@ enum direction {UP,DOWN,DIAGNAL,LEFT,RIGHT};
 public class puzzle {
     private class WordMap extends WordList
     {
-        private int m_x,m_y;
-        private boolean [] m_direction = new boolean[5];
         public final static int num_direction = 5;
-        WordMap()
+        private int m_x,m_y;
+        private boolean [] m_direction = new boolean[num_direction];
+        WordMap(WordList temp)
         {
             super();
+            
             m_x = 0;
             m_y = 0;
         }
@@ -55,12 +56,13 @@ public class puzzle {
         }
 
     }
-    //private WordList m_list = null;
+
+    
     private char [][] map = null;
 
     public void generate(WordList words)
     {
-        
+        WordMap mList = new WordMap(words);
     }
 
     public char [][] getMatrix()
