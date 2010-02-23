@@ -11,11 +11,7 @@ import java.util.*;
  */
 public class WordList {
     private ArrayList<String> m_list = null;
-    public int hell()
-    {
-        return 0;
-    }
-
+    
     public void set(WordList temp)
     {
         Object tempList = temp.m_list.clone();

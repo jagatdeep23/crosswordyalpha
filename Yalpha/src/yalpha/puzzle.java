@@ -11,8 +11,8 @@ package yalpha;
  */
 enum direction {UP,DOWN,DIAGNAL,LEFT,RIGHT};
 //m_up =0, m_down, m_diagnal, m_left, m_right
-public class puzzle {
-    private class WordMap extends WordList
+public abstract class puzzle {
+    protected class WordMap extends WordList
     {
         public final static int num_direction = 5;
         private int m_x,m_y;
@@ -57,13 +57,10 @@ public class puzzle {
 
     }
 
-    
+
     private char [][] map = null;
 
-    public void generate(WordList words)
-    {
-        WordMap mList = new WordMap(words);
-    }
+    public abstract void generate(final WordList words);
 
     public char [][] getMatrix()
     {
