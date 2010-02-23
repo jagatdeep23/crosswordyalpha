@@ -35,4 +35,9 @@ public class Model {
     {
         m_puzzle.generate(m_list);
     }
+
+    public char [][] getMatrix()
+    {
+       return m_puzzle.getMatrix();
+    }
 }
