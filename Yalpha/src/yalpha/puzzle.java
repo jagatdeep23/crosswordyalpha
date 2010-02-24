@@ -16,6 +16,17 @@ public abstract class puzzle {
     {
         private int x,y;
 
+        point(int tx, int ty)
+        {
+            x = tx;
+            y = ty;
+        }
+        point()
+        {
+            x =0;
+            y =0;
+        }
+
         void setX(int temp)
         {
             x = temp;
@@ -53,25 +64,39 @@ public abstract class puzzle {
     protected class Word
     {
         public final static int num_direction = 5;
-        private int m_x,m_y;
-        private String m_word = null;
+        //private point front,back;
+        //private String m_word = null;
+        private char [] m_letters = null;
+        private point [] m_pos = null;
+        private point offset = null;
         private boolean m_up, m_down, m_left, m_right;
 
         Word(String temp)
         {
+           m_pos = new point[temp.length()];
+           offset = new point(0,0);
            setString(temp);
-           setX(0);
-           setY(0);
+           setRight(true);
         }
 
-        public final int getX()
+        public final int getCharPosX(int c)
         {
-            return m_x;
+            return getX(m_pos[c]);
         }
 
-        public final int getY()
+        public final int getCharPosY(int c)
         {
-            return m_y;
+            return getY(m_pos[c]);
+        }
+
+        private final int getX(point temp)
+        {
+            return temp.getX();
+        }
+
+        private final int getY(point temp)
+        {
+            return temp.getY();
         }
 
         public boolean getUp()
@@ -96,47 +121,76 @@ public abstract class puzzle {
 
         public int getLength()
         {
-           return m_word.length();
+           return m_letters.length;
         }
 
-        public String getString()
+        public char [] getString()
         {
-            return m_word;
+            return m_letters;
         }
 
-        public void setY(int temp)
+        public void setFirstCharPos(int chX, int chY)
         {
-            m_y = temp;
+            m_pos[0].setX(chX);
+            m_pos[0].setY(chY);
+            resetPos();
         }
 
-        public void setX(int temp)
+        private void setCharPosY(int chr, int yp)
         {
-            m_x = temp;
+            m_pos[chr].y = yp;
+        }
+
+        private void setCharPosX(int chr, int xp)
+        {
+            m_pos[chr].x = xp;
         }
 
         public void setUp(boolean temp)
         {
             m_up = temp;
+            offset.setY(1);
+            resetPos();
         }
 
         public void setDown(boolean temp)
         {
             m_down = temp;
+            offset.setY(-1);
+            resetPos();
         }
 
         public void setRight(boolean temp)
         {
             m_right = temp;
+            offset.setX(-1);
+            resetPos();
         }
 
         public void setLeft(boolean temp)
         {
             m_left = temp;
+            offset.setX(1);
+            resetPos();
         }
 
         public void setString(String temp)
         {
-            m_word = temp;
+            m_letters = (char [])temp.toCharArray().clone();
+        }
+
+        public void resetPos()
+        {
+               for(int i = 1; i < m_letters.length; i++ )
+               {
+                   m_pos[i].setX(m_pos[i-1].getX() + offset.getX());
+               }
+            
+           
+                for(int i = 1; i < m_letters.length; i++ )
+                {
+                    m_pos[i].setY(m_pos[i-1].getY()+ offset.getY());
+                }
         }
     }
     protected class WordMap extends ArrayList<Word>
