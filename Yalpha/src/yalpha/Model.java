@@ -11,7 +11,7 @@ package yalpha;
 enum enPuzzle {CROSSWORD,WORDSEARCH};
 
 public class Model {
-    puzzle  m_puzzle;
+    Puzzle  m_puzzle;
     private WordList m_list = null;
 
     public Model()
