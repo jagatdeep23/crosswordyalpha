@@ -9,7 +9,7 @@ package yalpha;
  *
  * @author Patrick
  */
-public class Wordsearch extends puzzle {
+public class Wordsearch extends Puzzle {
         public void generate(final WordList words)
         {
             WordMap mList = new WordMap(words);
