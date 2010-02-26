@@ -8,9 +8,11 @@ package yalpha;
  *
  * @author Patrick
  */
-enum enPuzzle {CROSSWORD,WORDSEARCH};
 
 public class Model {
+    static final int CROSSWORD = 0;
+    static final int WORDSEARCH = 1;
+    
     private Puzzle  m_puzzle = null;
     private WordList m_list = null;
 
@@ -18,8 +20,8 @@ public class Model {
     {
         m_list = new WordList();
 
-        //
-        choosePuzzle(enPuzzle.WORDSEARCH);
+        //default puzzle is WORDSEARCH
+        choosePuzzle(WORDSEARCH);
     }
 
     public boolean test()
@@ -31,13 +33,13 @@ public class Model {
         return false;
     }
 
-    public void choosePuzzle(enPuzzle puzType)
+    public void choosePuzzle(int puzType)
     {
-        if(puzType == enPuzzle.CROSSWORD)
+        if(puzType == CROSSWORD)
         {
             m_puzzle = new Crossword();
         }
-        else if (puzType == enPuzzle.WORDSEARCH)
+        else if (puzType == WORDSEARCH)
         {
             m_puzzle = new Wordsearch();
         }
@@ -46,6 +48,26 @@ public class Model {
     public void add(String temp)
     {
         m_list.add(temp);
+    }
+
+    public void remove(String temp)
+    {
+        m_list.remove(temp);
+    }
+
+    public void savePuzzle(String temp)
+    {
+        System.out.println(temp);
+    }
+
+    public void loadPuzzle(String temp)
+    {
+        System.out.println(temp);
+    }
+
+    public void loadWordList(String temp)
+    {
+        System.out.println(temp);
     }
 
     public void generate()
