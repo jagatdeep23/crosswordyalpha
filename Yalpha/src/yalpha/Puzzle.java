@@ -164,6 +164,11 @@ public abstract class Puzzle {
             return m_letters;
         }
 
+        public char getCharAt(int index)
+        {
+            return m_letters[index];
+        }
+
         public void setFirstCharPos(int chX, int chY)
         {
             m_pos[0].setX(chX);
@@ -421,7 +426,7 @@ public abstract class Puzzle {
     {
         Word tempW = new Word(tempS);
 
-        /*tempW.setFirstCharPos(2, 4);
+        tempW.setFirstCharPos(2, 4);
 
         System.out.println("Length: " + tempW.getLength());
         System.out.println("PosX: " + tempW.getCharPosX(0));
@@ -435,14 +440,14 @@ public abstract class Puzzle {
         System.out.println("PosX: " + tempW.getCharPosX(0));
         System.out.println("PosY: " + tempW.getCharPosY(6));
         System.out.println("LargestX: " + tempW.getLargestX());
-        System.out.println(tempW.getString());*/
+        System.out.println(tempW.getString());
         //System.out.println(tempW.g)
         return true;
     }
 
     public boolean testWordMap(final WordList words)
     {
-        /*System.out.println("TEST - WORDMAP\n\n");
+        System.out.println("TEST - WORDMAP\n\n");
 
         WordMap tempMap = new WordMap(words);
         
@@ -453,7 +458,7 @@ public abstract class Puzzle {
         tempMap.checkAllForLargest();
 
         System.out.println("LargestX: " + tempMap.getLargestX());
-        System.out.println("LargestY: " + tempMap.getLargestY());*/
+        System.out.println("LargestY: " + tempMap.getLargestY());
 
 
         return true;
@@ -465,14 +470,23 @@ public abstract class Puzzle {
     }
 
     //puts all the words into the char matrix(2x2)
-    private void matrixWordPopulation(final WordMap tempMap)
+    protected void matrixWordPopulation(final WordMap tempMap)
     {
-        map = new char [tempMap.getLargestX()][tempMap.getLargestY()];
+        map = new char [tempMap.getLargestX()+1][tempMap.getLargestX()+1];
+
+        for(int i=0; i < map.length; i++)
+        {
+            for(int j = 0; j < map[i].length; j++ )
+            {
+                map[i][j] = 'F';
+            }
+        }
 
         for(int i=0; i < tempMap.size(); i++)
         {
             Word tempW = tempMap.get(i);
-            char [] tempS = tempW.getString();
+            tempW.setUp(true);
+            /*char [] tempS = tempW.getString();
             point delta = new point();
 
             delta.generateDelta(tempW);
@@ -481,14 +495,25 @@ public abstract class Puzzle {
             int posX = tempW.getCharPosX(0);
 
             int dX = delta.getX();
-            int dY = delta.getY();
+            int dY = delta.getY();*/
 
             for(int j = 0; j < tempW.getLength(); j++ )
             {
-                map[posX + dX][posY + dY] = tempS[j];
+                map[tempW.getCharPosX(j)][tempW.getCharPosY(j)] = tempW.getCharAt(j);
             }
         }
 
+       /*for(int i=0; i < map.length; i++)
+        {
+            for(int j = 0; j < map[i].length; j++ )
+            {
+                if(map[i][j] == ' ')
+                {
+                    map[i][j] = 'F';
+                }
+            }
+        }*/
+ 
     }
 }
 
