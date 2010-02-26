@@ -11,12 +11,24 @@ package yalpha;
 enum enPuzzle {CROSSWORD,WORDSEARCH};
 
 public class Model {
-    Puzzle  m_puzzle;
+    private Puzzle  m_puzzle = null;
     private WordList m_list = null;
 
     public Model()
     {
         m_list = new WordList();
+
+        //
+        choosePuzzle(enPuzzle.WORDSEARCH);
+    }
+
+    public boolean test()
+    {
+        if(m_puzzle.testWord(m_list.get(0)) && m_puzzle.testWordMap(m_list))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void choosePuzzle(enPuzzle puzType)
@@ -29,6 +41,11 @@ public class Model {
         {
             m_puzzle = new Wordsearch();
         }
+    }
+
+    public void add(String temp)
+    {
+        m_list.add(temp);
     }
 
     public void generate()

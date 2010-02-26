@@ -20,7 +20,15 @@ public class Controller {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+                //WordList list = new WordList();
 		Model model = new Model();
+                String name = "PATRICK";
+                model.add(name);
+                model.add("SAMMMIE");
+                model.add("JILLIAN");
+                model.generate();
+                model.test();
+                
 		/*char[][] puz = { { 'a', 'b', 'e' }, { 'p', 'o', 'p' },
 				{ 'd', 'a', 'd' } };
 		ArrayList<String> list = new ArrayList<String>();
@@ -30,7 +38,7 @@ public class Controller {
 		list.add("SayWhat");
 		list.add("that's what I thought");
 		list.add("Indeed");*/
-		View view = new View();
+		/*View view = new View();
 		boolean exit = false;
 		Scanner input = new Scanner(System.in);
 		char command;
@@ -108,6 +116,6 @@ public class Controller {
 				}
 				break;
 			}
-		}
+		}*/
 	}
 }
