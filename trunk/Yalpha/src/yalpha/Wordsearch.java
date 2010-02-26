@@ -15,6 +15,7 @@ public class Wordsearch extends Puzzle {
             WordMap mList = new WordMap(words);
             System.out.println("WordSearch-Generate");
             System.out.println(words);
+            matrixWordPopulation(mList);
         }
 
 }
