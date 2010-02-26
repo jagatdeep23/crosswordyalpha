@@ -20,14 +20,15 @@ public class Controller {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-                //WordList list = new WordList();
+
+                /*WordList list = new WordList();
 		Model model = new Model();
                 String name = "PATRICK";
                 model.add(name);
                 model.add("SAMMMIE");
                 model.add("JILLIAN");
                 model.generate();
-                model.test();
+                model.test();*/
                 
 		/*char[][] puz = { { 'a', 'b', 'e' }, { 'p', 'o', 'p' },
 				{ 'd', 'a', 'd' } };
@@ -38,11 +39,14 @@ public class Controller {
 		list.add("SayWhat");
 		list.add("that's what I thought");
 		list.add("Indeed");*/
-		/*View view = new View();
+                Model model = new Model();
+		View view = new View();
 		boolean exit = false;
 		Scanner input = new Scanner(System.in);
 		char command;
 		String line;
+
+                System.out.println("Welcome to Hell! Please Enter your fear!\nThank you have a wonderful day!");
 
 		while (!exit) {
 			line = input.nextLine().toLowerCase();
@@ -116,6 +120,6 @@ public class Controller {
 				}
 				break;
 			}
-		}*/
+		}
 	}
 }

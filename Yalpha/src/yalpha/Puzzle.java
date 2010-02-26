@@ -336,30 +336,20 @@ public abstract class Puzzle {
     {
         point m_largest = null;
         point m_index = null;
-        ArrayList<Word> m_list = null;
         
-        WordMap(WordList temp)
+        WordMap(final WordList temp)
         {
             super();
-            m_list = new ArrayList<Word>(temp.size() * 2);
             m_largest = new point(-1,-1);
             m_index = new point(-1,-1);
             add(temp);
         }
 
-        public Word get(int i)
+        public void checkAllForLargest()
         {
-            Word temp = super.get(i);
-            checkAllLargest();
-            return temp;
-        }
-
-        private void checkAllLargest()
-        {
-            ArrayList<Word> temp = new ArrayList<Word>(m_list.size());
-            for(int i = 0; i < m_list.size(); i++)
+            for(int i = 0; i < size(); i++)
             {
-                checkLargest(m_list.get(i));
+                checkLargest(get(i));
             }
         }
 
@@ -431,7 +421,7 @@ public abstract class Puzzle {
     {
         Word tempW = new Word(tempS);
 
-        tempW.setFirstCharPos(2, 4);
+        /*tempW.setFirstCharPos(2, 4);
 
         System.out.println("Length: " + tempW.getLength());
         System.out.println("PosX: " + tempW.getCharPosX(0));
@@ -445,22 +435,25 @@ public abstract class Puzzle {
         System.out.println("PosX: " + tempW.getCharPosX(0));
         System.out.println("PosY: " + tempW.getCharPosY(6));
         System.out.println("LargestX: " + tempW.getLargestX());
-        System.out.println(tempW.getString());
+        System.out.println(tempW.getString());*/
         //System.out.println(tempW.g)
         return true;
     }
 
     public boolean testWordMap(final WordList words)
     {
-        WordMap tempMap = new WordMap(words);
+        /*System.out.println("TEST - WORDMAP\n\n");
 
+        WordMap tempMap = new WordMap(words);
+        
         for(int i = 0; i < tempMap.size(); i++)
         {
             tempMap.get(i).setFirstCharPos(0, i);
         }
+        tempMap.checkAllForLargest();
 
         System.out.println("LargestX: " + tempMap.getLargestX());
-        System.out.println("LargestY: " + tempMap.getLargestY());
+        System.out.println("LargestY: " + tempMap.getLargestY());*/
 
 
         return true;
