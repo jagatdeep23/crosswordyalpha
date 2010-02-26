@@ -13,6 +13,7 @@ public class Crossword extends Puzzle {
         public void generate(final WordList words)
         {
             WordMap mList = new WordMap(words);
+            
         }
 
 }
