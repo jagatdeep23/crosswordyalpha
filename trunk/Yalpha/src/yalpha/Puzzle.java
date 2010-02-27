@@ -154,7 +154,7 @@ public abstract class Puzzle {
             return m_left;
         }
 
-        public int getLength()
+        public int size()
         {
            return m_letters.length;
         }
@@ -264,18 +264,6 @@ public abstract class Puzzle {
             }
         }
 
-        //If the word has no direction then the Direction right is set and CheckDirection() returns false
-        private boolean CheckDirection()
-        {
-            boolean ynDir = true;
-            if(m_left == false && m_right == false && m_up == false && m_down == false)
-            {
-                setRight(true);
-                ynDir = !ynDir;
-            }
-            return ynDir;
-        }
-
         public void setString(String temp)
         {
             m_letters = (char [])temp.toCharArray().clone();
@@ -315,6 +303,7 @@ public abstract class Puzzle {
                 }
             }
         }
+
         private void ObtainSmallest()
         {
             m_smallest.setX(m_pos[0].getX());
@@ -333,6 +322,74 @@ public abstract class Puzzle {
             }
 
         }
+        
+        //If the word has no direction then the Direction right is set and CheckDirection() returns false
+        private boolean CheckDirection()
+        {
+            boolean ynDir = true;
+            if(m_left == false && m_right == false && m_up == false && m_down == false)
+            {
+                setRight(true);
+                ynDir = !ynDir;
+            }
+            return ynDir;
+        }
+
+        public boolean checkCollison(final Word tempW)
+        {
+            //boolean rtn = (checkBetween(tempW.getLargestX()) || checkBetween(tempW.getSmallestX()) ||  checkInside(tempW.getLargestX(), tempW.getSmallestX()) );
+            return ( checkLettersPos(tempW) ); //&& rtn );
+        }
+
+        // If a TRUE collision occured then it will return true, else returns false.
+        // TRUE collision = when a position matches, BUT letter doesn't.
+        // SO... When a letter and position of the both words are equal this is NOT a TRUE collision
+        private boolean checkLettersPos(final Word tempW)
+        {
+            boolean rtn = true;
+            int index = 0;
+            while(rtn && (index < tempW.size()) )
+            {
+                if(comparePos(tempW, index ) )
+                {
+                    rtn = compareChar(tempW, index);
+                }
+                index++;
+            }
+            return (!rtn);
+        }
+
+        private boolean comparePos(final Word tempW, final int tempI)
+        {
+            return (tempW.getCharPosX(tempI) == getCharPosX(tempI) && tempW.getCharPosY(tempI) == getCharPosY(tempI));
+        }
+
+        private boolean compareChar(final Word tempW, final int tempI)
+        {
+            return (tempW.getCharAt(tempI) == getCharAt(tempI));
+        }
+/*
+        private boolean checkInside(final int largeX, final int smallX)
+        {
+            return checkAInsideB(largeX,smallX) || checkBInsideA(largeX,smallX);
+        }
+
+        private boolean checkAInsideB(final int largeAX, final int smallAX)
+        {
+            return (largeAX < getLargestX() && smallAX > getSmallestX());
+        }
+
+        private boolean checkBInsideA(final int largeAX, final int smallAX)
+        {
+            return (largeAX > getLargestX() && smallAX < getSmallestX());
+        }
+
+        private boolean checkBetween(final int tempW)
+        {
+            return ((tempW > getLargestX() && tempW < getSmallestX()));
+        }
+ * 
+ */
     }
 
     /////////////////////WORDMAP//////////////////////////
@@ -345,11 +402,21 @@ public abstract class Puzzle {
         WordMap(final WordList temp)
         {
             super();
-            m_largest = new point(-1,-1);
-            m_index = new point(-1,-1);
             add(temp);
+            initalize();
+        }
+        
+        WordMap()
+        {
+           initalize();
         }
 
+        private void initalize()
+        {
+            m_largest = new point(-1,-1);
+            m_index = new point(-1,-1);
+        }
+        
         public void checkAllForLargest()
         {
             for(int i = 0; i < size(); i++)
@@ -428,7 +495,7 @@ public abstract class Puzzle {
 
         tempW.setFirstCharPos(2, 4);
 
-        System.out.println("Length: " + tempW.getLength());
+        System.out.println("Length: " + tempW.size());
         System.out.println("PosX: " + tempW.getCharPosX(0));
         System.out.println("PosY: " + tempW.getCharPosY(6));
         System.out.println("LargestX: " + tempW.getLargestX());
@@ -436,7 +503,7 @@ public abstract class Puzzle {
         
         tempW.setDown(true);
 
-        System.out.println("Length: " + tempW.getLength());
+        System.out.println("Length: " + tempW.size());
         System.out.println("PosX: " + tempW.getCharPosX(0));
         System.out.println("PosY: " + tempW.getCharPosY(6));
         System.out.println("LargestX: " + tempW.getLargestX());
@@ -470,15 +537,16 @@ public abstract class Puzzle {
     }
 
     //puts all the words into the char matrix(2x2)
-    protected void matrixWordPopulation(final WordMap tempMap)
+    protected void populateWordMatrix(final WordMap tempMap)
     {
         map = new char [tempMap.getLargestX()+1][tempMap.getLargestX()+1];
-
+        //Random randGen = new Random();
         for(int i=0; i < map.length; i++)
         {
             for(int j = 0; j < map[i].length; j++ )
             {
-                map[i][j] = 'F';
+                //map[i][j] = (char) (randGen.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
+                map[i][j] = '~'; //function should generate random letters from a(97) to z(122)
             }
         }
 
@@ -486,33 +554,11 @@ public abstract class Puzzle {
         {
             Word tempW = tempMap.get(i);
             tempW.setUp(true);
-            /*char [] tempS = tempW.getString();
-            point delta = new point();
-
-            delta.generateDelta(tempW);
-
-            int posY = tempW.getCharPosY(0);
-            int posX = tempW.getCharPosX(0);
-
-            int dX = delta.getX();
-            int dY = delta.getY();*/
-
-            for(int j = 0; j < tempW.getLength(); j++ )
+         for(int j = 0; j < tempW.size(); j++ )
             {
-                map[tempW.getCharPosX(j)][tempW.getCharPosY(j)] = tempW.getCharAt(j);
+                map[tempW.getCharPosY(j)][tempW.getCharPosX(j)] = tempW.getCharAt(j);
             }
         }
-
-       /*for(int i=0; i < map.length; i++)
-        {
-            for(int j = 0; j < map[i].length; j++ )
-            {
-                if(map[i][j] == ' ')
-                {
-                    map[i][j] = 'F';
-                }
-            }
-        }*/
  
     }
 }
