@@ -46,7 +46,7 @@ public class Controller {
 		char command;
 		String line;
 
-                System.out.println("Welcome to Hell! Please Enter your fear!\nThank you have a wonderful day!");
+                System.out.println("Welcome to Hell! Please Enter your fear!\nThank you and have a wonderful day!\nP.S. - type H and enter for help!");
 
 		while (!exit) {
 			line = input.nextLine().toLowerCase();
