@@ -164,6 +164,11 @@ public abstract class Puzzle {
             return m_letters;
         }
 
+        public String toString()
+        {
+            return String.copyValueOf(m_letters);
+        }
+
         public char getCharAt(int index)
         {
             return m_letters[index];
@@ -348,25 +353,29 @@ public abstract class Puzzle {
         {
             boolean rtn = true;
             int index = 0;
-            while(rtn && (index < tempW.size()) )
+
+            while(rtn && (index < size()) )
             {
-                if(comparePos(tempW, index ) )
+                for(int j= 0; ((j < tempW.size()) && rtn); j++)
                 {
-                    rtn = compareChar(tempW, index);
+                    if(comparePos(index, tempW, j ) )
+                    {
+                        rtn = compareChar(index, tempW, j);
+                    }
                 }
                 index++;
             }
             return (!rtn);
         }
 
-        private boolean comparePos(final Word tempW, final int tempI)
+        private boolean comparePos(final int mytempI, final Word tempW, final int tempI)
         {
-            return (tempW.getCharPosX(tempI) == getCharPosX(tempI) && tempW.getCharPosY(tempI) == getCharPosY(tempI));
+            return (tempW.getCharPosX(tempI) == getCharPosX(mytempI) && tempW.getCharPosY(tempI) == getCharPosY(mytempI));
         }
 
-        private boolean compareChar(final Word tempW, final int tempI)
+        private boolean compareChar(final int mytempI, final Word tempW, final int tempI)
         {
-            return (tempW.getCharAt(tempI) == getCharAt(tempI));
+            return (tempW.getCharAt(tempI) == getCharAt(mytempI));
         }
 /*
         private boolean checkInside(final int largeX, final int smallX)
@@ -402,8 +411,8 @@ public abstract class Puzzle {
         WordMap(final WordList temp)
         {
             super();
-            add(temp);
             initalize();
+            add(temp);
         }
         
         WordMap()
@@ -553,7 +562,6 @@ public abstract class Puzzle {
         for(int i=0; i < tempMap.size(); i++)
         {
             Word tempW = tempMap.get(i);
-            tempW.setUp(true);
          for(int j = 0; j < tempW.size(); j++ )
             {
                 map[tempW.getCharPosY(j)][tempW.getCharPosX(j)] = tempW.getCharAt(j);

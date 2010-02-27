@@ -17,12 +17,39 @@ public class Wordsearch extends Puzzle {
             WordMap randomWords = new WordMap(words);
             WordMap mappedWords = new WordMap();
 
-            recursivePuzzleSearch(randomWords, mappedWords);
+            randomWords.get(0).setFirstCharPos(0,1);
+            //randomWords.get(0).resetPos();
+            //randomWords.checkAllForLargest();
+            //recursivePuzzleSearch(randomWords, mappedWords);
+            randomWords = TEST(randomWords);
             
-            System.out.println("WordSearch-Generate");
-            System.out.println(words);
-            populateWordMatrix(mappedWords);
+           // System.out.println("WordSearch-Generate");
+           // System.out.println(words);
+            populateWordMatrix(randomWords);
         }
+
+        public WordMap TEST(WordMap words)
+        {
+            System.out.println("TESTING: checkWord");
+            //System.out.println();
+            WordMap temp = new WordMap();
+            for(int i = 0; i < words.size(); i++)
+            {
+                Word w = words.get(i);
+                
+                int c = checkWord(w,temp);
+                
+                if( c > -1)
+                {
+                    System.out.println("Removing: " + (temp.remove(c)).toString());
+                }
+                temp.add(words.get(i));
+            }
+            
+            System.out.println("checkWord PASSED");
+            return temp;
+        }
+
         public boolean recursivePuzzleSearch(WordMap userList, WordMap puzzleList)
         {
             WordMap bad = new WordMap();
