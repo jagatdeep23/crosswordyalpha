@@ -43,12 +43,16 @@ public class Wordsearch extends Puzzle {
                 
                 if( c > -1)
                 {
-                    if(!correctWord(w,c,words))
-                    {
-                        System.out.println("Removing: " + (temp.remove(c)).toString());
-                    }
+                    //if(!correctWord(w,c,words))
+                    //{
+                        //System.out.println("Removing: " + (temp.remove(c)).toString());
+                        System.out.println("NOT adding: " + w);
+                    //}
                 }
-                temp.add(w);
+                else
+                {
+                    temp.add(w);
+                }
             }
             
             System.out.println("checkWord PASSED");
