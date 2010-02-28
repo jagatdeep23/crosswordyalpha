@@ -17,15 +17,15 @@ public class Wordsearch extends Puzzle {
             WordMap randomWords = new WordMap(words);
             WordMap mappedWords = new WordMap();
 
-            randomWords.get(0).setFirstCharPos(0,1);
+            //randomWords.get(0).setFirstCharPos(0,1);
             //randomWords.get(0).resetPos();
             //randomWords.checkAllForLargest();
             //recursivePuzzleSearch(randomWords, mappedWords);
-            randomWords = TEST(randomWords);
+            mappedWords = TEST(randomWords);
             
            // System.out.println("WordSearch-Generate");
            // System.out.println(words);
-            populateWordMatrix(randomWords);
+            populateWordMatrix(mappedWords);
         }
 
         public WordMap TEST(WordMap words)
@@ -34,20 +34,21 @@ public class Wordsearch extends Puzzle {
             //System.out.println();
             WordMap temp = new WordMap();
 
+            //  lrg is obtained outside the loop because the longest word would change everytime a word was removed from "words"
+            //  So lrg is constant through the whole loop
+            int lrg = words.getLongestWord();
+
             int size = words.size();
             for(int i =0; i < size; i++)
             {
-                Word w = randomizeWord(words);
+                Word w = randomizeWord(words,lrg);
                 
                 int c = checkWord(w,temp);
                 
-                if( c > -1)
+                if( c > -1)// && !correctWord(w,c,temp))
                 {
-                    //if(!correctWord(w,c,words))
-                    //{
                         //System.out.println("Removing: " + (temp.remove(c)).toString());
                         System.out.println("NOT adding: " + w);
-                    //}
                 }
                 else
                 {
@@ -68,9 +69,11 @@ public class Wordsearch extends Puzzle {
                 return true;
             }
 
+            int Lrg = userList.getLongestWord();
+
             for(int i =0; i < userList.size(); i++)
             {
-                Word tempW = randomizeWord(userList);
+                Word tempW = randomizeWord(userList, Lrg);
                 int index = checkWord(tempW, puzzleList);
 
                 if(correctWord(tempW, index, puzzleList))
@@ -95,22 +98,91 @@ public class Wordsearch extends Puzzle {
             return tempUser;
         }
 
+        //  VERY LABOR INTENSIVE... need better function..
         //  Corrects the word's Position so it no longer collides with anything.
         //  If not possible then return false.
         //  tempW collision word, tempI index of collided word in tempMap
-        private boolean correctWord(final Word tempW, int tempI, final WordMap tempMap)
+        private boolean correctWord(Word tempW, int tempI, final WordMap tempMap)
         {
             if(tempI > -1)
             {
+                for(int i =0; i < tempMap.size(); i++)
+                {
+                    Word mapsWord = tempMap.get(i);
+                    for(int j = 0; j < mapsWord.size(); j++)
+                    {
+                        for(int k = 0; k < tempW.size(); k++)
+                        {
+                            // if the words share a letter
+                            if(tempW.getCharAt(k) == mapsWord.getCharAt(j))
+                            {
+                                // check direction of map's word to set random word's direction in a direction that is opposing.
+                                if(mapsWord.getDown())
+                                {
+                                    if(mapsWord.getLeft())
+                                    {
+                                        
+                                    }
+                                    else if(mapsWord.getRight())
+                                    {
+                                        
+                                    }
+
+                                }
+                                else if(mapsWord.getUp())
+                                {
+                                    if(mapsWord.getLeft())
+                                    {
+
+                                    }
+                                    else if(mapsWord.getRight())
+                                    {
+
+                                    }
+                                }
+                                else if (mapsWord.getRight())
+                                {
+                                    if(mapsWord.getUp())
+                                    {
+
+                                    }
+                                    else if(mapsWord.getDown())
+                                    {
+
+                                    }
+                                }
+                                else if (mapsWord.getLeft())
+                                {
+                                    if(mapsWord.getUp())
+                                    {
+
+                                    }
+                                    else if(mapsWord.getDown())
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                findEmpty(tempW,tempMap);
                 
             }
+
             return true;
+        }
+
+        private void findEmpty(Word tempW, WordMap tempMap)
+        {
+            
         }
 
         //  removes word from list and...
         //  gives word random direction and position
         //  then returns it
-        private Word randomizeWord(WordMap tempMap)
+        private Word randomizeWord(WordMap tempMap, int Largest)
         {
             int index = myRandom.nextInt(tempMap.size());
 
@@ -119,16 +191,10 @@ public class Wordsearch extends Puzzle {
             int rX = 0;
             int rY = 0;
 
-            int largeX = tempMap.getLargestX();
-            int largeY = tempMap.getLargestY();
-            
-            if(largeX > 0)
+            if(Largest > 0)
             {
-                rX = myRandom.nextInt(largeX);
-            }
-            if(largeY > 0)
-            {
-                rY = myRandom.nextInt(largeY);
+                rX = myRandom.nextInt(Largest*2);
+                rY = myRandom.nextInt(Largest*2);
             }
 
             tempW.setFirstCharPos(rX, rY);
