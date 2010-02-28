@@ -33,23 +33,29 @@ public class Wordsearch extends Puzzle {
             System.out.println("TESTING: checkWord");
             //System.out.println();
             WordMap temp = new WordMap();
-            for(int i = 0; i < words.size(); i++)
+
+            int size = words.size();
+            for(int i =0; i < size; i++)
             {
-                Word w = words.get(i);
+                Word w = randomizeWord(words);
                 
                 int c = checkWord(w,temp);
                 
                 if( c > -1)
                 {
-                    System.out.println("Removing: " + (temp.remove(c)).toString());
+                    if(!correctWord(w,c,words))
+                    {
+                        System.out.println("Removing: " + (temp.remove(c)).toString());
+                    }
                 }
-                temp.add(words.get(i));
+                temp.add(w);
             }
             
             System.out.println("checkWord PASSED");
             return temp;
         }
 
+        // Recursivly solves the puzzle - like n-Queens
         public boolean recursivePuzzleSearch(WordMap userList, WordMap puzzleList)
         {
             WordMap bad = new WordMap();
@@ -63,7 +69,7 @@ public class Wordsearch extends Puzzle {
                 Word tempW = randomizeWord(userList);
                 int index = checkWord(tempW, puzzleList);
 
-                if(CorrectWord(tempW, index, puzzleList))
+                if(correctWord(tempW, index, puzzleList))
                 {
                     puzzleList.add(tempW);
                     if(recursivePuzzleSearch(combineMaps(userList,bad), puzzleList))
@@ -88,7 +94,7 @@ public class Wordsearch extends Puzzle {
         //  Corrects the word's Position so it no longer collides with anything.
         //  If not possible then return false.
         //  tempW collision word, tempI index of collided word in tempMap
-        private boolean CorrectWord(final Word tempW, int tempI, final WordMap tempMap)
+        private boolean correctWord(final Word tempW, int tempI, final WordMap tempMap)
         {
             if(tempI > -1)
             {
@@ -102,7 +108,49 @@ public class Wordsearch extends Puzzle {
         //  then returns it
         private Word randomizeWord(WordMap tempMap)
         {
-            return tempMap.get(0);
+            int index = myRandom.nextInt(tempMap.size());
+
+            Word tempW = tempMap.remove(index);
+
+            int rX = 0;
+            int rY = 0;
+
+            int largeX = tempMap.getLargestX();
+            int largeY = tempMap.getLargestY();
+            
+            if(largeX > 0)
+            {
+                rX = myRandom.nextInt(largeX);
+            }
+            if(largeY > 0)
+            {
+                rY = myRandom.nextInt(largeY);
+            }
+
+            tempW.setFirstCharPos(rX, rY);
+
+            int rLR = myRandom.nextInt(3);
+            int rUD = myRandom.nextInt(3);
+
+            if(rLR == 1)
+            {
+                tempW.setLeft(true);
+            }
+            else if(rLR == 2)
+            {
+                tempW.setRight(true);
+            }
+
+            if(rUD == 1)
+            {
+                tempW.setUp(true);
+            }
+            else if(rUD == 2)
+            {
+                tempW.setDown(true);
+            }
+            
+            return tempW;
         }
 
         //Check for

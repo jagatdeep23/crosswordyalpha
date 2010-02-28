@@ -79,12 +79,7 @@ public abstract class Puzzle {
 
         Word(String temp)
         {
-           m_pos = new point[temp.length()];
-
-           for(int i =0; i < m_pos.length; i++ )
-           {
-              m_pos[i] = new point();
-           }
+           initalizePoints(temp.length());
            
            m_offset = new point();
            m_largest = new point();
@@ -92,6 +87,16 @@ public abstract class Puzzle {
            
            setString(temp);
            setRight(true);
+        }
+
+        private void initalizePoints(int tempS)
+        {
+            m_pos = new point[tempS];
+
+           for(int i =0; i < m_pos.length; i++ )
+           {
+              m_pos[i] = new point();
+           }
         }
 
         public final int getCharPosX(int c)
@@ -181,7 +186,7 @@ public abstract class Puzzle {
             resetPos();
         }
 
-        private void setCharPosY(int chr, int yp)
+        /*private void setCharPosY(int chr, int yp)
         {
             m_pos[chr].y = yp;
         }
@@ -189,7 +194,7 @@ public abstract class Puzzle {
         private void setCharPosX(int chr, int xp)
         {
             m_pos[chr].x = xp;
-        }
+        }*/
 
         public void setUp(boolean temp)
         {
@@ -272,23 +277,66 @@ public abstract class Puzzle {
         public void setString(String temp)
         {
             m_letters = (char [])temp.toCharArray().clone();
+            initalizePoints(m_letters.length);
         }
 
+        //resets the positions of each character based on direction and the first character's position.
         public void resetPos()
         {
-           
-            for(int i = 1; i < m_letters.length; i++ )
+           if(m_letters.length != m_pos.length)
+           {
+               System.out.println("LETTER SIZE DOESN'T MATCH POS!!");
+               System.exit(0);
+           }
+           else
+           {
+                for(int i = 1; i < m_letters.length; i++ )
+                {
+                    m_pos[i].setX(m_pos[i-1].getX() + m_offset.getX());
+                    //System.out.println("PrevPosX: " + m_pos[i-1].getX() + "\nCurrPosX: " + m_pos[i].getX() + "\nOffsetX: " + m_offset.getX());
+                }
+
+                for(int i = 1; i < m_letters.length; i++ )
+                {
+                    m_pos[i].setY(m_pos[i-1].getY()+ m_offset.getY());
+                }
+
+                checkNegatives();
+
+                ObtainGreatest();
+                ObtainSmallest();
+           }
+        }
+
+        private void checkNegatives()
+        {
+            int leastX = 0;
+            int leastY = 0;
+            for(int i = 0; i < m_pos.length; i++ )
             {
-                m_pos[i].setX(m_pos[i-1].getX() + m_offset.getX());
+                int gX = m_pos[i].getX();
+                int gY = m_pos[i].getY();
+
+                if(gX < 0 && gX < leastX)
+                {
+                    leastX = gX;
+                }
+                if(gY < 0 && gY < leastY)
+                {
+                    leastY = gY;
+                }
                 //System.out.println("PrevPosX: " + m_pos[i-1].getX() + "\nCurrPosX: " + m_pos[i].getX() + "\nOffsetX: " + m_offset.getX());
             }
-            
-            for(int i = 1; i < m_letters.length; i++ )
+
+            for(int i = 0; i < m_pos.length; i++ )
             {
-                m_pos[i].setY(m_pos[i-1].getY()+ m_offset.getY());
+                int gX = m_pos[i].getX();
+                m_pos[i].setX(gX-leastX);
+                
+                int gY = m_pos[i].getY();
+                m_pos[i].setY(gY-leastY);
             }
-            ObtainGreatest();
-            ObtainSmallest();
+
         }
 
         private void ObtainGreatest()
@@ -328,7 +376,7 @@ public abstract class Puzzle {
 
         }
         
-        //If the word has no direction then the Direction right is set and CheckDirection() returns false
+        //If the word has no direction then the default direction is right and CheckDirection() returns false
         private boolean CheckDirection()
         {
             boolean ynDir = true;
@@ -422,7 +470,7 @@ public abstract class Puzzle {
 
         private void initalize()
         {
-            m_largest = new point(-1,-1);
+            m_largest = new point(0,0);
             m_index = new point(-1,-1);
         }
         
