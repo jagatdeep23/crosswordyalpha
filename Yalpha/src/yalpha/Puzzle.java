@@ -474,19 +474,12 @@ public abstract class Puzzle {
             m_index = new point(-1,-1);
         }
         
-        public void checkAllForLargest()
+        private void checkAllForLargest()
         {
             for(int i = 0; i < size(); i++)
             {
                 checkLargest(get(i));
             }
-        }
-
-        public boolean add(final Word temp)
-        {
-            checkLargest(temp);
-
-            return super.add(temp);
         }
 
         private boolean add(final WordList temp)
@@ -499,23 +492,41 @@ public abstract class Puzzle {
             return true;
         }
 
+        public int getLongestWord()
+        {
+            int lrg = get(1).size();
+            for(int i = 1; i < size(); i++)
+            {
+                if(lrg < get(i).size())
+                {
+                    lrg = get(i).size();
+                }
+            }
+
+            return lrg;
+        }
+
         public int getLargestX()
         {
+            checkAllForLargest();
             return m_largest.getX();
         }
 
         public int posLargestX()
         {
+            checkAllForLargest();
             return m_index.getX();
         }
 
         public int getLargestY()
         {
+            checkAllForLargest();
             return m_largest.getY();
         }
 
         public int posLargestY()
         {
+            checkAllForLargest();
             return m_index.getY();
         }
 
@@ -596,7 +607,7 @@ public abstract class Puzzle {
     //puts all the words into the char matrix(2x2)
     protected void populateWordMatrix(final WordMap tempMap)
     {
-        map = new char [tempMap.getLargestX()+1][tempMap.getLargestX()+1];
+        map = new char [(tempMap.getLargestY() +1) *2 ][(tempMap.getLargestX() +1)*2];
         //Random randGen = new Random();
         for(int i=0; i < map.length; i++)
         {
