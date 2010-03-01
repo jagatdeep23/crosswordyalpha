@@ -9,7 +9,7 @@ public class View {
 	public void printPuzzle(char[][] puzzle){
 		for (int i = 0; i < puzzle.length; ++i){
 			for (int j = 0; j < puzzle[i].length; ++j){
-				System.out.print(puzzle[i][j]);
+				System.out.print(puzzle[i][j] + " ");
 			}
 			System.out.println();
 		}
