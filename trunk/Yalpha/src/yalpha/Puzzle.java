@@ -12,7 +12,7 @@ import java.util.*;
 //enum direction {UP,DOWN,DIAGNAL,LEFT,RIGHT};
 //m_up =0, m_down, m_diagnal, m_left, m_right
 public abstract class Puzzle {
-    private class point
+    protected class point
     {
         private int x,y;
 
@@ -607,7 +607,7 @@ public abstract class Puzzle {
     //puts all the words into the char matrix(2x2)
     protected void populateWordMatrix(final WordMap tempMap)
     {
-        map = new char [(tempMap.getLargestY() +1) *2 ][(tempMap.getLargestX() +1)*2];
+        map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
         //Random randGen = new Random();
         for(int i=0; i < map.length; i++)
         {
