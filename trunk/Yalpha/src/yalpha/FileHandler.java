@@ -16,7 +16,7 @@ import java.util.Scanner;
  *
  * @author jordan
  */
-public class FileManager
+public class FileHandler
 {
     public static void saveWordList (String fileName, WordList wl)
             throws IOException
