@@ -80,4 +80,10 @@ public class Model {
     {
        return m_puzzle.getMatrix();
     }
+
+    public String [] getwordList()
+    {
+        String [] tempS = new String [m_list.size()];
+        return m_list.toArray(tempS);
+    }
 }
