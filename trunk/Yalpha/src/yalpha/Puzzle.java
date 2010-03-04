@@ -1,17 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package yalpha;
 import java.util.*;
 /**
+ * An abstract class that has an arcinal of protected classs that help subdue problems
+ * that other more general wordPuzzles may have. 
+ * 
+ * The point class just keeps track of the (x,y) positions
  *
- * @author Patrick
+ * The Word class obtains a string and keeps track of each character's (x,y) position through
+ * the use of the point class. The word also keeps track of the direction of the word.
+ *
+ * The WordMap class is an arraylist of words
+ *
+ * @author Team Yalpha, specifically Patrick Martin, Jordan
+ * @version 1.0
  */
-//enum direction {UP,DOWN,DIAGNAL,LEFT,RIGHT};
-//m_up =0, m_down, m_diagnal, m_left, m_right
 public abstract class Puzzle {
+
+    //////////POINT CLASS//////////////////////////
+
     protected class point
     {
         private int x,y;
@@ -45,21 +51,6 @@ public abstract class Puzzle {
         int getY()
         {
             return y;
-        }
-
-        //I forget what this function was supposed to do...
-        private void generateDelta(final Word tempW)
-        {
-            setX(0);
-            setY(0);
-            if(tempW.getUp() == true || tempW.getDown() == true)
-            {
-                setY(1);
-            }
-            if(tempW.getRight() == true || tempW.getLeft() == true)
-            {
-                setX(1);
-            }
         }
     }
 
@@ -186,16 +177,6 @@ public abstract class Puzzle {
             resetPos();
         }
 
-        /*private void setCharPosY(int chr, int yp)
-        {
-            m_pos[chr].y = yp;
-        }
-
-        private void setCharPosX(int chr, int xp)
-        {
-            m_pos[chr].x = xp;
-        }*/
-
         public void setUp(boolean temp)
         {
             m_up = temp;
@@ -308,6 +289,7 @@ public abstract class Puzzle {
            }
         }
 
+        // if the position of the characters is negative then move the characters into a positive postion
         private void checkNegatives()
         {
             int leastX = 0;
@@ -339,6 +321,7 @@ public abstract class Puzzle {
 
         }
 
+        // Obtains Greatest/Smallest positions of the word
         private void ObtainGreatest()
         {
             m_largest.setX(m_pos[0].getX());
@@ -390,8 +373,11 @@ public abstract class Puzzle {
 
         public boolean checkCollison(final Word tempW)
         {
-            //boolean rtn = (checkBetween(tempW.getLargestX()) || checkBetween(tempW.getSmallestX()) ||  checkInside(tempW.getLargestX(), tempW.getSmallestX()) );
-            return ( checkLettersPos(tempW) ); //&& rtn );
+            if(tempW != null)
+            {
+                return ( checkLettersPos(tempW) );
+            }
+            return false;
         }
 
         // If a TRUE collision occured then it will return true, else returns false.
@@ -399,54 +385,44 @@ public abstract class Puzzle {
         // SO... When a letter and position of the both words are equal this is NOT a TRUE collision
         private boolean checkLettersPos(final Word tempW)
         {
-            boolean rtn = true;
-            int index = 0;
-
-            while(rtn && (index < size()) )
+            if(tempW != null)
             {
-                for(int j= 0; ((j < tempW.size()) && rtn); j++)
+                boolean rtn = true;
+                int index = 0;
+
+                while(rtn && (index < size()) )
                 {
-                    if(comparePos(index, tempW, j ) )
+                    for(int j= 0; ((j < tempW.size()) && rtn); j++)
                     {
-                        rtn = compareChar(index, tempW, j);
+                        if(comparePos(index, tempW, j ) )
+                        {
+                            rtn = compareChar(index, tempW, j);
+                        }
                     }
+                    index++;
                 }
-                index++;
+                return (!rtn);
             }
-            return (!rtn);
+            return false;
         }
 
         private boolean comparePos(final int mytempI, final Word tempW, final int tempI)
         {
-            return (tempW.getCharPosX(tempI) == getCharPosX(mytempI) && tempW.getCharPosY(tempI) == getCharPosY(mytempI));
+            if(tempW != null)
+            {
+                return (tempW.getCharPosX(tempI) == getCharPosX(mytempI) && tempW.getCharPosY(tempI) == getCharPosY(mytempI));
+            }
+            return false;
         }
 
         private boolean compareChar(final int mytempI, final Word tempW, final int tempI)
         {
-            return (tempW.getCharAt(tempI) == getCharAt(mytempI));
+            if(tempW != null)
+            {
+                return (tempW.getCharAt(tempI) == getCharAt(mytempI));
+            }
+            return false;
         }
-/*
-        private boolean checkInside(final int largeX, final int smallX)
-        {
-            return checkAInsideB(largeX,smallX) || checkBInsideA(largeX,smallX);
-        }
-
-        private boolean checkAInsideB(final int largeAX, final int smallAX)
-        {
-            return (largeAX < getLargestX() && smallAX > getSmallestX());
-        }
-
-        private boolean checkBInsideA(final int largeAX, final int smallAX)
-        {
-            return (largeAX > getLargestX() && smallAX < getSmallestX());
-        }
-
-        private boolean checkBetween(final int tempW)
-        {
-            return ((tempW > getLargestX() && tempW < getSmallestX()));
-        }
- * 
- */
     }
 
     /////////////////////WORDMAP//////////////////////////
@@ -494,16 +470,20 @@ public abstract class Puzzle {
 
         public int getLongestWord()
         {
-            int lrg = get(1).size();
-            for(int i = 1; i < size(); i++)
+            if(size() >= 0)
             {
-                if(lrg < get(i).size())
+                int lrg = get(0).size();
+                for(int i = 1; i < size(); i++)
                 {
-                    lrg = get(i).size();
+                    if(lrg < get(i).size())
+                    {
+                        lrg = get(i).size();
+                    }
                 }
-            }
 
-            return lrg;
+                return lrg;
+            }
+            return -1;
         }
 
         public int getLargestX()
@@ -551,12 +531,14 @@ public abstract class Puzzle {
     
     private char [][] map = null;
 
+    // Function should create puzzle
     public abstract void generate(final WordList words);
 
     Puzzle()
     {
     }
 
+    ////////TESTS FOR CLASSES IN PUZZLE////////////////////
     public boolean testWord(final String tempS)
     {
         Word tempW = new Word(tempS);
@@ -598,13 +580,14 @@ public abstract class Puzzle {
 
         return true;
     }
+    ////////////////END TESTS/////////////////////////////
 
     public char [][] getMatrix()
     {
          return map;
     }
 
-    //puts all the words into the char matrix(2x2)
+    //puts all the words into the char matrix(MxM)
     protected void populateWordMatrix(final WordMap tempMap)
     {
         map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
@@ -613,7 +596,7 @@ public abstract class Puzzle {
         {
             for(int j = 0; j < map[i].length; j++ )
             {
-                //map[i][j] = (char) (randGen.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
+               // map[i][j] = (char) (randGen.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
                 map[i][j] = '~'; //function should generate random letters from a(97) to z(122)
             }
         }

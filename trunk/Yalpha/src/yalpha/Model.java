@@ -1,12 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package yalpha;
 /**
+ * Alters the data handed to it by the controller and exports the final 
+ * product(aka <Specific>puzzle) back to the controller in the form of a
+ * matric array.
  *
- * @author Patrick
+ * @author Team Yalpha, specifically Patrick Martin, Jordan
+ * @version 1.0
  */
 
 public class Model {
@@ -20,10 +19,11 @@ public class Model {
     {
         m_list = new WordList();
 
-        //default puzzle is WORDSEARCH
+        //default puzzle
         choosePuzzle(WORDSEARCH);
     }
 
+    //Allows driver to test puzzle through model
     public boolean test()
     {
         if(m_puzzle.testWord(m_list.get(0)) && m_puzzle.testWordMap(m_list))
@@ -70,6 +70,7 @@ public class Model {
         System.out.println(temp);
     }
 
+    // generates choosen puzzle (if no puzzle was choosen the default puzzle is WordSearch
     public void generate()
     {
         m_puzzle.generate(m_list);
