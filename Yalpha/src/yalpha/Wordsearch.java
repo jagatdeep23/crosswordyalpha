@@ -1,18 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package yalpha;
 import java.util.Random;
 import java.util.*;
+
 /**
+ * Generates a wordsearch puzzle that attempts to elimnate any chance
+ * that a word can't be used in the puzzle.
  *
- * @author Patrick
+ * @author Team Yalpha, specifically Patrick Martin, Jordan
+ * @version 1.0
  */
 public class Wordsearch extends Puzzle {
        private Random myRandom = new Random();
-
+       
         public void generate(final WordList words)
         {
             WordMap randomWords = new WordMap(words);
@@ -46,13 +45,10 @@ public class Wordsearch extends Puzzle {
                 
                 int c = checkWord(w,temp);
                 
-                if( c > -1 && !correctWordRandomly(w,c,temp))
+                if( c > -1 && !correctWordRandomly(w,temp) && !correctBackup(w,c,temp))
                 {
-                    if(correctBackup(w,c,temp))
-                    {
                         //System.out.println("Removing: " + (temp.remove(c)).toString());
                         System.out.println("NOT adding: " + w);
-                    }
                 }
                 else
                 {
@@ -64,98 +60,97 @@ public class Wordsearch extends Puzzle {
             return temp;
         }
 
-        // Recursivly solves the puzzle - like n-Queens
-        public boolean recursivePuzzleSearch(WordMap userList, WordMap puzzleList)
+        /**  VERY LABOR INTENSIVE...
+         *  1)  BASICLY goes through all the characters in tempW and all the characters in all the words in tempMap
+         *      and checks for a character in common.
+         *  2)  Once a common letter is found between tempW and a word from tempMap the two words are overlapped
+         *  3)  Then tempW is given a random direction that opposes the word in tempMap
+         *  4)  If not possible then return false.
+         * 
+         *  tempW collision word, tempI index of collided word in tempMap
+         *  Needs work - Exits at the first sign of a character match
+         */
+        private boolean correctWordRandomly(Word tempW, final WordMap tempMap)
         {
-            WordMap bad = new WordMap();
-            if(userList.isEmpty())
-            {
-                return true;
-            }
-
-            int Lrg = userList.getLongestWord();
-
-            for(int i =0; i < userList.size(); i++)
-            {
-                Word tempW = randomizeWord(userList, Lrg);
-                int index = checkWord(tempW, puzzleList);
-
-                if(correctWordRandomly(tempW, index, puzzleList))
+            //  loop through all the words in tempMap
+                for(int i =0; i < tempMap.size(); i++)
                 {
-                    puzzleList.add(tempW);
-                    if(recursivePuzzleSearch(combineMaps(userList,bad), puzzleList))
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    bad.add(tempW);
-                }
-            }
-            return false;
-        }
-
-        private WordMap combineMaps(WordMap tempUser, WordMap tempbad)
-        {
-            tempUser.addAll(tempbad);
-            return tempUser;
-        }
-
-        //  VERY LABOR INTENSIVE... need better function..
-        //  Corrects the word's Position so it no longer collides with anything.
-        //  If not possible then return false.
-        //  tempW collision word, tempI index of collided word in tempMap
-        private boolean correctWordRandomly(Word tempW, int tempI, final WordMap tempMap)
-        {
-            boolean found = false;
-        
-                for(int i =0; i < tempMap.size() && !found; i++)
-                {
+                    //  loop through all the characters of the selected word in tempMap
                     Word mapsWord = tempMap.get(i);
-                    for(int j = 0; j < mapsWord.size() && !found; j++)
+                    for(int j = 0; j < mapsWord.size(); j++)
                     {
-                        for(int k = 0; k < tempW.size() && !found; k++)
+                        //  loop through all the characters in tempW
+                        for(int k = 0; k < tempW.size(); k++)
                         {
                             // if the words share a letter
                             if(tempW.getCharAt(k) == mapsWord.getCharAt(j))
                             {
-                                found = true;
+                                // generate random direction
                                 correctByRandomDirection(tempW,mapsWord);
+                                // check if the word doesn't have a TRUE Collision with any other surounding word
+                                if(checkWord(tempW,tempMap) <= -1)
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    // If a TRUE collision happends after the randomDirection, then change the direction of the word
+                                    // Ex: work :becomes: krow (vis versa)
+                                    if(tempW.getDown())
+                                    {
+                                        tempW.setUp(true);
+                                    }
+                                    else if(tempW.getUp())
+                                    {
+                                        tempW.setDown(true);
+                                    }
+                                    if(tempW.getRight())
+                                    {
+                                        tempW.setLeft(true);
+                                    }
+                                    else if(tempW.getLeft())
+                                    {
+                                        tempW.setRight(true);
+                                    }
+                                }
+                                // check the word now that its direction is changed
+                                if(checkWord(tempW,tempMap) <= -1)
+                                {
+                                    return true;
+                                }
+
                             }
                         }
                     }
                 }
                 
-                if(checkWord(tempW,tempMap) > -1)
-                {
-                   return false;
-                }
-
-            return true;
+                return false;
         }
 
+         /**    Last step in which the word is fitted into the WordMap
+          *    tempW(word to be added to tempMap) | index is the word in tempMap that tempW collided with
+          */
         private boolean correctBackup(Word tempW, int index, WordMap tempMap)
         {
             boolean [][] space = findEmptySpace(tempMap);
 
-            if(correctByMove(tempW,index,tempMap))
+            if(correctByOffset(tempW,index,tempMap) || correctByEmptySpace(tempW,space))
             {
-             
-            }
-            else if(correctByEmptySpace(tempW,space))
-            {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
             
         }
 
+        /**
+         *  returns MxN matrix of boolean values (true means empty space, false means non-empty space)
+         */
         private boolean [][] findEmptySpace(final WordMap tempMap)
         {
             boolean [][] boolMap = new boolean[tempMap.getLargestY()+1][tempMap.getLargestX()+1];
 
+            //intalizes all values to true
             for(int i=0; i< boolMap.length; i++)
             {
                 for(int j=0; j<boolMap[i].length; j++)
@@ -163,7 +158,9 @@ public class Wordsearch extends Puzzle {
                     boolMap[i][j] = true;
                 }
             }
-            
+
+            // all character's x/y positions in the WordMap are set to false
+            // The characters are not empty spaces
             for(int i = 0; i < tempMap.size(); i++)
             {
                 Word tempW = tempMap.get(i);
@@ -179,19 +176,15 @@ public class Wordsearch extends Puzzle {
         //STILL NEEDS
         //Search for - diaginals(x2)
         //output - diaginals(x2) & updown
+        //Finds blocks of empty space in the (up/down), (left/right), (diaginal)
         private boolean correctByEmptySpace(Word tempW, final boolean tempBM [][])
         {
             ArrayList<ArrayList<ArrayList<point>>> freeSpaceLR = new ArrayList<ArrayList<ArrayList<point>>>(); //Left-Right
             ArrayList<ArrayList<ArrayList<point>>> freeSpaceUD = new ArrayList<ArrayList<ArrayList<point>>>(); //Up-Down
             ArrayList<ArrayList<ArrayList<point>>> freeSpaceDR = new ArrayList<ArrayList<ArrayList<point>>>(); //Down-Right
             ArrayList<ArrayList<ArrayList<point>>> freeSpaceDL = new ArrayList<ArrayList<ArrayList<point>>>(); //Down-Left
-
-            /*freeSpace.add(new ArrayList<point>());  //Down/Up     0   share x's
-            freeSpace.add(new ArrayList<point>());  //Left/right    1   share y's
-            freeSpace.add(new ArrayList<point>());  //Down/right    2   one -x/-y away
-            freeSpace.add(new ArrayList<point>());  //Down/left     3   one +x/+y away*/
             
-            ///SEARCH FOR FREE LEFT RIGHT SPOTS
+            ///SEARCH FOR FREE LEFT RIGHT BLOCKS
             int countX =0;
             int countY =0;
             freeSpaceLR.add(new ArrayList<ArrayList<point>>());
@@ -218,15 +211,16 @@ public class Wordsearch extends Puzzle {
                 countX =0;
             }
 
-            ///SEARCH FREE UP DOWN SPOTS
-            /*countX=0;
+            ///SEARCH FOR FREE UP DOWN BLOCKS
+            countX=0;
             countY=0;
-            
+            freeSpaceUD.add(new ArrayList<ArrayList<point>>());
+            freeSpaceUD.get(countY).add(new ArrayList<point>());
             for(int i=0; i<tempBM.length; i++)
             {
                 for(int j =0; j <tempBM[i].length; j++)
                 {
-                    if(tempBM[j][i] )
+                    if(tempBM[i][j] )
                     {
                         freeSpaceUD.get(countY).get(countX).add(new point(j,i));
                     }
@@ -237,43 +231,252 @@ public class Wordsearch extends Puzzle {
 
                     }
                 }
+                freeSpaceUD.add(new ArrayList<ArrayList<point>>());
                 countY++;
-            }*/
+                freeSpaceUD.get(countY).add(new ArrayList<point>());
+                countX =0;
+            }
 
-            //only sets LEFT RIGHT
-            for(int i =0; i<freeSpaceLR.size(); i++)
+            ////SEARCHES FOR FREE DOWN/LEFT
+            int row =0;
+            countY =0;
+            countX =0;
+            freeSpaceDL.add(new ArrayList<ArrayList<point>>());
+            freeSpaceDL.get(countY).add(new ArrayList<point>());
+            
+            while(row < tempBM[0].length-1)
             {
-                for(int j=0; j<freeSpaceLR.get(i).size(); j++)
+                // x-=1;
+                // y+=1;
+                int tX = row;
+                int tY = 0;
+                while(tX > -1 && tY < tempBM.length)
                 {
-                    if(freeSpaceLR.get(i).get(j).size() >= tempW.size())
+                    if(tempBM[tY][tX])
                     {
-                        for(int k =0; k <freeSpaceLR.get(i).get(j).size(); k++)
-                        {
-                            int tX = freeSpaceLR.get(i).get(j).get(k).getX();
-                            int tY = freeSpaceLR.get(i).get(j).get(k).getY();
+                        freeSpaceDL.get(countY).get(countX).add(new point(tX,tY));
+                    }
+                    else
+                    {
+                        freeSpaceDL.get(countY).add(new ArrayList<point>());
+                        countX++;
+                    }
+                    tX -=1;
+                    tY +=1;
+                }
+                freeSpaceDL.add(new ArrayList<ArrayList<point>>());
+                countY++;
+                freeSpaceDL.get(countY).add(new ArrayList<point>());
+                countX =0;
+                row++;
+            }
+            int column =0;
+            while(column < tempBM.length)
+            {
+                // x-=1;
+                // y+=1;
+                int tX = row;
+                int tY = column;
+                while(tX > -1 && tY < tempBM.length)
+                {
+                    if(tempBM[tY][tX])
+                    {
+                        freeSpaceDL.get(countY).get(countX).add(new point(tX,tY));
+                    }
+                    else
+                    {
+                        freeSpaceDL.get(countY).add(new ArrayList<point>());
+                        countX++;
+                    }
+                    tX -=1;
+                    tY +=1;
+                }
+                freeSpaceDL.add(new ArrayList<ArrayList<point>>());
+                countY++;
+                freeSpaceDL.get(countY).add(new ArrayList<point>());
+                countX =0;
+                column++;
+            }
 
-                            tempW.setRight(true);
-                            tempW.setDown(false);
-                            tempW.setUp(false);
-                            tempW.setFirstCharPos(tX, tY);
+
+            //SEARCH FOR FREE BLOCKS OF DOWN/RIGHT
+            row =0;
+            countY =0;
+            countX =0;
+            freeSpaceDL.add(new ArrayList<ArrayList<point>>());
+            freeSpaceDL.get(countY).add(new ArrayList<point>());
+
+            while(row < tempBM[0].length-1)
+            {
+                // x-=1;
+                // y+=1;
+                int tX = row;
+                int tY = 0;
+                while(tX < tempBM[0].length && tY < tempBM.length)
+                {
+                    if(tempBM[tY][tX])
+                    {
+                        freeSpaceDL.get(countY).get(countX).add(new point(tX,tY));
+                    }
+                    else
+                    {
+                        freeSpaceDL.get(countY).add(new ArrayList<point>());
+                        countX++;
+                    }
+                    tX +=1;
+                    tY +=1;
+                }
+                freeSpaceDL.add(new ArrayList<ArrayList<point>>());
+                countY++;
+                freeSpaceDL.get(countY).add(new ArrayList<point>());
+                countX =0;
+                row++;
+            }
+            column =0;
+            while(column < tempBM.length)
+            {
+                // x-=1;
+                // y+=1;
+                int tX = row;
+                int tY = column;
+                while(tX < tempBM[0].length && tY < tempBM.length)
+                {
+                    if(tempBM[tY][tX])
+                    {
+                        freeSpaceDL.get(countY).get(countX).add(new point(tX,tY));
+                    }
+                    else
+                    {
+                        freeSpaceDL.get(countY).add(new ArrayList<point>());
+                        countX++;
+                    }
+                    tX +=1;
+                    tY +=1;
+                }
+                freeSpaceDL.add(new ArrayList<ArrayList<point>>());
+                countY++;
+                freeSpaceDL.get(countY).add(new ArrayList<point>());
+                countX =0;
+                column++;
+            }
+
+            
+
+
+
+            //  SETS WORD IN UP/DOWN or LEFT/RIGHT or DOWN/RIGHT or DOWN/LEFT free blocks (chooses L/R or U/D randomly)
+            int randomUD_LR_DR_DL = myRandom.nextInt(4);
+            
+            if(randomUD_LR_DR_DL == 0)
+            {
+                //only sets tempW in any of the free blocks in the LEFT RIGHT blocks
+                for(int i =0; i<freeSpaceLR.size(); i++)
+                {
+                    for(int j=0; j<freeSpaceLR.get(i).size(); j++)
+                    {
+                        if(freeSpaceLR.get(i).get(j).size() >= tempW.size())
+                        {
+                            for(int k =0; k <freeSpaceLR.get(i).get(j).size(); k++)
+                            {
+                                int tX = freeSpaceLR.get(i).get(j).get(k).getX();
+                                int tY = freeSpaceLR.get(i).get(j).get(k).getY();
+
+                                tempW.setRight(true);
+                                tempW.setDown(false);
+                                tempW.setUp(false);
+                                tempW.setFirstCharPos(tX, tY);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(randomUD_LR_DR_DL == 1)
+            {
+                //only sets tempW in any of the free blocks in the UP DOWN blocks
+                for(int i =0; i<freeSpaceLR.size(); i++)
+                {
+                    for(int j=0; j<freeSpaceLR.get(i).size(); j++)
+                    {
+                        if(freeSpaceLR.get(i).get(j).size() >= tempW.size())
+                        {
+                            for(int k =0; k <freeSpaceLR.get(i).get(j).size(); k++)
+                            {
+                                int tX = freeSpaceLR.get(i).get(j).get(k).getX();
+                                int tY = freeSpaceLR.get(i).get(j).get(k).getY();
+
+                                tempW.setRight(false);
+                                tempW.setLeft(false);
+                                tempW.setDown(true);
+                                tempW.setFirstCharPos(tX, tY);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(randomUD_LR_DR_DL == 2)
+            {
+                //only sets tempW in any of the free blocks in the DOWN RIGHT blocks
+                for(int i =0; i<freeSpaceDR.size(); i++)
+                {
+                    for(int j=0; j<freeSpaceDR.get(i).size(); j++)
+                    {
+                        if(freeSpaceDR.get(i).get(j).size() >= tempW.size())
+                        {
+                            for(int k =0; k <freeSpaceDR.get(i).get(j).size(); k++)
+                            {
+                                int tX = freeSpaceDR.get(i).get(j).get(k).getX();
+                                int tY = freeSpaceDR.get(i).get(j).get(k).getY();
+
+                                tempW.setRight(true);
+                                tempW.setDown(true);
+                                tempW.setFirstCharPos(tX, tY);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //only sets tempW in any of the free blocks in the DOWN LEFT blocks
+                for(int i =0; i<freeSpaceDL.size(); i++)
+                {
+                    for(int j=0; j<freeSpaceDL.get(i).size(); j++)
+                    {
+                        if(freeSpaceDL.get(i).get(j).size() >= tempW.size())
+                        {
+                            for(int k =0; k <freeSpaceDL.get(i).get(j).size(); k++)
+                            {
+                                int tX = freeSpaceDL.get(i).get(j).get(k).getX();
+                                int tY = freeSpaceDL.get(i).get(j).get(k).getY();
+
+                                tempW.setLeft(true);
+                                tempW.setDown(true);
+                                tempW.setFirstCharPos(tX, tY);
+                            }
                         }
                     }
                 }
             }
 
+
             return true;
             
         }
-
-        private boolean correctByMove(Word tempW, int index, WordMap tempMap)
+        
+        /** STILL NEEDS TO BE BUILT
+            Moves the word to a new position OR slightly off the original
+         */
+        private boolean correctByOffset(Word tempW, int index, WordMap tempMap)
         {
+            
             return false;
         }
 
-        private void correctByRandomDirection(Word tempA, Word tempB)
+        /** check direction of tempB to set tempA's direction randomly such that it is opposing tempB.
+            WordExample: mapsWord is down to the right then, other word could be: (down,left),(up,right),(-,right),(-,left)
+         */
+        private void correctByRandomDirection(Word tempA,final Word tempB)
         {
-            // check direction of map's word to set random word's direction in a direction that is opposing.
-            // WordExample: mapsWord is down to the right then, other word could be: (down,left),(up,right),(-,right),(-,left)
             boolean up = false;
             boolean down = false;
             boolean right = false;
@@ -321,15 +524,12 @@ public class Wordsearch extends Puzzle {
             }
         }
 
-        private boolean [][] findEmptySpace(Word tempW, WordMap tempMap)
-        {
-            //int largestX =
-            return null;
-        }
 
-        //  removes word from list and...
-        //  gives word random direction and position
-        //  then returns it
+        /** removes word from tempMap
+         *  gives word random direction and position
+         *  then returns the randomized word
+         *  Largest: the largest word in tempMap before any removes/changes are made to the first fully populated instance of tempMap
+         */
         private Word randomizeWord(WordMap tempMap, int Largest)
         {
             int index = myRandom.nextInt(tempMap.size());
@@ -371,10 +571,11 @@ public class Wordsearch extends Puzzle {
             return tempW;
         }
 
-        //Check for
-        //  overlap/collision
-        //  returns the index of the word in puzzleList that "tempW" collided with
-        //  returns -1 for no collision
+        /** Check for:
+         *  overlap/collision
+         *  returns the index of the word in puzzleList that "tempW" collided with
+         *  returns -1 for no collision
+         */
         public int checkWord(final Word tempW, final WordMap tempMap)
         {
             for(int i=0; i < tempMap.size(); i++)
