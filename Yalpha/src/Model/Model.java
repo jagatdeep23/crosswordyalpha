@@ -7,7 +7,7 @@ import java.io.IOException;
  * product(aka <Specific>puzzle) back to the controller in the form of a
  * matric array.
  *
- * @author Team Yalpha, specifically Patrick Martin, Jordan
+ * @author Team Yalpha, specifically Patrick Martin
  * @version 1.0
  */
 

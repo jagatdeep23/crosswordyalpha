@@ -6,7 +6,7 @@ import java.util.*;
  * Generates a wordsearch puzzle that attempts to elimnate any chance
  * that a word can't be used in the puzzle.
  *
- * @author Team Yalpha, specifically Patrick Martin, Jordan
+ * @author Team Yalpha, specifically Patrick Martin
  * @version 1.0
  */
 public class Wordsearch extends Puzzle {
@@ -46,7 +46,6 @@ public class Wordsearch extends Puzzle {
                 
                 if( c > -1 && !correctWordRandomly(w,temp) && !correctBackup(w,c,temp))
                 {
-                        //System.out.println("Removing: " + (temp.remove(c)).toString());
                         System.out.println("NOT adding: " + w);
                 }
                 else
@@ -132,7 +131,7 @@ public class Wordsearch extends Puzzle {
         {
             boolean [][] space = findEmptySpace(tempMap);
 
-            if(correctByOffset(tempW,index,tempMap) || correctByEmptySpace(tempW,space))
+            if(correctByEmptySpace(tempW,space))
             {
                 return true;
             }
@@ -461,14 +460,6 @@ public class Wordsearch extends Puzzle {
             
         }
         
-        /** STILL NEEDS TO BE BUILT
-            Moves the word to a new position OR slightly off the original
-         */
-        private boolean correctByOffset(Word tempW, int index, WordMap tempMap)
-        {
-            
-            return false;
-        }
 
         /** check direction of tempB to set tempA's direction randomly such that it is opposing tempB.
             WordExample: mapsWord is down to the right then, other word could be: (down,left),(up,right),(-,right),(-,left)
