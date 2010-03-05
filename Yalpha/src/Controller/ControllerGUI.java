@@ -5,15 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.*;
 
 import Model.*;
-import view.ViewGUI;
+import View.ViewGUI;
 
 public class ControllerGUI {
 	private ViewGUI view;
 	Model model;
 
 	public ControllerGUI() {
+                JOptionPane.showMessageDialog(null, "Welcome to Yalpha's puzzle! \nThe rules are:\nEvery word needs to be over 3 and under 12 letters in length.");
+
                 model = new Model();
 		view = new ViewGUI();
 		view.addAddButtonListener(new AddButtonListener());

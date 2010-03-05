@@ -67,7 +67,7 @@ public class ViewGUI {
         puzzleArea.setSize(500, 450);
         puzzleArea.setEditable(false);
         puzzleArea.setBorder(lineBorder);
-        puzzleArea.setFont(new Font("courier", Font.PLAIN, 12));
+        puzzleArea.setFont(new Font("Courier New", Font.PLAIN, 12));
 
         menuBar.add(menu);
 

@@ -14,6 +14,12 @@ public class View {
 			System.out.println();
 		}
 	}
+
+        public void printGreeting()
+        {
+            System.out.println("Welcome to Yalpha's puzzle! \nThe rules are:\nEvery word needs to be over 3 and under 12 letters in length. \nIf help needed type h.");
+        }
+
 	public void printWordList(ArrayList<String> words){
 		System.out.println("Word list:");
 		for (int i = 0; i < words.size(); ++i){

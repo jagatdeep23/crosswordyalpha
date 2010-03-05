@@ -1,4 +1,7 @@
 package Model;
+
+import java.io.IOException;
+
 /**
  * Alters the data handed to it by the controller and exports the final 
  * product(aka <Specific>puzzle) back to the controller in the form of a
@@ -61,17 +64,62 @@ public class Model {
 
     public void savePuzzle(String temp)
     {
-        System.out.println(temp);
+        try
+        {
+            FileHandler.savePuzzleText(temp, m_list, getMatrix());
+        }
+        catch(IOException e)
+        {
+            System.out.println("Can't Save puzzle ");
+            System.exit(0);
+        }
     }
 
     public void loadPuzzle(String temp)
     {
-        System.out.println(temp);
+        Pair<WordList, char[][]> tempP = null;// = new Pair<WordList, char[][]>(m_list, m_cArray);
+        try
+        {
+            tempP = FileHandler.loadPuzzleText(temp);
+        }
+        catch(IOException e)
+        {
+            System.out.println("Can't Load puzzle ");
+            System.exit(0);
+        }
+
+        if(tempP != null)
+        {
+            m_list = tempP.getFirst();
+            char [][] m_cArray = tempP.getSecond();
+            m_puzzle.populateWordMatrix(m_cArray);
+        }
     }
 
     public void loadWordList(String temp)
     {
-        System.out.println(temp);
+        try
+        {
+           m_list = FileHandler.loadWordList(temp);
+        }
+        catch(IOException e)
+        {
+            System.out.println("Can't Load WordList ");
+            System.exit(0);
+        }
+    }
+
+    public void saveWordList(String temp)
+    {
+        try
+        {
+            FileHandler.saveWordList(temp, m_list);
+        }
+        catch(IOException e)
+        {
+            System.out.println("Can't Save WordList");
+            System.exit(0);
+        }
     }
 
     // generates choosen puzzle (if no puzzle was choosen the default puzzle is WordSearch
