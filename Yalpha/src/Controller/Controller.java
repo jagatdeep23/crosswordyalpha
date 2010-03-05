@@ -14,7 +14,10 @@ import View.View;
  * @version 1.0
  */
 public class Controller {
-
+/*
+    public Controller(){
+        run();
+    }*/
 	/**
 	 * Gathers input until user exits. Based on input tells model and view how
 	 * to update.
@@ -23,24 +26,6 @@ public class Controller {
 	 */
 	public static void main(String[] args) {
 
-                /*WordList list = new WordList();
-		Model model = new Model();
-                String name = "PATRICK";
-                model.add(name);
-                model.add("SAMMMIE");
-                model.add("JILLIAN");
-                model.generate();
-                model.test();*/
-                
-		/*char[][] puz = { { 'a', 'b', 'e' }, { 'p', 'o', 'p' },
-				{ 'd', 'a', 'd' } };
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("Hello");
-		list.add("What");
-		list.add("Lawl");
-		list.add("SayWhat");
-		list.add("that's what I thought");
-		list.add("Indeed");*/
                 Model model = new Model();
 		View view = new View();
 		boolean exit = false;
@@ -102,7 +87,6 @@ public class Controller {
                                     break;
                             case 'r':
                             case 'd':
-                                    System.out.println("Remove");
                                     if (line.length() > 2 && line.charAt(1) == ' ') {
                                             //System.out.println("Remove word: " + line.substring(2));
                                             model.remove(line.substring(2));
@@ -114,13 +98,21 @@ public class Controller {
                                     }
                                     break;
                             case 's':
-                                    System.out.println("Save");
                                     if (line.length() > 2 && line.charAt(1) == ' ') {
                                             //System.out.println("Save To: " + line.substring(2));
                                             model.savePuzzle(line.substring(2));
                                     } else if (line.length() > 5 && line.startsWith("save ")) {
                                             //System.out.println("Save To: " + line.substring(5));
                                             model.savePuzzle(line.substring(5));
+                                    }
+                                    break;
+                            case 'w':
+                                    if (line.length() > 2 && line.charAt(1) == ' ') {
+                                            //System.out.println("Save To: " + line.substring(2));
+                                            model.saveWordList(line.substring(2));
+                                    } else if (line.length() > 5 && line.startsWith("word ")) {
+                                            //System.out.println("Save To: " + line.substring(5));
+                                            model.saveWordList(line.substring(5));
                                     }
                                     break;
                             }

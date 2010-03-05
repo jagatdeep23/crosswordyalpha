@@ -7,6 +7,13 @@ import java.awt.event.MouseListener;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 
+/**
+ * Graphically sets and displays buttons and text field for puzzles and word
+ * list. Also includes a menu to quit.
+ * 
+ * @author Team Yalpha, specificially Bob Grube and Matt Maze
+ * @version 1.0
+ */
 public class ViewGUI {
 
     JButton addButton;
@@ -115,7 +122,7 @@ public class ViewGUI {
 
     public void printPuzzle(char[][] puzzle) {
         String puzzleString = "";
-        if (puzzle != null) {
+        if (puzzle != null && puzzle.length > 1) {
             for (int i = 0; i < puzzle.length; ++i) {
                 for (int j = 0; j < puzzle[i].length; ++j) {
                     puzzleString += puzzle[i][j] + "  ";

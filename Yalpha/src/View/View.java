@@ -2,17 +2,25 @@ package View;
 
 import java.util.ArrayList;
 
+/**
+ * Displays information and state of the model as well the puzzle.
+ *
+ * @author Team Yalpha, specifically Bob Grube and Matt Maze
+ * @version 1.0
+ */
 public class View {
 
 	public View(){
 	}
 	public void printPuzzle(char[][] puzzle){
+            if (puzzle.length > 1){
 		for (int i = 0; i < puzzle.length; ++i){
 			for (int j = 0; j < puzzle[i].length; ++j){
 				System.out.print(puzzle[i][j] + " ");
 			}
 			System.out.println();
 		}
+            }
 	}
 
         public void printGreeting()
@@ -37,6 +45,7 @@ public class View {
 				+ "\no-O-open Open a puzzle from file."
 				+ "\np-P-print Print the current puzzle."
 				+ "\nr-R-remove-d-D-delete Remove a word to be used for a puzzle."
-				+ "\ns-S-save Save a word list to file.");
+				+ "\ns-S-save Save a puzzle to file."
+                                + "\nw-W-word Save a word list to file.");
 	}
 }

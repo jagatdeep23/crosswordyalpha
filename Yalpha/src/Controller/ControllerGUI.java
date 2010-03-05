@@ -10,6 +10,13 @@ import javax.swing.*;
 import Model.*;
 import View.ViewGUI;
 
+/**
+ * Interprets user input from the GUI. Creates action listeners for all
+ * graphical items. Updates the model's state and data.
+ *
+ * @author Team Yalpha, specifically Bob Grube and Matt Maze
+ * @version 1.0
+ */
 public class ControllerGUI {
 	private ViewGUI view;
 	Model model;
