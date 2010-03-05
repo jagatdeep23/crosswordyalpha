@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import Model.*;
-import View.ViewGUI;
+import view.ViewGUI;
 
 public class ControllerGUI {
 	private ViewGUI view;
