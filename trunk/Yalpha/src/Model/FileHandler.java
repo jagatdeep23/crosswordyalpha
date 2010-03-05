@@ -13,11 +13,21 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 /**
+ * Contains static methods that handle saving and loading from data files.
+ * Can load and save both word lists and puzzle arrays
  *
- * @author Jordan Hollinger
+ * @author Team Yalpha, specifically Jordan Hollinger
+ * @version 1.0
  */
 public class FileHandler
 {
+    /**
+     * Loads a word list from a data file.
+     *
+     * @param fileName the name of the file to load from
+     * @return list of the words from the file
+     * @throws IOException if there is an error with the file
+     */
     public static WordList loadWordList(String fileName)
             throws IOException
     {
@@ -43,6 +53,13 @@ public class FileHandler
         return words;
     }
 
+    /**
+     * Saves a word list to a data file.
+     *
+     * @param fileName the name of the file to load from
+     * @param words the list of words to be saved
+     * @throws IOException if there is an error with the file
+     */
     public static void saveWordList (String fileName, WordList words)
             throws IOException
     {
@@ -62,6 +79,13 @@ public class FileHandler
         writer.close();
     }
 
+    /**
+     * Loads both a word list and a puzzel array from a data file.
+     *
+     * @param fileName the name of the file to load from
+     * @return Pair object containing the word list and the puzzle array from the file
+     * @throws IOException if there is an error with the file
+     */
     public static Pair<WordList, char[][]> loadPuzzleText (String fileName)
             throws IOException
     {
@@ -83,8 +107,8 @@ public class FileHandler
             throw new IOException ("Could not open the word list file.");
         }
 
-        //try
-        //{
+        try
+        {
             int h = fileScan.nextInt(), w = fileScan.nextInt();
 
             fileScan.nextLine();
@@ -100,11 +124,11 @@ public class FileHandler
                     puzzleArray[i][j] = line.charAt(j * 2);
                 }
             }
-        //}
-        //catch (Exception e)
-        //{
-        //    throw new IOException ("Could not read the puzzle from the file.");
-        //}
+        }
+        catch (Exception e)
+        {
+            throw new IOException ("Could not read the puzzle from the file.");
+        }
 
         words = readWordList (fileScan);
 
@@ -114,7 +138,17 @@ public class FileHandler
 
         return result;
     }
-    
+
+
+
+    /**
+     * Saves both a word list and a puzzle array to a data file.
+     *
+     * @param fileName the name of the file to load from
+     * @param words the list of words to be saved
+     * @param puzzleArray the character array containing the puzzle
+     * @throws IOException if there is an error with the file
+     */
     public static void savePuzzleText (String fileName, WordList words, char[][] puzzleArray)
             throws IOException
     {
