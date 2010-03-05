@@ -4,7 +4,7 @@ import Model.Model;
 import java.util.Scanner;
 
 import Model.*;
-import View.View;
+import view.View;
 
 /**
  * Gathers all user input and tells the model and view what to do and when to
