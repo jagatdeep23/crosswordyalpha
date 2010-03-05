@@ -11,7 +11,7 @@ import java.util.*;
  *
  * The WordMap class is an arraylist of words
  *
- * @author Team Yalpha, specifically Patrick Martin, Jordan
+ * @author Team Yalpha, specifically Patrick Martin
  * @version 1.0
  */
 public abstract class Puzzle {
