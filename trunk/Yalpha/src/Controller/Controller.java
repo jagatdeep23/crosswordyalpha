@@ -4,7 +4,7 @@ import Model.Model;
 import java.util.Scanner;
 
 import Model.*;
-import view.View;
+import View.View;
 
 /**
  * Gathers all user input and tells the model and view what to do and when to
@@ -48,7 +48,7 @@ public class Controller {
 		char command;
 		String line;
 
-               
+                view.printGreeting();
 
 		while (!exit) {
 			line = input.nextLine().toLowerCase();
@@ -95,7 +95,7 @@ public class Controller {
                                             //System.out.println("Open file: " + line.substring(5));
                                             model.loadPuzzle(line.substring(5));
                                     }
-                                    break;
+                                    
                             case 'p':
                                     view.printPuzzle(model.getMatrix());
                                     //view.printPuzzle(puz);
