@@ -1,9 +1,10 @@
 package Controller;
 
+import Model.Model;
 import java.util.Scanner;
 
-import model.*;
-import view.View;
+import Model.*;
+import View.View;
 
 /**
  * Gathers all user input and tells the model and view what to do and when to
