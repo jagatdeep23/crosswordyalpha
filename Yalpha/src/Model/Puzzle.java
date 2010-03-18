@@ -591,13 +591,13 @@ public abstract class Puzzle {
     protected void populateWordMatrix(final WordMap tempMap)
     {
         map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
-        Random randGen = new Random();
+        //Random randGen = new Random();
         for(int i=0; i < map.length; i++)
         {
             for(int j = 0; j < map[i].length; j++ )
             {
-               map[i][j] = (char) (randGen.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
-               //map[i][j] = '~'; //function should generate random letters from a(97) to z(122)
+               //map[i][j] = (char) (randGen.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
+               map[i][j] = '~'; //function should generate random letters from a(97) to z(122)
             }
         }
 
