@@ -539,22 +539,32 @@ public class Wordsearch extends Puzzle {
             int rLR = myRandom.nextInt(3);
             int rUD = myRandom.nextInt(3);
 
-            if(rLR == 1)
-            {
-                tempW.setLeft(true);
-            }
-            else if(rLR == 2)
-            {
-                tempW.setRight(true);
-            }
-
-            if(rUD == 1)
+            if(rUD == 0)
             {
                 tempW.setUp(true);
             }
-            else if(rUD == 2)
+            else if(rUD == 1)
             {
                 tempW.setDown(true);
+            }
+            else if (rUD == 2)
+            {
+                tempW.setUp(false);
+                tempW.setDown(false);
+            }
+
+            if(rLR == 0)
+            {
+                tempW.setLeft(true);
+            }
+            else if(rLR == 1)
+            {
+                tempW.setRight(true);
+            }
+            else if(rLR == 2)
+            {
+                tempW.setLeft(false);
+                tempW.setRight(false);
             }
             
             return tempW;
