@@ -23,7 +23,7 @@ public class WordList extends ArrayList<String> {
     public boolean add(String word) {
         boolean wordAdded = false;
         word = word.toLowerCase();
-        if (!super.contains(word) && word.length() > 3 && word.length() < 12
+        if (!super.contains(word) && word.length() > 3 && word.length() < 20
                 && isLegalWord(word)) {
             super.add(word);
             wordAdded = true;

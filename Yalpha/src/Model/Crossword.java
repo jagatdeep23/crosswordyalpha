@@ -10,7 +10,7 @@ package Model;
 public class Crossword extends Puzzle {
         public void generate(final WordList words)
         {
-            WordMap mList = new WordMap(words);
+            WordMap mList = new WordMap(words, 10);
             System.out.println("CROSSWORD - GENERATE");
         }
 
