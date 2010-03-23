@@ -26,16 +26,6 @@ public class Model {
         choosePuzzle(WORDSEARCH);
     }
 
-    //Allows driver to test puzzle through model
-    public boolean test()
-    {
-        if(m_puzzle.testWord(m_list.get(0)) && m_puzzle.testWordMap(m_list))
-        {
-            return true;
-        }
-        return false;
-    }
-
     public void choosePuzzle(int puzType)
     {
         if(puzType == CROSSWORD)
