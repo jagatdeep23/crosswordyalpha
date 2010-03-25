@@ -14,10 +14,11 @@ public class Wordsearch extends Puzzle {
         //Max size should be 20 
 
        private Random myRandom = new Random();
+       private int m_size = 0;
        
         public void generate(final WordList words)
         {
-            WordMap randomWords = new WordMap(words);
+            WordMap randomWords = new WordMap(words, m_size);
             WordMap mappedWords = new WordMap();
 
             //randomWords.get(0).setFirstCharPos(0,1);
@@ -29,6 +30,11 @@ public class Wordsearch extends Puzzle {
            // System.out.println("WordSearch-Generate");
            // System.out.println(words);
             populateWordMatrix(mappedWords);
+        }
+
+        public void setSize(int size)
+        {
+            m_size = size;
         }
 
         public WordMap TEST(WordMap words)

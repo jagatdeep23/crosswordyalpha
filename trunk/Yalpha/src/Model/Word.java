@@ -20,6 +20,14 @@ package Model;
         private Point m_smallest;
         private Point m_largest;
         private boolean m_up, m_down, m_left, m_right;
+        private boolean m_checkPosNeg = true;
+
+        Word(String temp, boolean checkPos)
+        {
+           this(temp);
+           m_checkPosNeg = checkPos;
+           
+        }
 
         Word(String temp)
         {
@@ -267,7 +275,10 @@ package Model;
                     m_pos[i].setY(m_pos[i-1].getY()+ m_offset.getY());
                 }
 
-                checkNegatives();
+                if(m_checkPosNeg)
+                {
+                    checkNegatives();
+                }
 
                 ObtainGreatest();
                 ObtainSmallest();
