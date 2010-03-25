@@ -15,6 +15,16 @@ import java.util.*;
         Point m_largest = null;
         Point m_index = null;
         int m_bound = 0;
+        boolean m_checkNeg = true;
+
+        WordMap(final WordList temp, int bounds, boolean checkNeg)
+        {
+            super();
+            initalize();
+            m_bound = bounds;
+            m_checkNeg = checkNeg;
+            add(temp);
+        }
 
         WordMap(final WordList temp, int bounds)
         {
@@ -55,7 +65,7 @@ import java.util.*;
         {
             for(int i =0; i < temp.size(); i++)
             {
-                add(new Word(temp.get(i)));
+                add(new Word(temp.get(i),m_checkNeg));
             }
 
             return true;

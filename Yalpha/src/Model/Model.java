@@ -10,10 +10,9 @@ import java.io.IOException;
  * @author Team Yalpha, specifically Patrick Martin
  * @version 1.0
  */
+enum PuzzleType{CROSSWORD,WORDSEARCH};
 
 public class Model {
-    static final int CROSSWORD = 0;
-    static final int WORDSEARCH = 1;
     
     private Puzzle  m_puzzle = null;
     private WordList m_list = null;
@@ -23,16 +22,16 @@ public class Model {
         m_list = new WordList();
 
         //default puzzle
-        choosePuzzle(WORDSEARCH);
+        choosePuzzle(PuzzleType.WORDSEARCH);
     }
 
-    public void choosePuzzle(int puzType)
+    public void choosePuzzle(PuzzleType puzType)
     {
-        if(puzType == CROSSWORD)
+        if(puzType == PuzzleType.CROSSWORD)
         {
             m_puzzle = new Crossword();
         }
-        else if (puzType == WORDSEARCH)
+        else if (puzType == PuzzleType.WORDSEARCH)
         {
             m_puzzle = new Wordsearch();
         }
