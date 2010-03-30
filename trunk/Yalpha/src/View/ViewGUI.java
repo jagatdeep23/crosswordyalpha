@@ -19,11 +19,14 @@ public class ViewGUI {
     JButton addButton;
     JButton clearButton;
     JButton generateButton;
+    JButton removeButton;
+    JComboBox changePuzzle;
     JFrame frame;
     JMenu menu;
     JMenuBar menuBar;
     JMenuItem exitMenuItem;
     JTextField wordBox;
+    //JScrollPane wordArea;
     JTextArea wordArea;
     JTextArea puzzleArea;
 
@@ -47,16 +50,26 @@ public class ViewGUI {
 
         addButton = new JButton("Add");
         addButton.setLocation(10, 500);
-        addButton.setSize(100, 30);
+        addButton.setSize(80, 30);
 
-        clearButton = new JButton("Clear List");
-        clearButton.setLocation(110, 500);
-        clearButton.setSize(100, 30);
+        clearButton = new JButton("Clear");
+        clearButton.setLocation(170, 500);
+        clearButton.setSize(80, 30);
 
         generateButton = new JButton("Generate");
-        generateButton.setLocation(470, 470);
+        generateButton.setLocation(470, 510);
         generateButton.setSize(100, 30);
 
+        removeButton = new JButton("Remove");
+        removeButton.setLocation(90, 500);
+        removeButton.setSize(80, 30);
+
+        changePuzzle = new JComboBox();
+        changePuzzle.setLocation(450, 10);
+        changePuzzle.setSize(100, 20);
+        changePuzzle.addItem("Word Search");
+        changePuzzle.addItem("Crossword");
+   
         Border lineBorder = BorderFactory.createLineBorder(new Color(100, 100, 255));
         wordBox = new JTextField("Enter Word");
         wordBox.setLocation(10, 470);
@@ -70,7 +83,7 @@ public class ViewGUI {
         wordArea.setBorder(lineBorder);
 
         puzzleArea = new JTextArea();
-        puzzleArea.setLocation(250, 10);
+        puzzleArea.setLocation(250, 40);
         puzzleArea.setSize(500, 450);
         puzzleArea.setEditable(false);
         puzzleArea.setBorder(lineBorder);
@@ -84,6 +97,8 @@ public class ViewGUI {
         frame.getContentPane().add(clearButton);
         frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(generateButton);
+        frame.getContentPane().add(removeButton);
+        frame.getContentPane().add(changePuzzle);
         frame.setJMenuBar(menuBar);
 
         frame.pack();
@@ -118,6 +133,12 @@ public class ViewGUI {
         String word = wordBox.getText();
         wordBox.setText("");
         return word;
+    }
+
+    public void printGreeting(){
+        JOptionPane.showMessageDialog(null,  "Welcome to Team Yalpha's puzzle generator! " +
+                "\nEvery word needs to be over 3 and under 12 letters in length."
+                , "Greetings!", 1);
     }
 
     public void printPuzzle(char[][] puzzle) {
