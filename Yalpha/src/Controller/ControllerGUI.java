@@ -22,10 +22,9 @@ public class ControllerGUI {
 	Model model;
 
 	public ControllerGUI() {
-                JOptionPane.showMessageDialog(null, "Welcome to Yalpha's puzzle! \nThe rules are:\nEvery word needs to be over 3 and under 12 letters in length.");
-
                 model = new Model();
 		view = new ViewGUI();
+                view.printGreeting();
 		view.addAddButtonListener(new AddButtonListener());
 		view.addClearButtonListener(new ClearButtonListener());
 		view.addExitMenuListener(new ExitMenuItemListener());
