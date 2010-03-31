@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.File;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 
@@ -18,20 +19,27 @@ public class ViewGUI {
 
     JButton addButton;
     JButton clearButton;
+    JButton exportButton;
     JButton generateButton;
     JButton removeButton;
     JComboBox changePuzzle;
     JFrame frame;
-    JMenu menu;
+    JMenu menuFile;
+    JMenu menuHelp;
     JMenuBar menuBar;
+    JMenuItem aboutMenuItem;
     JMenuItem exitMenuItem;
+    JMenuItem openPuzzle;
+    JMenuItem openWordList;
+    JMenuItem savePuzzle;
+    JMenuItem saveWordList;
     JTextField wordBox;
     //JScrollPane wordArea;
     JTextArea wordArea;
     JTextArea puzzleArea;
 
     public ViewGUI() {
-        frame = new JFrame("Team Yalpha Word Search Iteration 1");
+        frame = new JFrame("Team Yalpha Word Search Iteration 2");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setMinimumSize(new Dimension(800, 600));
@@ -44,9 +52,21 @@ public class ViewGUI {
 
         menuBar = new JMenuBar();
 
-        menu = new JMenu("File");
+        menuFile = new JMenu("File");
         exitMenuItem = new JMenuItem("Exit");
-        menu.add(exitMenuItem);
+        openPuzzle = new JMenuItem("Open Puzzle");
+        openWordList = new JMenuItem("Open Word List");
+        savePuzzle = new JMenuItem("Save Puzzle");
+        saveWordList = new JMenuItem("Save Word List");
+        menuFile.add(openPuzzle);
+        menuFile.add(openWordList);
+        menuFile.add(savePuzzle);
+        menuFile.add(saveWordList);
+        menuFile.add(exitMenuItem);
+
+        menuHelp = new JMenu("Help");
+        aboutMenuItem = new JMenuItem("About");
+        menuHelp.add(aboutMenuItem);
 
         addButton = new JButton("Add");
         addButton.setLocation(10, 500);
@@ -56,8 +76,12 @@ public class ViewGUI {
         clearButton.setLocation(170, 500);
         clearButton.setSize(80, 30);
 
+        exportButton = new JButton("Export");
+        exportButton.setLocation(500, 500);
+        exportButton.setSize(100, 30);
+
         generateButton = new JButton("Generate");
-        generateButton.setLocation(470, 510);
+        generateButton.setLocation(400, 500);
         generateButton.setSize(100, 30);
 
         removeButton = new JButton("Remove");
@@ -69,7 +93,7 @@ public class ViewGUI {
         changePuzzle.setSize(100, 20);
         changePuzzle.addItem("Word Search");
         changePuzzle.addItem("Crossword");
-   
+
         Border lineBorder = BorderFactory.createLineBorder(new Color(100, 100, 255));
         wordBox = new JTextField("Enter Word");
         wordBox.setLocation(10, 470);
@@ -89,12 +113,14 @@ public class ViewGUI {
         puzzleArea.setBorder(lineBorder);
         puzzleArea.setFont(new Font("Courier New", Font.PLAIN, 12));
 
-        menuBar.add(menu);
+        menuBar.add(menuFile);
+        menuBar.add(menuHelp);
 
         frame.getContentPane().add(wordBox);
         frame.getContentPane().add(wordArea);
         frame.getContentPane().add(addButton);
         frame.getContentPane().add(clearButton);
+        frame.getContentPane().add(exportButton);
         frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(generateButton);
         frame.getContentPane().add(removeButton);
@@ -113,12 +139,32 @@ public class ViewGUI {
         clearButton.addActionListener(click);
     }
 
+    public void addExportButtonListener(ActionListener click) {
+        exportButton.addActionListener(click);
+    }
+
     public void addExitMenuListener(ActionListener click) {
         exitMenuItem.addActionListener(click);
     }
 
     public void addGenerateButtonListener(ActionListener click) {
         generateButton.addActionListener(click);
+    }
+
+    public void addOpenPuzzleListener(ActionListener click) {
+        openPuzzle.addActionListener(click);
+    }
+
+    public void addOpenWordListListener(ActionListener click) {
+        openWordList.addActionListener(click);
+    }
+
+    public void addSavePuzzleListener(ActionListener click) {
+        savePuzzle.addActionListener(click);
+    }
+
+    public void addSaveWordListListener(ActionListener click) {
+        saveWordList.addActionListener(click);
     }
 
     public void addWordBoxListener(ActionListener click) {
@@ -135,10 +181,23 @@ public class ViewGUI {
         return word;
     }
 
-    public void printGreeting(){
-        JOptionPane.showMessageDialog(null,  "Welcome to Team Yalpha's puzzle generator! " +
-                "\nEvery word needs to be over 3 and under 12 letters in length."
-                , "Greetings!", 1);
+    public String fileOpenDialogue() {
+        JFileChooser fc = new JFileChooser();
+        fc.showOpenDialog(frame);
+        File file = fc.getSelectedFile();
+        return file.getAbsolutePath();
+    }
+
+    public String fileSaveDialogue() {
+        JFileChooser fc = new JFileChooser();
+        fc.showSaveDialog(frame);
+        File file = fc.getSelectedFile();
+        return file.getAbsolutePath();
+    }
+
+    public void printGreeting() {
+        JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
+                + "\nEvery word needs to be over 3 and under 12 letters in length.", "Greetings!", 1);
     }
 
     public void printPuzzle(char[][] puzzle) {
@@ -152,6 +211,9 @@ public class ViewGUI {
             }
         }
         puzzleArea.setText(puzzleString);
+    }
+
+    public void refreshWordList() {
     }
 
     public void selectText() {
