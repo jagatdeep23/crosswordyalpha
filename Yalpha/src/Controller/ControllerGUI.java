@@ -18,82 +18,135 @@ import View.ViewGUI;
  * @version 1.0
  */
 public class ControllerGUI {
-	private ViewGUI view;
-	Model model;
 
-	public ControllerGUI() {
-                model = new Model();
-		view = new ViewGUI();
-                view.printGreeting();
-		view.addAddButtonListener(new AddButtonListener());
-		view.addClearButtonListener(new ClearButtonListener());
-		view.addExitMenuListener(new ExitMenuItemListener());
-		view.addGenerateButtonListener(new GenerateButtonListener());
-		view.addWordBoxListener(new WordBoxListener());
-		view.addWordBoxMouseListener(new WordBoxMouseListener());
-	}
+    private ViewGUI view;
+    Model model;
 
-	private class AddButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			if (model.add(view.getWord())){
-			 view.updateWordArea(model.getwordList());
-			 }
-		}
-	}
+    public ControllerGUI() {
+        model = new Model();
+        view = new ViewGUI();
+        view.printGreeting();
+        view.addAddButtonListener(new AddButtonListener());
+        view.addClearButtonListener(new ClearButtonListener());
+        view.addExitMenuListener(new ExitMenuItemListener());
+        view.addExportButtonListener(new ExportButtonListener());
+        view.addGenerateButtonListener(new GenerateButtonListener());
+        view.addOpenPuzzleListener(new OpenPuzzleListener());
+        view.addOpenWordListListener(new OpenWordListListener());
+        view.addSavePuzzleListener(new SavePuzzleListener());
+        view.addSaveWordListListener(new SaveWordListListener());
+        view.addWordBoxListener(new WordBoxListener());
+        view.addWordBoxMouseListener(new WordBoxMouseListener());
+    }
 
-	private class ClearButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			model.removeAll();
-                        view.updateWordArea(model.getwordList());
-		}
-	}
+    private class AddButtonListener implements ActionListener {
 
-	private class ExitMenuItemListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){
-			System.exit(0);
-		}
-	}
-	private class GenerateButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-                        model.generate();
-			view.printPuzzle(model.getMatrix());
-		}
-	}
+        public void actionPerformed(ActionEvent e) {
+            if (model.add(view.getWord())) {
+                view.updateWordArea(model.getwordList());
+            }
+        }
+    }
 
-	private class WordBoxListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			model.add(view.getWord());
-			view.updateWordArea(model.getwordList());
-		}
-	}
+    private class ClearButtonListener implements ActionListener {
 
-	private class WordBoxMouseListener implements MouseListener {
-		public void mousePressed(MouseEvent e) {
-			view.selectText();
-		}
+        public void actionPerformed(ActionEvent e) {
+            model.removeAll();
+            view.updateWordArea(model.getwordList());
+        }
+    }
 
-		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+    private class ExitMenuItemListener implements ActionListener {
 
-		}
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+    }
 
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+    private class ExportButtonListener implements ActionListener {
 
-		}
+        public void actionPerformed(ActionEvent e) {
+            view.fileSaveDialogue();
+        }
+    }
 
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+    private class GenerateButtonListener implements ActionListener {
 
-		}
+        public void actionPerformed(ActionEvent e) {
+            model.generate();
+            view.printPuzzle(model.getMatrix());
+        }
+    }
 
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+    private class OpenPuzzleListener implements ActionListener {
 
-		}
-	}
+        public void actionPerformed(ActionEvent e) {
+            String filePath = view.fileOpenDialogue();
+            if (filePath != null) {
+                model.loadPuzzle(filePath);
+                view.printPuzzle(model.getMatrix());
+                view.updateWordArea(model.getwordList());
+            }
+        }
+    }
+
+    private class OpenWordListListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            String filePath = view.fileOpenDialogue();
+            if (filePath != null) {
+                model.loadWordList(filePath);
+                view.updateWordArea(model.getwordList());
+            }
+        }
+    }
+
+    private class SavePuzzleListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            model.savePuzzle(view.fileSaveDialogue());
+        }
+    }
+
+    private class SaveWordListListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            model.saveWordList(view.fileSaveDialogue());
+        }
+    }
+
+    private class WordBoxListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            model.add(view.getWord());
+            view.updateWordArea(model.getwordList());
+        }
+    }
+
+    private class WordBoxMouseListener implements MouseListener {
+
+        public void mousePressed(MouseEvent e) {
+            view.selectText();
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void mouseExited(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent arg0) {
+            // TODO Auto-generated method stub
+        }
+    }
 }
