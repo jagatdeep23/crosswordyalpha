@@ -9,7 +9,7 @@ package Model;
  *
  * @author Patrick
  */
-public class Point
+public class Point implements Cloneable
     {
         private int x,y;
 
@@ -48,5 +48,20 @@ public class Point
         {
             x = tempP.getX();
             y = tempP.getY();
+        }
+
+        @Override
+        public Point clone()
+        {
+            Point temp = null;
+            try
+            {
+                temp = (Point)super.clone();
+            }
+            catch(CloneNotSupportedException e)
+            {
+                throw new RuntimeException("Clone Not supported");
+            }
+                return temp;
         }
     }
