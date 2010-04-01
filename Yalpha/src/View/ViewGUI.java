@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
+import javax.swing.filechooser.FileFilter;
 
 /**
  * Graphically sets and displays buttons and text field for puzzles and word
@@ -22,6 +23,7 @@ public class ViewGUI {
     JButton exportButton;
     JButton generateButton;
     JButton removeButton;
+    JButton solutionButton;
     JComboBox changePuzzle;
     JFrame frame;
     JMenu menuFile;
@@ -77,16 +79,20 @@ public class ViewGUI {
         clearButton.setSize(80, 30);
 
         exportButton = new JButton("Export");
-        exportButton.setLocation(500, 500);
+        exportButton.setLocation(570, 500);
         exportButton.setSize(100, 30);
 
         generateButton = new JButton("Generate");
-        generateButton.setLocation(400, 500);
+        generateButton.setLocation(370, 500);
         generateButton.setSize(100, 30);
 
         removeButton = new JButton("Remove");
         removeButton.setLocation(90, 500);
         removeButton.setSize(80, 30);
+
+        solutionButton = new JButton("Solution");
+        solutionButton.setLocation(470, 500);
+        solutionButton.setSize(100, 30);
 
         changePuzzle = new JComboBox();
         changePuzzle.setLocation(450, 10);
@@ -116,15 +122,17 @@ public class ViewGUI {
         menuBar.add(menuFile);
         menuBar.add(menuHelp);
 
-        frame.getContentPane().add(wordBox);
+        frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(wordArea);
         frame.getContentPane().add(addButton);
         frame.getContentPane().add(clearButton);
         frame.getContentPane().add(exportButton);
-        frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(generateButton);
         frame.getContentPane().add(removeButton);
+        frame.getContentPane().add(solutionButton);
         frame.getContentPane().add(changePuzzle);
+        frame.getContentPane().add(wordBox);
+
         frame.setJMenuBar(menuBar);
 
         frame.pack();
@@ -157,6 +165,10 @@ public class ViewGUI {
 
     public void addOpenWordListListener(ActionListener click) {
         openWordList.addActionListener(click);
+    }
+
+    public void addRemoveButtonListener(ActionListener click){
+        removeButton.addActionListener(click);
     }
 
     public void addSavePuzzleListener(ActionListener click) {
