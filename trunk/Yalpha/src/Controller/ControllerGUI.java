@@ -33,6 +33,7 @@ public class ControllerGUI {
         view.addGenerateButtonListener(new GenerateButtonListener());
         view.addOpenPuzzleListener(new OpenPuzzleListener());
         view.addOpenWordListListener(new OpenWordListListener());
+        view.addRemoveButtonListener(new RemoveButtonListener());
         view.addSavePuzzleListener(new SavePuzzleListener());
         view.addSaveWordListListener(new SaveWordListListener());
         view.addWordBoxListener(new WordBoxListener());
@@ -101,6 +102,14 @@ public class ControllerGUI {
         }
     }
 
+    private class RemoveButtonListener implements ActionListener {
+        public void actionPerformed(ActionEvent e){
+            //if (model.remove(view.getWord())) {
+            model.remove(view.getWord());
+            view.updateWordArea(model.getwordList());
+            //}
+        }
+    }
     private class SavePuzzleListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
