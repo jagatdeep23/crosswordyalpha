@@ -9,7 +9,7 @@ package Model;
  *
  * @author Patrick
  */
- public class Word
+ public class Word implements Cloneable
     {
         public final static int num_direction = 5;
         //private point front,back;
@@ -240,6 +240,32 @@ package Model;
             //if all directions are false then this resetpos is skipped
             CheckDirection();
             resetPos();
+        }
+
+        @Override
+        public Word clone()
+        {
+            Word temp = null;
+            try
+            {
+                temp = (Word)super.clone();
+            }
+            catch(CloneNotSupportedException e)
+            {
+                throw new RuntimeException("Clone Not supported");
+            }
+
+            temp.m_pos = new Point[m_pos.length];
+            for(int i =0; i < m_pos.length; i++)
+            {
+                temp.m_pos[i] = m_pos[i].clone();
+            }
+            temp.m_offset = m_offset.clone();
+            temp.m_smallest = m_smallest.clone();
+            temp.m_largest = m_largest.clone();
+
+            return temp;
+
         }
 
         public void printOffset()

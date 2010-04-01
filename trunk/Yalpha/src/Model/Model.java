@@ -10,10 +10,10 @@ import java.io.IOException;
  * @author Team Yalpha, specifically Patrick Martin
  * @version 1.0
  */
-enum PuzzleType{CROSSWORD,WORDSEARCH};
+
 
 public class Model {
-    
+    public enum PuzzleType{CROSSWORD,WORDSEARCH};
     private Puzzle  m_puzzle = null;
     private WordList m_list = null;
 

@@ -49,13 +49,14 @@ public class Controller {
                         }
                         break;
                     case 'c':
-                       /* if (line.length() > 2 && line.charAt(1) == ' ') {
-                            String tempParameter = line.substring(2);
+                        String tempParameter = "";
+                        if (line.length() > 2 && line.charAt(1) == ' ') {
+                            tempParameter = line.substring(2);
                         } else if (line.length() > 7 && line.startsWith("choose ")) {
-                            String tempParameter = line.substring(7);
+                            tempParameter = line.substring(7);
                         }
-                        if (tempParameter.toLower() == "crossword")
-                            model.choosePuzzle(model.);*/
+                        if (tempParameter.toLowerCase() == "crossword")
+                            model.choosePuzzle(Model.PuzzleType.CROSSWORD);
                         break;
                     case 'e':
                         //System.out.println("Goodbye");

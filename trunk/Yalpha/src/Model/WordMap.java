@@ -10,7 +10,7 @@ import java.util.*;
  *
  * @author Patrick
  */
- public class WordMap extends ArrayList<Word>
+ public class WordMap extends ArrayList<Word> //implements Cloneable
     {
         Point m_largest = null;
         Point m_index = null;
@@ -69,6 +69,34 @@ import java.util.*;
             }
 
             return true;
+        }
+
+        /*public boolean set(final WordMap tempWM)
+        {
+            this.clear();
+            
+            for(Word A: tempWM)
+            {
+                this.add(A.clone());
+            }
+
+            return true;
+        }*/
+
+        @Override
+        public WordMap clone()
+        {
+            WordMap temp = null;
+            temp = (WordMap)super.clone();
+
+            temp.m_bound = m_bound;
+            temp.m_checkNeg = m_checkNeg;
+            temp.m_index = m_index.clone();
+            temp.m_largest = m_largest.clone();
+
+            return temp;
+
+
         }
 
         public boolean add(final WordMap temp)
