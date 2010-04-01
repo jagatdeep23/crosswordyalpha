@@ -57,6 +57,8 @@ public class Controller {
                         }
                         if (tempParameter.toLowerCase() == "crossword")
                             model.choosePuzzle(Model.PuzzleType.CROSSWORD);
+                        else if (tempParameter.toLowerCase() == "wordsearch")
+                            model.choosePuzzle(Model.PuzzleType.WORDSEARCH);
                         break;
                     case 'e':
                         //System.out.println("Goodbye");
