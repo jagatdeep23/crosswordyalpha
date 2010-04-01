@@ -132,7 +132,6 @@ public class ViewGUI {
         frame.getContentPane().add(solutionButton);
         frame.getContentPane().add(changePuzzle);
         frame.getContentPane().add(wordBox);
-
         frame.setJMenuBar(menuBar);
 
         frame.pack();
@@ -209,7 +208,7 @@ public class ViewGUI {
 
     public void printGreeting() {
         JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
-                + "\nEvery word needs to be over 3 and under 12 letters in length.", "Greetings!", 1);
+                + "\nEvery word needs to be over 1 and under 20 letters in length.", "Greetings!", 1);
     }
 
     public void printPuzzle(char[][] puzzle) {
