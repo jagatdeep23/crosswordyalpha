@@ -33,9 +33,9 @@ public class View {
                     puzzle[map[word].getCharPosX(letter)][map[word].getCharPosY(letter)] = map[word].getCharAt(letter);
                 }
             }
-       */
+       
 
-        }
+        }*/
 
 
         public void printGreeting()
