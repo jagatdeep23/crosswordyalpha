@@ -34,6 +34,7 @@ public class Controller {
 
         view.printGreeting();
 
+
         while (!exit) {
             line = input.nextLine().toLowerCase();
             if (line.length() > 0) {
@@ -66,6 +67,7 @@ public class Controller {
                         break;
                     case 'g':
                         model.generate();
+
                         view.printPuzzle(model.getMatrix());
                         //view.printPuzzle(puz);
                         break;
@@ -82,15 +84,10 @@ public class Controller {
                         }
                         break;
                     case 'k':
-                       /* char[][] answerKey = model.getMatrix();
-                        WordMap keyMap = model.getMap();
-                        for(int i = 0; i< keyMap.size(); ++i)
-                        {
-                            for(int j = 0; j < keyMap[i].size(); ++j)
-                            {
-                                Point tempPoint = keyMap[i].
-                            }
-                        }*/
+                        int numRows = model.getMatrix().length;
+                        int numCols = model.getMatrix()[0].length;
+                        //WordMap wordMap = new WordMap();
+                        //view.createSolution(wordMap, numRows, numCols);
                         break;
                     case 'o':
                         System.out.println("Open");
@@ -103,8 +100,11 @@ public class Controller {
                         }
 
                     case 'p':
+                        //if(puzzletype == wordseach)
                         view.printPuzzle(model.getMatrix());
-                        //view.printPuzzle(puz);
+                        //else
+                        //view.printCrossword(model.getMatrix());
+
                         break;
                     case 'r':
                     case 'd':
