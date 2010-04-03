@@ -20,13 +20,19 @@ import View.ViewGUI;
 public class ControllerGUI {
 
     private ViewGUI view;
-    Model model;
+    private boolean solutionDisplayed = false;
+    private Model model;
 
     public ControllerGUI() {
+        //Set the look and feel (for Macs too).
+        if (System.getProperty("mrj.version") != null) {
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+        }
         model = new Model();
         view = new ViewGUI();
         view.printGreeting();
         view.addAddButtonListener(new AddButtonListener());
+        view.addChangePuzzleListener(new ChangePuzzleListener());
         view.addClearButtonListener(new ClearButtonListener());
         view.addExitMenuListener(new ExitMenuItemListener());
         view.addExportButtonListener(new ExportButtonListener());
@@ -49,6 +55,19 @@ public class ControllerGUI {
         }
     }
 
+    private class ChangePuzzleListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            String type = view.getPuzzleType();
+            view.clearPuzzle();
+            if (type.equals("Crossword")) {
+                model.choosePuzzle(Model.PuzzleType.CROSSWORD);
+            } else {
+                model.choosePuzzle(Model.PuzzleType.WORDSEARCH);
+            }
+        }
+    }
+
     private class ClearButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -67,7 +86,7 @@ public class ControllerGUI {
     private class ExportButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            view.fileSaveDialogue();
+            view.createJOptionPane("Export will be functioning after iteration 3.", "Export", 0);
         }
     }
 
@@ -83,7 +102,7 @@ public class ControllerGUI {
 
         public void actionPerformed(ActionEvent e) {
             String filePath = view.fileOpenDialogue();
-            if (filePath != null) {
+            if (filePath != null && !filePath.equals("")) {
                 model.loadPuzzle(filePath);
                 view.printPuzzle(model.getMatrix());
                 view.updateWordArea(model.getwordList());
@@ -95,7 +114,7 @@ public class ControllerGUI {
 
         public void actionPerformed(ActionEvent e) {
             String filePath = view.fileOpenDialogue();
-            if (filePath != null) {
+            if (filePath != null && !filePath.equals("")) {
                 model.loadWordList(filePath);
                 view.updateWordArea(model.getwordList());
             }
@@ -103,24 +122,44 @@ public class ControllerGUI {
     }
 
     private class RemoveButtonListener implements ActionListener {
-        public void actionPerformed(ActionEvent e){
+
+        public void actionPerformed(ActionEvent e) {
             //if (model.remove(view.getWord())) {
             model.remove(view.getWord());
             view.updateWordArea(model.getwordList());
             //}
         }
     }
+
     private class SavePuzzleListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            model.savePuzzle(view.fileSaveDialogue());
+            String filePath = view.fileSaveDialogue();
+            if (filePath != null && !filePath.equals("")) {
+                model.savePuzzle(filePath);
+            }
         }
     }
 
     private class SaveWordListListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            model.saveWordList(view.fileSaveDialogue());
+            String filePath = view.fileSaveDialogue();
+            if (filePath != null && !filePath.equals("")) {
+                model.saveWordList(filePath);
+            }
+        }
+    }
+
+    private class SolutionButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            solutionDisplayed = !solutionDisplayed;
+            if (solutionDisplayed) {
+                //view.printSolution();
+            } else {
+                view.printPuzzle(model.getMatrix());
+            }
         }
     }
 
