@@ -25,12 +25,27 @@ public class View {
             }
 	}
 
-        public void printSolution(WordMap map) {
+        public void printCrossword(char[][] puzzle)
+        {
+            for(int i = 0; i < puzzle.length; ++i)
+            {
+                for(int j = 0; j < puzzle[0].length; ++j)
+                {
+                    if(puzzle[i][j] == ' ')
+                        System.out.print("   ");
+                    else
+                        System.out.print("[ ]");
+                }
+                System.out.println();
+            }
+        }
+
+        public char[][] createSolution(WordMap map, int numRows, int numCols) {
             Word[] arrayMap = new Word[map.size()];
-            
             map.toArray(arrayMap);
-                    
-            char[][] puzzle = new char[50][50];
+
+            char[][] puzzle = new char[numRows][numCols];
+
             for(int word = 0; word <= arrayMap.length; ++word)
             {
                 for(int letter = 0; letter < arrayMap[word].size(); ++letter )
@@ -38,18 +53,7 @@ public class View {
                     puzzle[arrayMap[word].getCharPosX(letter)][arrayMap[word].getCharPosY(letter)] = arrayMap[word].getCharAt(letter);
                 }
             }
-
-            if (puzzle.length > 1){
-		for (int i = 0; i < puzzle.length; ++i){
-			for (int j = 0; j < puzzle[i].length; ++j){
-				System.out.print(puzzle[i][j] + " ");
-			}
-			System.out.println();
-		}
-            }
-
-
-
+            return puzzle;
         }
 
 
