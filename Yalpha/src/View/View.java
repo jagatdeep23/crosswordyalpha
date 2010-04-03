@@ -25,6 +25,18 @@ public class View {
             }
 	}
 
+        public void printWordsearchSolution(char[][] puzzle){
+            for(int i = 0; i < puzzle.length; ++i)
+            {
+                for(int j = 0; j < puzzle[0].length; ++j)
+                {
+                    if(puzzle[i][j] == ' ')
+                        puzzle[i][j] = '-';
+                }
+            }
+            printPuzzle(puzzle);
+        }
+
         public void printCrossword(char[][] puzzle)
         {
             for(int i = 0; i < puzzle.length; ++i)
@@ -39,6 +51,21 @@ public class View {
                 System.out.println();
             }
         }
+
+        public void printCrosswordSolution(char[][] puzzle){
+            for(int i = 0; i < puzzle.length; ++i)
+            {
+                for(int j = 0; j < puzzle[0].length; ++j)
+                {
+                    if(puzzle[i][j] == ' ')
+                        System.out.print("   ");
+                    else
+                        System.out.print("[" + puzzle[i][j] + "]");
+                }
+                System.out.println();
+            }
+	}
+
 
         public char[][] createSolution(WordMap map, int numRows, int numCols) {
             Word[] arrayMap = new Word[map.size()];
