@@ -18,6 +18,7 @@ import javax.swing.filechooser.FileFilter;
  */
 public class ViewGUI {
 
+    Font defaultFont = new Font("Courier New", Font.PLAIN, 12);
     JButton addButton;
     JButton clearButton;
     JButton exportButton;
@@ -25,6 +26,7 @@ public class ViewGUI {
     JButton removeButton;
     JButton solutionButton;
     JComboBox changePuzzle;
+    JEditorPane puzzleArea;
     JFrame frame;
     JMenu menuFile;
     JMenu menuHelp;
@@ -38,7 +40,6 @@ public class ViewGUI {
     JTextField wordBox;
     //JScrollPane wordArea;
     JTextArea wordArea;
-    JTextArea puzzleArea;
 
     public ViewGUI() {
         frame = new JFrame("Team Yalpha Word Search Iteration 2");
@@ -112,12 +113,12 @@ public class ViewGUI {
         wordArea.setEditable(false);
         wordArea.setBorder(lineBorder);
 
-        puzzleArea = new JTextArea();
+        puzzleArea = new JEditorPane();
         puzzleArea.setLocation(250, 40);
         puzzleArea.setSize(500, 450);
         puzzleArea.setEditable(false);
         puzzleArea.setBorder(lineBorder);
-        puzzleArea.setFont(new Font("Courier New", Font.PLAIN, 12));
+        puzzleArea.setFont(defaultFont);
 
         menuBar.add(menuFile);
         menuBar.add(menuHelp);
@@ -140,6 +141,10 @@ public class ViewGUI {
 
     public void addAddButtonListener(ActionListener click) {
         addButton.addActionListener(click);
+    }
+
+    public void addChangePuzzleListener(ActionListener click){
+        changePuzzle.addActionListener(click);
     }
 
     public void addClearButtonListener(ActionListener click) {
@@ -186,6 +191,17 @@ public class ViewGUI {
         wordBox.addMouseListener(click);
     }
 
+    public void clearPuzzle(){
+        puzzleArea.setText("");
+    }
+
+    public void createJOptionPane(String Description, String Title, int Symbol){
+        JOptionPane.showMessageDialog(null, Description, Title, Symbol);
+    }
+
+    public String getPuzzleType(){
+        return (String)changePuzzle.getSelectedItem();
+    }
     public String getWord() {
         String word = wordBox.getText();
         wordBox.setText("");
@@ -194,16 +210,18 @@ public class ViewGUI {
 
     public String fileOpenDialogue() {
         JFileChooser fc = new JFileChooser();
-        fc.showOpenDialog(frame);
-        File file = fc.getSelectedFile();
-        return file.getAbsolutePath();
+        if (fc.showOpenDialog(frame) == fc.APPROVE_OPTION){
+            return fc.getSelectedFile().getAbsolutePath();
+        }
+        return "";
     }
 
     public String fileSaveDialogue() {
         JFileChooser fc = new JFileChooser();
-        fc.showSaveDialog(frame);
-        File file = fc.getSelectedFile();
-        return file.getAbsolutePath();
+        if (fc.showSaveDialog(frame) == fc.APPROVE_OPTION){
+            return fc.getSelectedFile().getAbsolutePath();
+        }
+        return "";
     }
 
     public void printGreeting() {
