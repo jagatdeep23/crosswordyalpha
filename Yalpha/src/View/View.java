@@ -2,6 +2,7 @@ package View;
 
 import java.util.ArrayList;
 import Model.WordMap;
+import Model.Word;
 
 /**
  * Displays information and state of the model as well the puzzle.
@@ -23,19 +24,33 @@ public class View {
 		}
             }
 	}
-/*
-        public void printCrossword(WordMap map) {
+
+        public void printSolution(WordMap map) {
+            Word[] arrayMap = new Word[map.size()];
+            
+            map.toArray(arrayMap);
+                    
             char[][] puzzle = new char[50][50];
-            for(int word = 0; word <= map.size(); ++word)
+            for(int word = 0; word <= arrayMap.length; ++word)
             {
-                for(int letter = 0; letter < map[word].length(); ++letter )
+                for(int letter = 0; letter < arrayMap[word].size(); ++letter )
                 {
-                    puzzle[map[word].getCharPosX(letter)][map[word].getCharPosY(letter)] = map[word].getCharAt(letter);
+                    puzzle[arrayMap[word].getCharPosX(letter)][arrayMap[word].getCharPosY(letter)] = arrayMap[word].getCharAt(letter);
                 }
             }
-       
 
-        }*/
+            if (puzzle.length > 1){
+		for (int i = 0; i < puzzle.length; ++i){
+			for (int j = 0; j < puzzle[i].length; ++j){
+				System.out.print(puzzle[i][j] + " ");
+			}
+			System.out.println();
+		}
+            }
+
+
+
+        }
 
 
         public void printGreeting()
