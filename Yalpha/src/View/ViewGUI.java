@@ -1,5 +1,7 @@
 package View;
 
+import Model.WordMap;
+import Model.Word;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -19,6 +21,7 @@ import javax.swing.filechooser.FileFilter;
 public class ViewGUI {
 
     Font defaultFont = new Font("Courier New", Font.PLAIN, 12);
+    ImageIcon aboutImage;
     JButton addButton;
     JButton clearButton;
     JButton exportButton;
@@ -28,6 +31,7 @@ public class ViewGUI {
     JComboBox changePuzzle;
     JEditorPane puzzleArea;
     JFrame frame;
+    JLabel aboutLabel;
     JMenu menuFile;
     JMenu menuHelp;
     JMenuBar menuBar;
@@ -37,8 +41,8 @@ public class ViewGUI {
     JMenuItem openWordList;
     JMenuItem savePuzzle;
     JMenuItem saveWordList;
-    JTextField wordBox;
     JTextArea wordArea;
+    JTextField wordBox;
 
     /**
      * Creates and formats the graphical user interface.
@@ -54,6 +58,8 @@ public class ViewGUI {
         Dimension screenSize = toolkit.getScreenSize();
         frame.setLocation((screenSize.width - 800) / 2,
                 (screenSize.height - 600) / 2);
+
+        aboutImage = new ImageIcon("src\\about.gif");
 
         menuBar = new JMenuBar();
 
@@ -125,6 +131,8 @@ public class ViewGUI {
         menuBar.add(menuFile);
         menuBar.add(menuHelp);
 
+
+        //frame.getContentPane().add(aboutLabel);
         frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(wordArea);
         frame.getContentPane().add(addButton);
@@ -135,6 +143,7 @@ public class ViewGUI {
         frame.getContentPane().add(solutionButton);
         frame.getContentPane().add(changePuzzle);
         frame.getContentPane().add(wordBox);
+        //frame.add(aboutLabel);
         frame.setJMenuBar(menuBar);
 
         frame.pack();
@@ -146,11 +155,15 @@ public class ViewGUI {
      *
      * @param click- The ActionListener class from the Controller.
      */
+    public void addAboutMenuListener(ActionListener click) {
+        aboutMenuItem.addActionListener(click);
+    }
+
     public void addAddButtonListener(ActionListener click) {
         addButton.addActionListener(click);
     }
 
-    public void addChangePuzzleListener(ActionListener click){
+    public void addChangePuzzleListener(ActionListener click) {
         changePuzzle.addActionListener(click);
     }
 
@@ -178,7 +191,7 @@ public class ViewGUI {
         openWordList.addActionListener(click);
     }
 
-    public void addRemoveButtonListener(ActionListener click){
+    public void addRemoveButtonListener(ActionListener click) {
         removeButton.addActionListener(click);
     }
 
@@ -190,6 +203,10 @@ public class ViewGUI {
         saveWordList.addActionListener(click);
     }
 
+    public void addSolutionButtonListener(ActionListener click) {
+        solutionButton.addActionListener(click);
+    }
+
     public void addWordBoxListener(ActionListener click) {
         wordBox.addActionListener(click);
     }
@@ -198,17 +215,36 @@ public class ViewGUI {
         wordBox.addMouseListener(click);
     }
 
-    public void clearPuzzle(){
+    public void clearPuzzle() {
         puzzleArea.setText("");
     }
 
-    public void createJOptionPane(String Description, String Title, int Symbol){
+    public void createJOptionPane(String Description, String Title, int Symbol) {
         JOptionPane.showMessageDialog(null, Description, Title, Symbol);
     }
 
-    public String getPuzzleType(){
-        return (String)changePuzzle.getSelectedItem();
+    public char[][] createSolution(WordMap map, int numRows, int numCols) {
+        Word[] arrayMap = new Word[map.size()];
+        map.toArray(arrayMap);
+
+        char[][] puzzle = new char[numRows][numCols];
+
+        for (int word = 0; word <= arrayMap.length; ++word) {
+            for (int letter = 0; letter < arrayMap[word].size(); ++letter) {
+                puzzle[arrayMap[word].getCharPosX(letter)][arrayMap[word].getCharPosY(letter)] = arrayMap[word].getCharAt(letter);
+            }
+        }
+        return puzzle;
     }
+
+    public void displayAbout() {
+        JOptionPane.showMessageDialog(frame, "", "", 0, aboutImage);
+    }
+
+    public String getPuzzleType() {
+        return (String) changePuzzle.getSelectedItem();
+    }
+
     public String getWord() {
         String word = wordBox.getText();
         wordBox.setText("");
@@ -217,7 +253,7 @@ public class ViewGUI {
 
     public String fileOpenDialog() {
         JFileChooser fc = new JFileChooser();
-        if (fc.showOpenDialog(frame) == fc.APPROVE_OPTION){
+        if (fc.showOpenDialog(frame) == fc.APPROVE_OPTION) {
             return fc.getSelectedFile().getAbsolutePath();
         }
         return "";
@@ -225,10 +261,40 @@ public class ViewGUI {
 
     public String fileSaveDialog() {
         JFileChooser fc = new JFileChooser();
-        if (fc.showSaveDialog(frame) == fc.APPROVE_OPTION){
+        if (fc.showSaveDialog(frame) == fc.APPROVE_OPTION) {
             return fc.getSelectedFile().getAbsolutePath();
         }
         return "";
+    }
+
+    public void printCrossword(char[][] puzzle) {
+        String crossword = "";
+        for (int i = 0; i < puzzle.length; ++i) {
+            for (int j = 0; j < puzzle[0].length; ++j) {
+                if (puzzle[i][j] == '~') {
+                    crossword += "   ";
+                } else {
+                    crossword += "[ ]";
+                }
+            }
+            crossword += "\n";
+        }
+        puzzleArea.setText(crossword);
+    }
+
+    public void printCrosswordSolution(char[][] puzzle) {
+        String crossword = "";
+        for (int i = 0; i < puzzle.length; ++i) {
+            for (int j = 0; j < puzzle[0].length; ++j) {
+                if (puzzle[i][j] == '~') {
+                    crossword += "   ";
+                } else {
+                    crossword += "[" + puzzle[i][j] + "]";
+                }
+            }
+            crossword += "\n";
+        }
+        puzzleArea.setText(crossword);
     }
 
     public void printGreeting() {
@@ -236,7 +302,7 @@ public class ViewGUI {
                 + "\nEvery word needs to be over 1 and under 20 letters in length.", "Greetings!", 1);
     }
 
-    public void printPuzzle(char[][] puzzle) {
+    public void printWordsearch(char[][] puzzle) {
         String puzzleString = "";
         if (puzzle != null && puzzle.length > 1) {
             for (int i = 0; i < puzzle.length; ++i) {
@@ -247,6 +313,17 @@ public class ViewGUI {
             }
         }
         puzzleArea.setText(puzzleString);
+    }
+
+    public void printWordsearchSolution(char[][] puzzle) {
+        for (int i = 0; i < puzzle.length; ++i) {
+            for (int j = 0; j < puzzle[0].length; ++j) {
+                if (puzzle[i][j] == ' ') {
+                    puzzle[i][j] = '-';
+                }
+            }
+        }
+        printWordsearch(puzzle);
     }
 
     public void refreshWordList() {
