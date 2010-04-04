@@ -43,7 +43,7 @@ public class View {
             {
                 for(int j = 0; j < puzzle[0].length; ++j)
                 {
-                    if(puzzle[i][j] == ' ')
+                    if(puzzle[i][j] == '~')
                         System.out.print("   ");
                     else
                         System.out.print("[ ]");
@@ -57,7 +57,7 @@ public class View {
             {
                 for(int j = 0; j < puzzle[0].length; ++j)
                 {
-                    if(puzzle[i][j] == ' ')
+                    if(puzzle[i][j] == '~')
                         System.out.print("   ");
                     else
                         System.out.print("[" + puzzle[i][j] + "]");
