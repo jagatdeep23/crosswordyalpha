@@ -8,18 +8,19 @@ import java.util.*;
  * @version 1.0
  */
 public class Crossword extends Puzzle {
-
-        WordMap FinishedList = new WordMap();
         
+        WordMap FinishedList = new WordMap(false);
+        @Override
         public void generate(final WordList words)
         {
-            WordMap mList = new WordMap(words, 10);
-            WordMap SolvingPuzzle = new WordMap();
+            FinishedList.clear();
+            WordMap mList = new WordMap(words, 10,false);
+            WordMap SolvingPuzzle = new WordMap(false);
 
             int size = mList.size();
             for(; 0 < size; --size)
             {
-                Word random = randomize(0, size, mList);
+                Word random = randomizeWord(mList, size); //issues with random direction - need to make it Right/Down
                 random.setFirstCharPos(0,0);
                 SolvingPuzzle.add(random);
                 if(!rec(mList,SolvingPuzzle))
@@ -28,20 +29,71 @@ public class Crossword extends Puzzle {
                 }
                 else
                 {
-                    return;
+                    break;
                 }
                 mList.add(random);
             }
 
-            if(!rec(mList,SolvingPuzzle))
-            {
-                
-            }
+            FinishedList.TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative();
 
-
+            populateWordMatrix(FinishedList);
             rec(mList,SolvingPuzzle);
 
             System.out.println("CROSSWORD - GENERATE");
+        }
+
+        public ArrayList<Point3D> getIntersection(WordMap tempWM, Word tempW)
+        {
+            ArrayList<Point3D> pointList = new ArrayList<Point3D>();
+            for(int i=0; i < tempWM.size(); i++)
+            {
+                Word tempP = tempWM.get(i);
+                for(int j=0; j < tempP.size(); j++)
+                {
+                    for(int k =0; k < tempW.size(); k++)
+                    {
+                        if(tempP.getCharAt(j) == tempW.getCharAt(k))
+                        {
+                            //X = Index of WordA in Map
+                            //Y = Index of character in WordA
+                            //Z = Index of WordB that matches a character in WordA
+                            pointList.add(new Point3D(i,j,k));
+                        }
+                    }
+                }
+            }
+            return pointList;
+
+        }
+
+        public boolean checkSetWordWorks(WordMap B, Word random,Point3D randomSolution)
+        {
+            Word tempWordB = B.get(randomSolution.getX());
+            
+            int bX = tempWordB.getCharPosX(randomSolution.getY());
+            int bY = tempWordB.getCharPosY(randomSolution.getY());
+
+            random.setDown(!tempWordB.getDown());       //change of direction from UP to DOWN
+            random.setRight(!tempWordB.getRight());  //change of direction from UP to DOWN
+
+             if(random.getDown())                     //change of direction from UP TO DOWN
+             {
+                 bY -= randomSolution.getZ();
+             }
+             else
+             {
+                bX -= randomSolution.getZ();
+             }
+
+            random.setFirstCharPos(bX, bY);
+
+            if(random.checkCollison(B.get(randomSolution.getX())))
+            {
+                return false;
+            }
+
+            return true;
+            //return OneStepAwayTest();
         }
 
         public boolean rec(WordMap A, WordMap B)
@@ -62,15 +114,15 @@ public class Crossword extends Puzzle {
                 for( ; Size > 0; Size--)
                 {
 
-                        Word random = randomize(0, Size, A); // randomly picks word
+                        Word random = randomizeWord(A,Size); // randomly picks word
 
 
-                        ArrayList<Point3D>  possibleIntersectionAnswer = getAnswers(B, random);
-                        int PIASize = possibleIntersectionAnswer.size();
+                        ArrayList<Point3D> possibleIntersection = getIntersection(B, random);
+                        int PIASize = possibleIntersection.size();
 
                     for(; PIASize > 0; PIASize--)
                     {
-                        Point3D randomSolution = randomize(0,PIASize, possibleIntersectionAnswer);
+                        Point3D randomSolution = randomizeAnswers(possibleIntersection,PIASize);
 
                         //int choosenAnswer = checkSetWordWorks(B,A[random],possibleIntersectionAnswers[j]); // collision && boundBox
                         //choosenAnswer is the word in B
@@ -98,6 +150,57 @@ public class Crossword extends Puzzle {
             }
             return false;
             }
+        }
+        @Override
+         protected Word randomizeWord(WordMap tempMap, int end)
+        {
+            int index = myRandom.nextInt(end);
+
+            Word tempW = tempMap.remove(index);
+
+            //int rX = myRandom.nextInt(tempMap.getBound());
+            //int rY = myRandom.nextInt(tempMap.getBound());
+
+            //tempW.setFirstCharPos(rX, rY);
+
+            //int rLR = myRandom.nextInt(3);
+            //int rUD = myRandom.nextInt(3);
+/*
+            if(rUD == 0)
+            {
+                tempW.setUp(true);
+            }
+            else if(rUD == 1)
+            {
+                tempW.setDown(true);
+            }
+            else if (rUD == 2)
+            {
+                tempW.setUp(false);
+                tempW.setDown(false);
+            }
+
+            if(rLR == 0)
+            {
+                tempW.setLeft(true);
+            }
+            else if(rLR == 1)
+            {
+                tempW.setRight(true);
+            }
+            else if(rLR == 2)
+            {
+                tempW.setLeft(false);
+                tempW.setRight(false);
+            }*/
+
+            return tempW;
+        }
+
+        private Point3D randomizeAnswers(ArrayList<Point3D> tempALP, int end)
+        {
+            int tempi = myRandom.nextInt(end);
+            return tempALP.remove(tempi);
         }
 }
 

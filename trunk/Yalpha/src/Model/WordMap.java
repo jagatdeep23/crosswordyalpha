@@ -5,6 +5,7 @@
 
 package Model;
 import java.util.*;
+import java.rmi.NotBoundException;
 
 /**
  *
@@ -13,15 +14,31 @@ import java.util.*;
  public class WordMap extends ArrayList<Word> //implements Cloneable
     {
         Point m_largest = null;
-        Point m_index = null;
-        int m_bound = 0;
+        Point m_smallest = null;
+        Point m_indexLargest = null;
+        Point m_indexSmallest = null;
+
+        /*Point    m_largest = new Point(0,0);
+        Point    m_smallest = new Point(0,0);
+         Point   m_indexLargest = new Point(-1,-1);
+         Point   m_indexSmallest = new Point(-1,-1);*/
+        //bounding box - aka the size of the box that the puzzle is in
+        int m_bound = 1;
         boolean m_checkNeg = true;
 
         WordMap(final WordList temp, int bounds, boolean checkNeg)
         {
             super();
             initalize();
-            m_bound = bounds;
+            //m_bound = bounds;
+            try
+            {
+                this.setBound(bounds);
+            }catch(Exception e)
+            {
+                System.out.println("HEllo world fuck you!");
+                System.exit(0);
+            }
             m_checkNeg = checkNeg;
             add(temp);
         }
@@ -41,6 +58,12 @@ import java.util.*;
             add(temp);
         }
 
+        WordMap(boolean checkNeg)
+        {
+            this();
+            m_checkNeg = checkNeg;
+        }
+
         WordMap()
         {
            initalize();
@@ -50,14 +73,24 @@ import java.util.*;
         {
             m_bound = 10;
             m_largest = new Point(0,0);
-            m_index = new Point(-1,-1);
+            m_smallest = new Point(0,0);
+            m_indexLargest = new Point(-1,-1);
+            m_indexSmallest = new Point(-1,-1);
         }
 
         private void checkAllForLargest()
         {
             for(int i = 0; i < size(); i++)
             {
-                checkLargest(get(i));
+                checkLargest(get(i),i);
+            }
+        }
+
+        private void checkAllForSmallest()
+        {
+            for(int i = 0; i < size(); i++)
+            {
+                checkSmallest(get(i),i);
             }
         }
 
@@ -91,12 +124,35 @@ import java.util.*;
 
             temp.m_bound = m_bound;
             temp.m_checkNeg = m_checkNeg;
-            temp.m_index = m_index.clone();
+            temp.m_indexLargest = m_indexLargest.clone();
+            temp.m_indexSmallest = m_indexSmallest.clone();
             temp.m_largest = m_largest.clone();
 
             return temp;
 
 
+        }
+
+        public void addOffset(Point hPoint)
+        {
+            for(Word feWord: this)
+            {
+                feWord.setFirstCharPos(feWord.getCharPosX(0)- hPoint.getX(), feWord.getCharPosY(0)-hPoint.getY());
+            }
+
+        }
+
+        public void TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative()
+        {
+            Point tP = new Point();
+            
+            tP.setX(getSmallestX());
+            tP.setY(getSmallestY());
+
+            if(tP.getX() < 0 || tP.getY() < 0)
+            {
+                addOffset(tP);
+            }
         }
 
         public boolean add(final WordMap temp)
@@ -114,9 +170,16 @@ import java.util.*;
             return m_bound;
         }
 
-        public void setBound(int tempB)
+        public void setBound(int tempB) throws Exception
         {
-            m_bound = tempB;
+            if(tempB > 0)
+            {
+                m_bound = tempB;
+            }
+            else
+            {
+                throw new Exception();
+            }
         }
 
         public int getLongestWord()
@@ -146,7 +209,7 @@ import java.util.*;
         public int posLargestX()
         {
             checkAllForLargest();
-            return m_index.getX();
+            return m_indexLargest.getX();
         }
 
         public int getLargestY()
@@ -158,20 +221,59 @@ import java.util.*;
         public int posLargestY()
         {
             checkAllForLargest();
-            return m_index.getY();
+            return m_indexLargest.getY();
         }
 
-        private void checkLargest(final Word temp)
+        public int getSmallestX()
+        {
+            checkAllForSmallest();
+            return m_smallest.getX();
+        }
+
+        public int posSmallestX()
+        {
+            checkAllForSmallest();
+            return m_indexSmallest.getX();
+        }
+
+        public int getSmallestY()
+        {
+            checkAllForSmallest();
+            return m_smallest.getY();
+        }
+
+        public int posSmallestY()
+        {
+            checkAllForSmallest();
+            return m_indexSmallest.getY();
+        }
+
+        private void checkLargest(final Word temp, int index)
         {
             if(temp.getLargestX() > m_largest.getX())
             {
                 m_largest.setX(temp.getLargestX());
-                m_index.setX(super.size());
+                m_indexLargest.setX(index);
             }
             if(temp.getLargestY() > m_largest.getY())
             {
                 m_largest.setY(temp.getLargestY());
-                m_index.setY(super.size());
+                m_indexLargest.setY(index);
+            }
+
+        }
+
+        private void checkSmallest(final Word temp, int index)
+        {
+            if(temp.getSmallestX() < m_smallest.getX())
+            {
+                m_smallest.setX(temp.getSmallestX());
+                m_indexSmallest.setX(index);
+            }
+            if(temp.getSmallestY() < m_smallest.getY())
+            {
+                m_smallest.setY(temp.getSmallestY());
+                m_indexSmallest.setY(index);
             }
 
         }

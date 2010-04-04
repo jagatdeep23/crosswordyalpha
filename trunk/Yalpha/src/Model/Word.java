@@ -173,7 +173,7 @@ package Model;
             m_up = temp;
             if(m_up == true)
             {
-                m_offset.setY(1);
+                m_offset.setY(-1);
                 m_down = false;
             }
             else if(m_down == false)
@@ -194,7 +194,7 @@ package Model;
             m_down = temp;
             if(m_down == true)
             {
-                m_offset.setY(-1);
+                m_offset.setY(1);
                 m_up = false;
             }
             else if(m_up == false)
@@ -447,6 +447,9 @@ package Model;
             return false;
         }
 
+        //bounding box - aka the size of the box that the puzzle is in
+        //returns true if the word is greater then the bound
+        //returns false if the word is inside the bound
         public boolean checkBounds(int bound)
         {
             if(getLargestX() >= bound)
