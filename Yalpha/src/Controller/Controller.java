@@ -23,6 +23,7 @@ public class Controller {
      *
      * @param args
      */
+
     public static void main(String[] args) {
 
         Model model = new Model();
@@ -31,6 +32,8 @@ public class Controller {
         Scanner input = new Scanner(System.in);
         char command;
         String line;
+        String puzzleType = "wordsearch";
+
 
         view.printGreeting();
 
@@ -56,10 +59,16 @@ public class Controller {
                         } else if (line.length() > 7 && line.startsWith("choose ")) {
                             tempParameter = line.substring(7);
                         }
-                        if (tempParameter.toLowerCase() == "crossword")
+                        if (tempParameter.toLowerCase().equals("crossword"))
+                        {
                             model.choosePuzzle(Model.PuzzleType.CROSSWORD);
-                        else if (tempParameter.toLowerCase() == "wordsearch")
+                            puzzleType = "crossword";
+                        }
+                        else if (tempParameter.toLowerCase().equals("wordsearch"))
+                        {
                             model.choosePuzzle(Model.PuzzleType.WORDSEARCH);
+                            puzzleType = "wordsearch";
+                        }
                         break;
                     case 'e':
                         //System.out.println("Goodbye");
@@ -68,8 +77,11 @@ public class Controller {
                     case 'g':
                         model.generate();
 
-                        view.printPuzzle(model.getMatrix());
-                        //view.printPuzzle(puz);
+                        if(puzzleType.equals("wordsearch"))
+                            view.printPuzzle(model.getMatrix());
+                        else
+                            view.printCrossword(model.getMatrix());
+
                         break;
                     case 'h':
                         view.printHelp();
@@ -88,6 +100,15 @@ public class Controller {
                         int numCols = model.getMatrix()[0].length;
                         //WordMap wordMap = new WordMap();
                         //view.createSolution(wordMap, numRows, numCols);
+                        if(puzzleType.equals("wordsearch"))
+                        {
+                            view.printWordsearchSolution(model.getMatrix());
+                        }
+                        else
+                        {
+                            view.printCrosswordSolution(model.getMatrix());
+                        }
+
                         break;
                     case 'o':
                         System.out.println("Open");
@@ -100,10 +121,10 @@ public class Controller {
                         }
 
                     case 'p':
-                        //if(puzzletype == wordseach)
-                        view.printPuzzle(model.getMatrix());
-                        //else
-                        //view.printCrossword(model.getMatrix());
+                        if(puzzleType.equals("wordsearch"))
+                            view.printPuzzle(model.getMatrix());
+                        else
+                            view.printCrossword(model.getMatrix());
 
                         break;
                     case 'r':
