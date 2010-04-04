@@ -59,7 +59,7 @@ public class ViewGUI {
         frame.setLocation((screenSize.width - 800) / 2,
                 (screenSize.height - 600) / 2);
 
-        aboutImage = new ImageIcon("src\\about.gif");
+        aboutImage = new ImageIcon("src" + File.separatorChar + "about.gif");
 
         menuBar = new JMenuBar();
 
