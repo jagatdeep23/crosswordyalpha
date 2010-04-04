@@ -23,6 +23,9 @@ public class ControllerGUI {
     private boolean solutionDisplayed = false;
     private Model model;
 
+    /**
+     * Creates a Model and ViewGUI. Also adds all ActionListeners to the ViewGUI.
+     */
     public ControllerGUI() {
         //Set the look and feel (for Macs too).
         if (System.getProperty("mrj.version") != null) {
@@ -46,6 +49,10 @@ public class ControllerGUI {
         view.addWordBoxMouseListener(new WordBoxMouseListener());
     }
 
+    /**
+     * The following classes create all the ActionListeners necessary for the
+     * GUI.
+     */
     private class AddButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -101,7 +108,7 @@ public class ControllerGUI {
     private class OpenPuzzleListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            String filePath = view.fileOpenDialogue();
+            String filePath = view.fileOpenDialog();
             if (filePath != null && !filePath.equals("")) {
                 model.loadPuzzle(filePath);
                 view.printPuzzle(model.getMatrix());
@@ -113,7 +120,7 @@ public class ControllerGUI {
     private class OpenWordListListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            String filePath = view.fileOpenDialogue();
+            String filePath = view.fileOpenDialog();
             if (filePath != null && !filePath.equals("")) {
                 model.loadWordList(filePath);
                 view.updateWordArea(model.getwordList());
@@ -134,7 +141,7 @@ public class ControllerGUI {
     private class SavePuzzleListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            String filePath = view.fileSaveDialogue();
+            String filePath = view.fileSaveDialog();
             if (filePath != null && !filePath.equals("")) {
                 model.savePuzzle(filePath);
             }
@@ -144,7 +151,7 @@ public class ControllerGUI {
     private class SaveWordListListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            String filePath = view.fileSaveDialogue();
+            String filePath = view.fileSaveDialog();
             if (filePath != null && !filePath.equals("")) {
                 model.saveWordList(filePath);
             }
