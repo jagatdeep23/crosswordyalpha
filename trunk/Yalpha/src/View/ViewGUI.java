@@ -38,9 +38,11 @@ public class ViewGUI {
     JMenuItem savePuzzle;
     JMenuItem saveWordList;
     JTextField wordBox;
-    //JScrollPane wordArea;
     JTextArea wordArea;
 
+    /**
+     * Creates and formats the graphical user interface.
+     */
     public ViewGUI() {
         frame = new JFrame("Team Yalpha Word Search Iteration 2");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -139,6 +141,11 @@ public class ViewGUI {
         frame.setVisible(true);
     }
 
+    /**
+     * The following methods add all the ActionListeners necessary for the GUI.
+     *
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addAddButtonListener(ActionListener click) {
         addButton.addActionListener(click);
     }
@@ -208,7 +215,7 @@ public class ViewGUI {
         return word;
     }
 
-    public String fileOpenDialogue() {
+    public String fileOpenDialog() {
         JFileChooser fc = new JFileChooser();
         if (fc.showOpenDialog(frame) == fc.APPROVE_OPTION){
             return fc.getSelectedFile().getAbsolutePath();
@@ -216,7 +223,7 @@ public class ViewGUI {
         return "";
     }
 
-    public String fileSaveDialogue() {
+    public String fileSaveDialog() {
         JFileChooser fc = new JFileChooser();
         if (fc.showSaveDialog(frame) == fc.APPROVE_OPTION){
             return fc.getSelectedFile().getAbsolutePath();
