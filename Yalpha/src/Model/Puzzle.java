@@ -1,4 +1,6 @@
 package Model;
+
+import java.util.Random;
 /**
  * An abstract class that has an arcinal of protected classs that help subdue problems
  * that other more general wordPuzzles may have. 
@@ -14,6 +16,9 @@ package Model;
  * @version 1.0
  */
 public abstract class Puzzle {
+
+
+    protected Random myRandom = new Random();
 
     private char [][] map = null;
 
@@ -57,6 +62,71 @@ public abstract class Puzzle {
         }
  
     }
+
+        public boolean check_correctBounds(Word tempW, WordMap tempMap)
+        {
+            if(tempW.checkBounds(tempMap.getBound()))
+            {
+                if(tempW.moveBounds(tempMap.getBound()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
+    /** removes word from tempMap
+         *  gives word random direction and position
+         *  then returns the randomized word
+         *  Largest: the largest word in tempMap before any removes/changes are made to the first fully populated instance of tempMap
+         *  Assuming that user wants to go from "zero" to "end"
+         */
+        protected Word randomizeWord(WordMap tempMap, int end)
+        {
+            int index = myRandom.nextInt(end);
+
+            Word tempW = tempMap.remove(index);
+
+            int rX = myRandom.nextInt(tempMap.getBound());
+            int rY = myRandom.nextInt(tempMap.getBound());
+
+            tempW.setFirstCharPos(rX, rY);
+
+            int rLR = myRandom.nextInt(3);
+            int rUD = myRandom.nextInt(3);
+
+            if(rUD == 0)
+            {
+                tempW.setUp(true);
+            }
+            else if(rUD == 1)
+            {
+                tempW.setDown(true);
+            }
+            else if (rUD == 2)
+            {
+                tempW.setUp(false);
+                tempW.setDown(false);
+            }
+
+            if(rLR == 0)
+            {
+                tempW.setLeft(true);
+            }
+            else if(rLR == 1)
+            {
+                tempW.setRight(true);
+            }
+            else if(rLR == 2)
+            {
+                tempW.setLeft(false);
+                tempW.setRight(false);
+            }
+
+            return tempW;
+        }
 
     /*public void printW(Word tempW)
         {

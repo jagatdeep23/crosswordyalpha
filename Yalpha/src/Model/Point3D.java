@@ -12,6 +12,12 @@ package Model;
 public class Point3D extends Point {
     private int m_z = 0;
 
+    Point3D(int a, int b, int c)
+    {
+        super(a,b);
+        m_z = c;
+    }
+
     public int getZ()
     {
         return m_z;

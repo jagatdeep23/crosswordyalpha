@@ -1,5 +1,4 @@
 package Model;
-import java.util.Random;
 import java.util.*;
 
 /**
@@ -13,12 +12,12 @@ public class Wordsearch extends Puzzle {
 
         //Max size should be 20 
 
-       private Random myRandom = new Random();
-       private int m_size = 0;
+       private int m_size = 10;
        
         public void generate(final WordList words)
         {
             WordMap randomWords = new WordMap(words, m_size);
+           
             WordMap mappedWords = new WordMap();
 
             //randomWords.get(0).setFirstCharPos(0,1);
@@ -41,8 +40,17 @@ public class Wordsearch extends Puzzle {
         {
             //System.out.println();
             WordMap temp = new WordMap();
-            temp.setBound(words.getBound());
             WordMap bad = new WordMap();
+            try
+            {
+                temp.setBound(words.getBound());
+                bad.setBound(temp.getBound());
+            }
+            catch (Exception e)
+            {
+                System.out.println("BOUND CANT BE EQUAL TO ZERO (aka board can't have zero size)");
+            }
+            
 
             //  lrg is obtained outside the loop because the longest word would change everytime a word was removed from "words"
             //  So lrg is constant through the whole loop
@@ -56,7 +64,7 @@ public class Wordsearch extends Puzzle {
                 Word w = randomizeWord(words, bad);
                 if(w != null)
                 {
-                    if( checkWord(w,temp) && !correctWordRandomly(w,temp) && !correctBackup(w,temp))
+                    if( checkWord(w,temp) && !correctWordRandomly(w,temp) /*&& !correctBackup(w,temp)*/)
                     {
                         bad.add(w);
                         System.out.println("NOT adding: " + w);
@@ -472,7 +480,7 @@ public class Wordsearch extends Puzzle {
 
                                 tempW.setRight(true);
                                 //tempW.setLeft(true);
-                                tempW.setUp(true);
+                                tempW.setDown(true);
                                 //tempW.setDown(true);
                                 tempW.setFirstCharPos(tX, tY);
                             }
@@ -496,7 +504,7 @@ public class Wordsearch extends Puzzle {
                                 int tY = freeSpaceDL.get(i).get(j).get(0).getY();
 
                                 tempW.setLeft(true);
-                                tempW.setUp(true);
+                                tempW.setDown(true);
                                 //tempW.setDown(true);
                                 tempW.setFirstCharPos(tX, tY);
                             }
@@ -590,61 +598,7 @@ public class Wordsearch extends Puzzle {
         }
 
 
-        /** removes word from tempMap
-         *  gives word random direction and position
-         *  then returns the randomized word
-         *  Largest: the largest word in tempMap before any removes/changes are made to the first fully populated instance of tempMap
-         */
-        private Word randomizeWord(WordMap tempMap, WordMap badMap)
-        {
-            int index = myRandom.nextInt(tempMap.size());
-
-            Word tempW = tempMap.remove(index);
-
-            int rX = myRandom.nextInt(tempMap.getBound());
-            int rY = myRandom.nextInt(tempMap.getBound());
-
-            tempW.setFirstCharPos(rX, rY);
-
-            int rLR = myRandom.nextInt(3);
-            int rUD = myRandom.nextInt(3);
-
-            if(rUD == 0)
-            {
-                tempW.setUp(true);
-            }
-            else if(rUD == 1)
-            {
-                tempW.setDown(true);
-            }
-            else if (rUD == 2)
-            {
-                tempW.setUp(false);
-                tempW.setDown(false);
-            }
-
-            if(rLR == 0)
-            {
-                tempW.setLeft(true);
-            }
-            else if(rLR == 1)
-            {
-                tempW.setRight(true);
-            }
-            else if(rLR == 2)
-            {
-                tempW.setLeft(false);
-                tempW.setRight(false);
-            }
-
-            if(check_correctBounds(tempW,tempMap))
-            {
-                badMap.add(tempW);
-                return null;
-            }
-
-            return tempW;
-        }
+        
 
         /** Check for:
          *  overlap/collision
@@ -669,16 +623,18 @@ public class Wordsearch extends Puzzle {
             return false;
         }
 
-        public boolean check_correctBounds(Word tempW, WordMap tempMap)
+        private Word randomizeWord(WordMap tempMap, WordMap badMap)
         {
-            if(tempW.checkBounds(tempMap.getBound()))
+            Word tempW = super.randomizeWord(tempMap,tempMap.size());
+            
+            if(check_correctBounds(tempW,tempMap))
             {
-                if(tempW.moveBounds(tempMap.getBound()))
-                {
-                    return true;
-                }
+                badMap.add(tempW);
+                return null;
             }
-            return false;
+
+            return tempW;
         }
+        
 
 }
