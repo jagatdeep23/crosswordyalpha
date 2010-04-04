@@ -64,7 +64,7 @@ public class Wordsearch extends Puzzle {
                 Word w = randomizeWord(words, bad);
                 if(w != null)
                 {
-                    if( checkWord(w,temp) && !correctWordRandomly(w,temp) /*&& !correctBackup(w,temp)*/)
+                    if( checkWord(w,temp) && !correctWordRandomly(w,temp) && !correctBackup(w,temp))
                     {
                         bad.add(w);
                         System.out.println("NOT adding: " + w);
@@ -109,6 +109,7 @@ public class Wordsearch extends Puzzle {
                                 // check if the word doesn't have a TRUE Collision with any other surounding word
                                 if(!checkWord(tempW,tempMap))
                                 {
+                                    //System.out.println("CorrectWordRandomly1: " + tempW);
                                     return true;
                                 }
                                 else
@@ -135,6 +136,7 @@ public class Wordsearch extends Puzzle {
                                 // check the word now that its direction is changed
                                 if(!checkWord(tempW,tempMap))
                                 {
+                                    //System.out.println("CorrectWordRandomly2: " + tempW);
                                     return true;
                                 }
 
@@ -155,6 +157,7 @@ public class Wordsearch extends Puzzle {
             
             if(correctByEmptySpace(tempW,space))
             {
+                //System.out.println("correctBackup: " + tempW);
                 return true;
             }
 
@@ -425,6 +428,8 @@ public class Wordsearch extends Puzzle {
                         {
                             //for(int k =0; k <freeSpaceLR.get(i).get(j).size(); k++)
                             {
+                                //System.out.println("RIGHT-LEFT");
+                                 
                                 correct = true;
                                 int tX = freeSpaceLR.get(i).get(j).get(0).getX();
                                 int tY = freeSpaceLR.get(i).get(j).get(0).getY();
@@ -433,6 +438,7 @@ public class Wordsearch extends Puzzle {
                                 tempW.setDown(false);
                                 tempW.setUp(false);
                                 tempW.setFirstCharPos(tX, tY);
+                                break;
                             }
                         }
                     }
@@ -449,15 +455,17 @@ public class Wordsearch extends Puzzle {
                         {
                             //for(int k =0; k <freeSpaceLR.get(i).get(j).size(); k++)
                             {
+                                //System.out.println("UP-DOWN");
                                 correct = true;
                                 int tX = freeSpaceUD.get(i).get(j).get(0).getX();
                                 int tY = freeSpaceUD.get(i).get(j).get(0).getY();
 
-                                tempW.setUp(true);
+                                tempW.setDown(true);
                                 tempW.setRight(false);
                                 tempW.setLeft(false);
                                 
                                 tempW.setFirstCharPos(tX, tY);
+                                break;
                             }
                         }
                     }
@@ -474,6 +482,7 @@ public class Wordsearch extends Puzzle {
                         {
                             //for(int k =0; k <freeSpaceDR.get(i).get(j).size(); k++)
                             {
+                                //System.out.println("DOWN-Right");
                                 correct = true;
                                 int tX = freeSpaceDR.get(i).get(j).get(0).getX();
                                 int tY = freeSpaceDR.get(i).get(j).get(0).getY();
@@ -483,6 +492,7 @@ public class Wordsearch extends Puzzle {
                                 tempW.setDown(true);
                                 //tempW.setDown(true);
                                 tempW.setFirstCharPos(tX, tY);
+                                break;
                             }
                         }
                     }
@@ -499,6 +509,7 @@ public class Wordsearch extends Puzzle {
                         {
                             //for(int k =0; k <freeSpaceDL.get(i).get(j).size(); k++)
                             {
+                                //System.out.println("DOWN-LEFT");
                                 correct = true;
                                 int tX = freeSpaceDL.get(i).get(j).get(0).getX();
                                 int tY = freeSpaceDL.get(i).get(j).get(0).getY();
@@ -507,13 +518,15 @@ public class Wordsearch extends Puzzle {
                                 tempW.setDown(true);
                                 //tempW.setDown(true);
                                 tempW.setFirstCharPos(tX, tY);
+                                break;
                             }
                         }
                     }
                 }
             }
            }
-
+           //System.out.println("CorrectByEmptySpace: " + tempW);
+           //System.out.println("Directions: UP: " + tempW.getUp() + "\nDown: " + tempW.getDown() + "\nRight: " + tempW.getRight() + "\nLeft: " + tempW.getLeft());
             return true;
             
         }
