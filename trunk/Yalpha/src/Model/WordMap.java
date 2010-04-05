@@ -8,8 +8,11 @@ import java.util.*;
 import java.rmi.NotBoundException;
 
 /**
+ * Generates a crossword puzzle that attempts to elimnate any chance
+ * that a word can't be used in the puzzle through an exausting recursive function.
  *
- * @author Patrick
+ * @author Team Yalpha, specifically Patrick Martin,Jordan Hollinger
+ * @version 1.0
  */
  public class WordMap extends ArrayList<Word> //implements Cloneable
     {
@@ -137,7 +140,7 @@ import java.rmi.NotBoundException;
 
         }
 
-        public void addOffset(Point hPoint)
+        private void addOffset(Point hPoint)
         {
             for(Word feWord: this)
             {

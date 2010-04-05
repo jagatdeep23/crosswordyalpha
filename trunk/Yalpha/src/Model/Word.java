@@ -6,8 +6,11 @@
 package Model;
 
 /**
+ * Generates a crossword puzzle that attempts to elimnate any chance
+ * that a word can't be used in the puzzle through an exausting recursive function.
  *
- * @author Patrick
+ * @author Team Yalpha, specifically Patrick Martin,Jordan Hollinger
+ * @version 1.0
  */
  public class Word implements Cloneable
     {
@@ -270,12 +273,6 @@ package Model;
 
             return temp;
 
-        }
-
-        public void printOffset()
-        {
-            System.out.println("Offset.X: " + m_offset.getX());
-            System.out.println("Offset.Y: " + m_offset.getY());
         }
 
         public void setString(String temp)
