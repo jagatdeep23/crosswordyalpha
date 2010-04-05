@@ -98,17 +98,13 @@ public class Controller {
                         }
                         break;
                     case 'k':
-                        int numRows = model.getMatrix().length;
-                        int numCols = model.getMatrix()[0].length;
-                        //WordMap wordMap = new WordMap();
-                        //view.createSolution(wordMap, numRows, numCols);
                         if(puzzleType.equals("wordsearch"))
                         {
-                            view.printWordsearchSolution(model.getMatrix());
+                            view.printPuzzle(model.getMatrixSolution());
                         }
                         else
                         {
-                            view.printCrosswordSolution(model.getMatrix());
+                            view.printCrosswordSolution(model.getMatrixSolution());
                         }
 
                         break;
