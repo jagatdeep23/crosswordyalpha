@@ -21,6 +21,7 @@ public abstract class Puzzle {
     protected Random myRandom = new Random();
 
     private char [][] map = null;
+    //private char [][] map_random = null
 
     // Function should create puzzle
     public abstract void generate(final WordList words);
@@ -62,6 +63,10 @@ public abstract class Puzzle {
         }
  
     }
+
+    
+
+    
 
         public boolean check_correctBounds(Word tempW, WordMap tempMap)
         {

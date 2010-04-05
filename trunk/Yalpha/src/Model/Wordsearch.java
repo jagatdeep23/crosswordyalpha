@@ -13,6 +13,7 @@ public class Wordsearch extends Puzzle {
         //Max size should be 20 
 
        private int m_size = 10;
+       char map_solution [][] = null;//new char[FinishedList.getBound()][FinishedList.getBound()];
        
         public void generate(final WordList words)
         {
@@ -610,7 +611,32 @@ public class Wordsearch extends Puzzle {
             }*/
         }
 
+        public char [][] getMatrixSolution()
+        {
+            return map_solution;
+        }
 
+        @Override
+        protected void populateWordMatrix(final WordMap tempMap)
+       {
+            super.populateWordMatrix(tempMap);
+
+        //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
+          map_solution = new char [tempMap.getBound() ][tempMap.getBound()];
+
+        //Random randGen = new Random();
+        for(int i=0; i < map_solution.length; i++)
+        {
+            for(int j = 0; j < map_solution[i].length; j++ )
+            {
+                if(map_solution[i][j] == '~')
+                {
+                    map_solution[i][j] = (char) (myRandom.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
+                }
+            }
+        }
+
+    }
         
 
         /** Check for:
