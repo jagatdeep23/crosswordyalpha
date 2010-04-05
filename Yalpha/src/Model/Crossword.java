@@ -4,12 +4,16 @@ import java.util.*;
  * Generates a crossword puzzle that attempts to elimnate any chance
  * that a word can't be used in the puzzle through an exausting recursive function.
  *
- * @author Team Yalpha, specifically Patrick Martin
+ * @author Team Yalpha, specifically Patrick Martin,Jordan Hollinger
  * @version 1.0
  */
 public class Crossword extends Puzzle {
         
         WordMap FinishedList = new WordMap(false);
+
+        /*
+         * 
+         */
         @Override
         public void generate(final WordList words)
         {

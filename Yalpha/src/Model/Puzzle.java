@@ -4,15 +4,8 @@ import java.util.Random;
 /**
  * An abstract class that has an arcinal of protected classs that help subdue problems
  * that other more general wordPuzzles may have. 
- * 
- * The point class just keeps track of the (x,y) positions
  *
- * The Word class obtains a string and keeps track of each character's (x,y) position through
- * the use of the point class. The word also keeps track of the direction of the word.
- *
- * The WordMap class is an arraylist of words
- *
- * @author Team Yalpha, specifically Patrick Martin
+ * @author Team Yalpha, specifically Patrick Martin,Jordan Hollinger
  * @version 1.0
  */
 public abstract class Puzzle {

@@ -5,7 +5,7 @@ import java.util.*;
  * Generates a wordsearch puzzle that attempts to elimnate any chance
  * that a word can't be used in the puzzle.
  *
- * @author Team Yalpha, specifically Patrick Martin
+ * @author Team Yalpha, specifically Patrick Martin, Jordan Hollinger
  * @version 1.0
  */
 public class Wordsearch extends Puzzle {
