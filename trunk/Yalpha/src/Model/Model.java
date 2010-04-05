@@ -17,6 +17,9 @@ public class Model {
     private Puzzle  m_puzzle = null;
     private WordList m_list = null;
 
+    /**
+     * Default constructor
+     */
     public Model()
     {
         m_list = new WordList();
@@ -25,6 +28,10 @@ public class Model {
         choosePuzzle(PuzzleType.WORDSEARCH);
     }
 
+    /**
+     * Sets the puzzle type to be used in the model
+     * @param puzType the type of puzzle (WORDSEARCH or CROSSWORD)
+     */
     public void choosePuzzle(PuzzleType puzType)
     {
         if(puzType == PuzzleType.CROSSWORD)
@@ -37,25 +44,46 @@ public class Model {
         }
     }
 
+    /**
+     * Gets the Matrix containing the solution key (the words only)
+     * @return the solution matrix
+     */
     public char[][] getMatrixSolution()
     {
         return m_puzzle.getMatrixSolution();
     }
 
+    /**
+     * Adds a word to the model
+     * @param temp word to add
+     * @return whether or not the word was added
+     */
     public boolean add(String temp)
     {
         return m_list.add(temp);
     }
 
+    /**
+     * Removes a word from the model
+     * @param temp word to remove
+     */
     public void remove(String temp)
     {
         m_list.remove(temp);
     }
+
+    /**
+     * Removes all words from the model
+     */
     public void removeAll()
     {
         m_list.clear();
     }
 
+    /**
+     * Saves the current puzzle to a file
+     * @param temp the name of the destination file
+     */
     public void savePuzzle(String temp)
     {
         try
@@ -69,6 +97,10 @@ public class Model {
         }
     }
 
+    /**
+     * Loads the puzzle and word list from a file
+     * @param temp name of the file to load
+     */
     public void loadPuzzle(String temp)
     {
         Pair<WordList, char[][]> tempP = null;// = new Pair<WordList, char[][]>(m_list, m_cArray);
@@ -90,6 +122,10 @@ public class Model {
         }
     }
 
+    /**
+     * Loads just the word list from a file
+     * @param temp name of file to load
+     */
     public void loadWordList(String temp)
     {
         try
@@ -103,6 +139,10 @@ public class Model {
         }
     }
 
+    /**
+     * Saves just the word list to a file
+     * @param temp name of destination file
+     */
     public void saveWordList(String temp)
     {
         try
@@ -116,17 +156,27 @@ public class Model {
         }
     }
 
-    // generates choosen puzzle (if no puzzle was choosen the default puzzle is WordSearch
+    /**
+     * Generates a puzzle of the currently selected type
+     */
     public void generate()
     {
         m_puzzle.generate(m_list);
     }
 
+    /**
+     * gets the puzzle matrix, including randomized characters to fill in word search
+     * @return the puzzle matrix
+     */
     public char [][] getMatrix()
     {
        return m_puzzle.getMatrixRandomize();
     }
 
+    /**
+     * Gets the current word list
+     * @return gets the current word list
+     */
     public String [] getwordList()
     {
         String [] tempS = new String [m_list.size()];
