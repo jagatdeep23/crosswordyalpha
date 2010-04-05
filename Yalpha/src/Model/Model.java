@@ -37,6 +37,11 @@ public class Model {
         }
     }
 
+    public char[][] getMatrixSolution()
+    {
+        return m_puzzle.getMatrixSolution();
+    }
+
     public boolean add(String temp)
     {
         return m_list.add(temp);

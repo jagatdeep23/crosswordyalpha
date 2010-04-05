@@ -30,6 +30,8 @@ public abstract class Puzzle {
     {
     }
 
+    public abstract char [][] getMatrixSolution();
+
     public char [][] getMatrix()
     {
          return map;

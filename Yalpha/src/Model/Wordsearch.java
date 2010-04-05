@@ -620,7 +620,7 @@ public class Wordsearch extends Puzzle {
         protected void populateWordMatrix(final WordMap tempMap)
        {
             super.populateWordMatrix(tempMap);
-
+            map_solution = (char[][]) (super.getMatrix().clone());
         //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
           map_solution = new char [tempMap.getBound() ][tempMap.getBound()];
 

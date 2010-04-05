@@ -87,7 +87,7 @@ public class Crossword extends Puzzle {
 
             random.setFirstCharPos(bX, bY);
 
-            if(random.checkCollison(B.get(randomSolution.getX())) && random.checkCollison(B.get(randomSolution.getX())))
+            if(random.checkCollison(B.get(randomSolution.getX())))
             {
                 return false;
             }
@@ -95,7 +95,7 @@ public class Crossword extends Puzzle {
             return true;
             //return OneStepAwayTest();
         }
-
+        
         public boolean rec(WordMap A, WordMap B)
         {
 
@@ -201,6 +201,11 @@ public class Crossword extends Puzzle {
         {
             int tempi = myRandom.nextInt(end);
             return tempALP.remove(tempi);
+        }
+
+        public char [][] getMatrixSolution()
+        {
+            return super.getMatrix();
         }
 }
 
