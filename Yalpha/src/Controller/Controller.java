@@ -112,6 +112,11 @@ public class Controller {
                         }
 
                         break;
+                    case 'l':
+                        String [] tempWordList = model.getwordList();
+                        for(int i = 0; i < tempWordList.length; ++i)
+                            System.out.println(tempWordList[i]);
+                        break;
                     case 'o':
                         System.out.println("Open");
                         if (line.length() > 2 && line.charAt(1) == ' ') {

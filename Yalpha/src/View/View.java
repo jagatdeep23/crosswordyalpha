@@ -86,7 +86,7 @@ public class View {
 
         public void printGreeting()
         {
-            System.out.println("Welcome to Yalpha's puzzle! \nThe rules are:\nEvery word needs to be over 3 and under 12 letters in length. \nIf help needed type h.");
+            System.out.println("Welcome to Yalpha's puzzle! \nThe rules are:\nEvery word needs to be over 1 and under 20 letters in length. \nIf help needed type h.");
         }
 
 	public void printWordList(ArrayList<String> words){
