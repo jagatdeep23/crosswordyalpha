@@ -59,9 +59,11 @@ public class Controller {
                         } else if (line.length() > 7 && line.startsWith("choose ")) {
                             tempParameter = line.substring(7);
                         }
+
                         if (tempParameter.toLowerCase().equals("crossword"))
                         {
                             model.choosePuzzle(Model.PuzzleType.CROSSWORD);
+
                             puzzleType = "crossword";
                         }
                         else if (tempParameter.toLowerCase().equals("wordsearch"))
