@@ -180,7 +180,7 @@ public class ControllerGUI {
                     view.printCrosswordSolution(model.getMatrix());
                 }
                 else {
-                    view.printWordsearchSolution(model.getMatrix());
+                    view.printWordsearch(model.getMatrixSolution());
                 }
             } else {
                 if (view.getPuzzleType().equals("Crossword")){
