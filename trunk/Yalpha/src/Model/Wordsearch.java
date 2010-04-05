@@ -620,7 +620,8 @@ public class Wordsearch extends Puzzle {
         protected void populateWordMatrix(final WordMap tempMap)
        {
             super.populateWordMatrix(tempMap);
-            map_Randomize = (char[][]) (super.getMatrixSolution().clone());
+            char [][] map_R = (char[][]) super.getMatrixSolution().clone();
+            map_Randomize = new char [tempMap.getBound()][tempMap.getBound()];
         //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
          // map_Randomize = new char [tempMap.getBound() ][tempMap.getBound()];
 
@@ -629,6 +630,7 @@ public class Wordsearch extends Puzzle {
         {
             for(int j = 0; j < map_Randomize[i].length; j++ )
             {
+                map_Randomize[i][j] = map_R[i][j];
                 if(map_Randomize[i][j] == '~')
                 {
                     map_Randomize[i][j] = (char) (myRandom.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
