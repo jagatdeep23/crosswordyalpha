@@ -124,7 +124,7 @@ public class Model {
 
     public char [][] getMatrix()
     {
-       return m_puzzle.getMatrix();
+       return m_puzzle.getMatrixRandomize();
     }
 
     public String [] getwordList()

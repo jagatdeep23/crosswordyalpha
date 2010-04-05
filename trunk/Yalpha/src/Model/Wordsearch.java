@@ -13,7 +13,7 @@ public class Wordsearch extends Puzzle {
         //Max size should be 20 
 
        private int m_size = 10;
-       char map_solution [][] = null;//new char[FinishedList.getBound()][FinishedList.getBound()];
+       char map_Randomize [][] = null;//new char[FinishedList.getBound()][FinishedList.getBound()];
        
         public void generate(final WordList words)
         {
@@ -611,27 +611,27 @@ public class Wordsearch extends Puzzle {
             }*/
         }
 
-        public char [][] getMatrixSolution()
+        public char [][] getMatrixRandomize()
         {
-            return map_solution;
+            return map_Randomize;
         }
 
         @Override
         protected void populateWordMatrix(final WordMap tempMap)
        {
             super.populateWordMatrix(tempMap);
-            map_solution = (char[][]) (super.getMatrix().clone());
+            map_Randomize = (char[][]) (super.getMatrixSolution().clone());
         //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
-          map_solution = new char [tempMap.getBound() ][tempMap.getBound()];
+         // map_Randomize = new char [tempMap.getBound() ][tempMap.getBound()];
 
         //Random randGen = new Random();
-        for(int i=0; i < map_solution.length; i++)
+        for(int i=0; i < map_Randomize.length; i++)
         {
-            for(int j = 0; j < map_solution[i].length; j++ )
+            for(int j = 0; j < map_Randomize[i].length; j++ )
             {
-                if(map_solution[i][j] == '~')
+                if(map_Randomize[i][j] == '~')
                 {
-                    map_solution[i][j] = (char) (myRandom.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
+                    map_Randomize[i][j] = (char) (myRandom.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
                 }
             }
         }

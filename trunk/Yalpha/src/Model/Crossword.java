@@ -135,7 +135,7 @@ public class Crossword extends Puzzle {
                                // A.pop_back();
                                 //Maninpulate tempS's position (which should be cell/word)
                                 B.add(random);
-                                if(rec(A.clone(),B)) //tempAdd - adds List A and List B returns some List C
+                                if(/*checkCrosswordBound(B) && */rec(A.clone(),B)) //tempAdd - adds List A and List B returns some List C
                                 {
                                         return true;
                                 }else{
@@ -151,6 +151,9 @@ public class Crossword extends Puzzle {
             return false;
             }
         }
+
+        //boolean
+
         @Override
          protected Word randomizeWord(WordMap tempMap, int end)
         {
@@ -203,9 +206,9 @@ public class Crossword extends Puzzle {
             return tempALP.remove(tempi);
         }
 
-        public char [][] getMatrixSolution()
+        public char [][] getMatrixRandomize()
         {
-            return super.getMatrix();
+            return super.getMatrixSolution();
         }
 }
 
