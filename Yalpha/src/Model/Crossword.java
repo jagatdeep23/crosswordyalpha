@@ -37,7 +37,7 @@ public class Crossword extends Puzzle {
             FinishedList.TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative();
 
             populateWordMatrix(FinishedList);
-            rec(mList,SolvingPuzzle);
+            //rec(mList,SolvingPuzzle);
 
             System.out.println("CROSSWORD - GENERATE");
         }
@@ -87,7 +87,7 @@ public class Crossword extends Puzzle {
 
             random.setFirstCharPos(bX, bY);
 
-            if(random.checkCollison(B.get(randomSolution.getX())))
+            if(random.checkCollison(B.get(randomSolution.getX())) && random.checkCollison(B.get(randomSolution.getX())))
             {
                 return false;
             }
