@@ -23,7 +23,7 @@ public class Crossword extends Puzzle {
                 Word random = randomizeWord(mList, size); //issues with random direction - need to make it Right/Down
                 random.setFirstCharPos(0,0);
                 SolvingPuzzle.add(random);
-                if(!rec(mList,SolvingPuzzle))
+                if(!rec(mList.clone(),SolvingPuzzle))
                 {
                     SolvingPuzzle.remove(0); // randomly picks word
                 }
@@ -34,7 +34,15 @@ public class Crossword extends Puzzle {
                 mList.add(random);
             }
 
+            System.out.println("BEFORE Translate Positional Stat of word to the condition of being not negative");
+            System.out.println("LargestX: " + FinishedList.getLargestX() + ", LargestY: " + FinishedList.getLargestY());
+            System.out.println("SmallestX: " + FinishedList.getSmallestX() + ", SmallestY: " + FinishedList.getSmallestY());
+            
             FinishedList.TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative();
+
+            System.out.println("AFTER Translate Positional Stat of word to the condition of being not negative");
+            System.out.println("LargestX: " + FinishedList.getLargestX() + ", LargestY: " + FinishedList.getLargestY());
+            System.out.println("SmallestX: " + FinishedList.getSmallestX() + ", SmallestY: " + FinishedList.getSmallestY());
 
             populateWordMatrix(FinishedList);
             //rec(mList,SolvingPuzzle);
@@ -87,7 +95,7 @@ public class Crossword extends Puzzle {
 
             random.setFirstCharPos(bX, bY);
 
-            if(random.checkCollison(B.get(randomSolution.getX())))
+            if(random.checkCollision(B))
             {
                 return false;
             }
@@ -96,7 +104,7 @@ public class Crossword extends Puzzle {
             //return OneStepAwayTest();
         }
         
-        public boolean rec(WordMap A, WordMap B)
+        private boolean rec(WordMap A, WordMap B)
         {
 
         //Obtain the best possible list of words. So even if not all words are used we
@@ -119,7 +127,7 @@ public class Crossword extends Puzzle {
 
                         ArrayList<Point3D> possibleIntersection = getIntersection(B, random);
                         int PIASize = possibleIntersection.size();
-
+                    System.out.println("Should be less than 10");
                     for(; PIASize > 0; PIASize--)
                     {
                         Point3D randomSolution = randomizeAnswers(possibleIntersection,PIASize);
@@ -135,7 +143,7 @@ public class Crossword extends Puzzle {
                                // A.pop_back();
                                 //Maninpulate tempS's position (which should be cell/word)
                                 B.add(random);
-                                if(/*checkCrosswordBound(B) && */rec(A.clone(),B)) //tempAdd - adds List A and List B returns some List C
+                                if(checkCrosswordBound(B) && rec(A.clone(),B)) //tempAdd - adds List A and List B returns some List C
                                 {
                                         return true;
                                 }else{
@@ -152,7 +160,23 @@ public class Crossword extends Puzzle {
             }
         }
 
-        //boolean
+        boolean checkCrosswordBound(WordMap temp)
+        {
+            int LargestX = temp.getLargestX();
+            int SmallestX = temp.getSmallestX();
+            int LargestY = temp.getLargestY();
+            int SmallestY = temp.getSmallestY();
+            int bound = temp.getBound();
+
+            System.out.println("X: " + (LargestX - SmallestX) +  " Y: " + (LargestY - SmallestY));
+            if((LargestX - SmallestX) < bound && (LargestY - SmallestY) < bound)
+            {
+                
+                return true;
+            }
+
+            return false;
+        }
 
         @Override
          protected Word randomizeWord(WordMap tempMap, int end)

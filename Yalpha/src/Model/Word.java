@@ -103,21 +103,25 @@ package Model;
 
         public int getLargestX()
         {
+            ObtainGreatest();
             return m_largest.getX();
         }
 
         public int getLargestY()
         {
+            ObtainGreatest();
             return m_largest.getY();
         }
 
         public int getSmallestY()
         {
+            ObtainSmallest();
             return m_smallest.getY();
         }
 
         public int getSmallestX()
         {
+            ObtainSmallest();
             return m_smallest.getX();
         }
 
@@ -393,8 +397,20 @@ package Model;
             return ynDir;
         }
 
+        public boolean checkCollision(final WordMap tempM)
+        {
+            for(Word tempW: tempM)
+            {
+                if(checkCollision(tempW))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         // returns TRUE for a collision and FALSE for a non-collision
-        public boolean checkCollison(final Word tempW)
+        public boolean checkCollision(final Word tempW)
         {
             if(tempW != null)
             {

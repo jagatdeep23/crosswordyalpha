@@ -80,7 +80,9 @@ import java.rmi.NotBoundException;
 
         private void checkAllForLargest()
         {
-            for(int i = 0; i < size(); i++)
+            m_largest.setX(get(0).getLargestX());
+            m_largest.setY(get(0).getLargestY());
+            for(int i = 1; i < size(); i++)
             {
                 checkLargest(get(i),i);
             }
@@ -88,7 +90,9 @@ import java.rmi.NotBoundException;
 
         private void checkAllForSmallest()
         {
-            for(int i = 0; i < size(); i++)
+            m_smallest.setX(get(0).getSmallestX());
+            m_smallest.setY(get(0).getSmallestY());
+            for(int i = 1; i < size(); i++)
             {
                 checkSmallest(get(i),i);
             }
