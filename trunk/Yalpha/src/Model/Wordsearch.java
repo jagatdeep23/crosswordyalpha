@@ -654,7 +654,7 @@ public class Wordsearch extends Puzzle {
         {
             for(int i=0; i < tempMap.size(); i++)
             {
-               if(tempW.checkCollison(tempMap.get(i)))
+               if(tempW.checkCollision(tempMap.get(i)))
                {
                    return true;
                }
