@@ -48,7 +48,6 @@ public class Crossword extends Puzzle {
             populateWordMatrix(FinishedList);
             //rec(mList,SolvingPuzzle);
 
-            System.out.println("CROSSWORD - GENERATE");
         }
 
         /**
@@ -164,7 +163,7 @@ public class Crossword extends Puzzle {
 
                         ArrayList<Point3D> possibleIntersection = getIntersection(B, random);
                         int PIASize = possibleIntersection.size();
-                    System.out.println("Should be less than 10");
+                        
                     for(; PIASize > 0; PIASize--)
                     {
                         Point3D randomSolution = randomizeAnswers(possibleIntersection,PIASize);
