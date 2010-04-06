@@ -81,6 +81,9 @@ import java.rmi.NotBoundException;
             m_indexSmallest = new Point(-1,-1);
         }
 
+        /**
+         * Obtain the Largest X and Y
+         */
         private void checkAllForLargest()
         {
             m_largest.setX(get(0).getLargestX());
@@ -91,6 +94,9 @@ import java.rmi.NotBoundException;
             }
         }
 
+        /**
+         * Obtain the smallest X and Y
+         */
         private void checkAllForSmallest()
         {
             m_smallest.setX(get(0).getSmallestX());
@@ -140,6 +146,10 @@ import java.rmi.NotBoundException;
 
         }
 
+        /**
+         * 
+         * @param hPoint the offset to add all the other points
+         */
         private void addOffset(Point hPoint)
         {
             for(Word feWord: this)
@@ -149,6 +159,9 @@ import java.rmi.NotBoundException;
 
         }
 
+        /**
+         * Moves the Smallest X and the Smallest Y to be equal to zero (indirectly moving all the points in the entire list as well)
+         */
         public void TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative()
         {
             Point tP = new Point();
