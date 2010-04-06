@@ -11,10 +11,14 @@ public class Crossword extends Puzzle {
         
         WordMap FinishedList = new WordMap(false);
 
-        /*
-         * 
-         */
         @Override
+        /**
+         * Is the caller method to rec(A,B)
+         *
+         * Initalizes the values in order to call rec properly
+         *
+         * @param wordlist is the words that are generated into puzzle
+         */
         public void generate(final WordList words)
         {
             FinishedList.clear();
@@ -38,15 +42,8 @@ public class Crossword extends Puzzle {
                 mList.add(random);
             }
 
-            System.out.println("BEFORE Translate Positional Stat of word to the condition of being not negative");
-            System.out.println("LargestX: " + FinishedList.getLargestX() + ", LargestY: " + FinishedList.getLargestY());
-            System.out.println("SmallestX: " + FinishedList.getSmallestX() + ", SmallestY: " + FinishedList.getSmallestY());
             
             FinishedList.TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative();
-
-            System.out.println("AFTER Translate Positional Stat of word to the condition of being not negative");
-            System.out.println("LargestX: " + FinishedList.getLargestX() + ", LargestY: " + FinishedList.getLargestY());
-            System.out.println("SmallestX: " + FinishedList.getSmallestX() + ", SmallestY: " + FinishedList.getSmallestY());
 
             populateWordMatrix(FinishedList);
             //rec(mList,SolvingPuzzle);
@@ -54,6 +51,15 @@ public class Crossword extends Puzzle {
             System.out.println("CROSSWORD - GENERATE");
         }
 
+        /**
+         * Obtains array of 3D points that keep track of...
+         *  //X = Index of WordA in Map
+         *  //Y = Index of character in WordA
+         *  //Z = Index of WordB that matches a character in WordA
+         *
+         * @param tempWM is a list of words to check VS a word tempW.
+         * @return returns list of Point3D where character overlap.
+         */
         public ArrayList<Point3D> getIntersection(WordMap tempWM, Word tempW)
         {
             ArrayList<Point3D> pointList = new ArrayList<Point3D>();
@@ -78,6 +84,14 @@ public class Crossword extends Puzzle {
 
         }
 
+        /**
+         * Sets random word to the opposite direction of the word it needs to be overlapped.
+         * Then overlaps the character and compares the position of all the other characters in
+         * random to see if there is an collision of characters in B that dont match.
+         *
+         * @return returns true if No TRUE collision happens, False if a true collision
+         * @param B is a list of words, random is the word to check against list B, randomSolution is the word in B and it's character the character in random that needs to be overlapped
+         */
         public boolean checkSetWordWorks(WordMap B, Word random,Point3D randomSolution)
         {
             Word tempWordB = B.get(randomSolution.getX());
@@ -107,7 +121,26 @@ public class Crossword extends Puzzle {
             return true;
             //return OneStepAwayTest();
         }
-        
+
+        /**
+         * First records the best crossword that is possible
+         * If users List size is zero then all the words have been used.
+         * Go through all the Words left in user list and randomly remove one at a time
+         * For each word removed find all the intersections(overlaping letters)
+         *  while still having the removed word go through each of all the intersections and check for collisions with the rest of the words in the final puzzle list
+         *  for each intersection that works update the removed word's position
+         *      add the removed word to final puzzle list
+         *      Then check if it is in the bounding box of the puzzle
+         *          call rec(A,B)...
+         *      If not inside of bounding box or previous recursion returned false
+         *      remove the random word from THIS recursive function call and append it to the end of users list size
+         *  
+         *  
+         * 
+         *
+         * @param A is users list , B is the best case
+         * @return returns true if the words overlap and dont collide incorectly
+         */
         private boolean rec(WordMap A, WordMap B)
         {
 
@@ -164,6 +197,14 @@ public class Crossword extends Puzzle {
             }
         }
 
+        /**
+         *
+         * Finds the top of the crossword and the bottom of the crossword and
+         * makes sure that the length isnt greater then the bound of the bounding box
+         *
+         * @param temp
+         * @return TRUE for if the crossword fits inside the bounds
+         */
         boolean checkCrosswordBound(WordMap temp)
         {
             int LargestX = temp.getLargestX();
@@ -172,7 +213,6 @@ public class Crossword extends Puzzle {
             int SmallestY = temp.getSmallestY();
             int bound = temp.getBound();
 
-            System.out.println("X: " + (LargestX - SmallestX) +  " Y: " + (LargestY - SmallestY));
             if((LargestX - SmallestX) < bound && (LargestY - SmallestY) < bound)
             {
                 
@@ -182,6 +222,14 @@ public class Crossword extends Puzzle {
             return false;
         }
 
+        /**
+         *
+         * randomly removes a word from tempMap
+         *
+         * @param tempMap word list to randomly choose from
+         * @param end randomize from zero to end-1
+         * @return
+         */
         @Override
          protected Word randomizeWord(WordMap tempMap, int end)
         {
@@ -228,12 +276,24 @@ public class Crossword extends Puzzle {
             return tempW;
         }
 
+        /**
+         * randomly picks a Point3D from o to end-1 and returns it.
+         *
+         * @param tempALP a list of all possible answers
+         * @param end random 0 to end-1
+         * @return
+         */
         private Point3D randomizeAnswers(ArrayList<Point3D> tempALP, int end)
         {
             int tempi = myRandom.nextInt(end);
             return tempALP.remove(tempi);
         }
 
+        /**
+         *
+         *
+         * @return the same answer as getMatrixSolution in puzzle...
+         */
         public char [][] getMatrixRandomize()
         {
             return super.getMatrixSolution();

@@ -15,22 +15,40 @@ public abstract class Puzzle {
 
     private char [][] map = null;
     //private char [][] map_random = null
-
-    // Function should create puzzle
+            
+    /**
+     * Function creates a specific puzzle
+     * @param words list of words to use in generate
+     */
     public abstract void generate(final WordList words);
 
+    /**
+     * Default constructor
+     */
     Puzzle()
     {
     }
 
+    /**
+     *
+     * @return if used by wordsearch it returns matrix with true words hidden by random letters and crossword returns the same as MatrixSolution
+     */
     public abstract char [][] getMatrixRandomize();
 
+    /**
+     * returns the solution to the puzzle
+     * @return
+     */
     public char [][] getMatrixSolution()
     {
          return map;
     }
 
-    //puts all the words into the char matrix(MxM)
+    
+   /**
+    * Puts all the words into the char matrix(MxM)
+    * @param tempMap word list
+    */
     protected void populateWordMatrix(final WordMap tempMap)
     {
         //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
@@ -59,10 +77,12 @@ public abstract class Puzzle {
  
     }
 
-    
-
-    
-
+        /**
+         * 
+         * @param tempW
+         * @param tempMap
+         * @return
+         */
         public boolean check_correctBounds(Word tempW, WordMap tempMap)
         {
             if(tempW.checkBounds(tempMap.getBound()))

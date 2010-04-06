@@ -6,8 +6,8 @@
 package Model;
 
 /**
- * Generates a crossword puzzle that attempts to elimnate any chance
- * that a word can't be used in the puzzle through an exausting recursive function.
+ * This class contains the letters of the word, the position of each character,
+ * the direction, and a boolean to check whether or not the character positions are negative.
  *
  * @author Team Yalpha, specifically Patrick Martin,Jordan Hollinger
  * @version 1.0
@@ -74,6 +74,10 @@ package Model;
             
         }
 
+        /**
+         *  initalizes all the Points
+         * @param tempS the number of point that need to be initalized
+         */
         private void initalizePoints(int tempS)
         {
             m_pos = new Point[tempS];
@@ -84,70 +88,127 @@ package Model;
            }
         }
 
+        /**
+         * gets character c's X position
+         * @param c character index
+         * @return X value
+         */
         public final int getCharPosX(int c)
         {
             return getX(m_pos[c]);
         }
 
+        /**
+         *
+         * gets character c's Y position
+         * @param c character index
+         * @return Y value
+         */
         public final int getCharPosY(int c)
         {
             return getY(m_pos[c]);
         }
 
+        /**
+         * returns the X value of poitn temp
+         * @param temp
+         * @return X value
+         */
         private final int getX(Point temp)
         {
             return temp.getX();
         }
 
+        /**
+         * returns the Y value of poitn temp
+         * @param temp
+         * @return Y value
+         */
         private final int getY(Point temp)
         {
             return temp.getY();
         }
 
+        /**
+         *
+         * @return the Largest X value out of all the characters
+         */
         public int getLargestX()
         {
             ObtainGreatest();
             return m_largest.getX();
         }
 
+        /**
+         *
+         * @return the Largest Y value out of all the characters
+         */
         public int getLargestY()
         {
             ObtainGreatest();
             return m_largest.getY();
         }
 
+        /**
+         *
+         * @return the Smallest Y value out of all the characters
+         */
         public int getSmallestY()
         {
             ObtainSmallest();
             return m_smallest.getY();
         }
 
+        /**
+         *
+         * @return the Smallest X value out of all the characters
+         */
         public int getSmallestX()
         {
             ObtainSmallest();
             return m_smallest.getX();
         }
 
+        /**
+         *
+         * @return Up - true/false
+         */
         public boolean getUp()
         {
             return m_up;
         }
 
+        /**
+         *
+         * @return Down - true/false
+         */
         public boolean getDown()
         {
             return m_down;
         }
 
+        /**
+         *
+         * @return Right - true/false
+         */
         public boolean getRight()
         {
             return m_right;
         }
 
+        /**
+         *
+         * @return Left - true/false
+         */
         public boolean getLeft()
         {
             return m_left;
         }
 
+        /**
+         *
+         * @return number of characters
+         */
         public int size()
         {
            return m_letters.length;
@@ -163,11 +224,20 @@ package Model;
             return String.copyValueOf(m_letters);
         }
 
+        /**
+         * @param index is index of the characters
+         * @return character at index
+         */
         public char getCharAt(int index)
         {
             return m_letters[index];
         }
 
+        /**
+         * Sets the position of the first character at (chX,chY)
+         * @param chX - X value
+         * @param chY - Y value
+         */
         public void setFirstCharPos(int chX, int chY)
         {
             m_pos[0].setX(chX);
@@ -281,7 +351,9 @@ package Model;
             initalizePoints(m_letters.length);
         }
 
-        //resets the positions of each character based on direction and the first character's position.
+        /**
+         * resets the positions of each character based on direction and the first character's position.
+         */
         public void resetPos()
         {
            if(m_letters.length != m_pos.length)
@@ -312,7 +384,12 @@ package Model;
            }
         }
 
-        // if the position of the characters is negative then move the characters into a positive postion
+        
+          
+         
+       /**
+         * if the position of the characters is negative then move the characters into a positive postion
+         */
         private void checkNegatives()
         {
             int leastX = 0;
@@ -344,7 +421,9 @@ package Model;
 
         }
 
-        // Obtains Greatest/Smallest positions of the word
+        /**
+         * Obtains Greatest X & Y Value of the word
+         */ 
         private void ObtainGreatest()
         {
             m_largest.setX(m_pos[0].getX());
@@ -363,6 +442,9 @@ package Model;
             }
         }
 
+        /**
+         * Obtains Smallest X & Y Value of the word
+         */
         private void ObtainSmallest()
         {
             m_smallest.setX(m_pos[0].getX());
@@ -382,7 +464,12 @@ package Model;
 
         }
 
-        //If the word has no direction then the default direction is right and CheckDirection() returns false
+        
+       /**
+        * If the word has no direction then the default direction is right and CheckDirection() returns false
+       * when all the directions are false then default direction is true
+       * @return true when at least one direction is set to true
+       */
         private boolean CheckDirection()
         {
             boolean ynDir = true;
@@ -394,6 +481,11 @@ package Model;
             return ynDir;
         }
 
+        /**
+         * Checks all the words in tempM and make sure that they don't collide with THIS word
+         * @param tempM
+         * @return
+         */
         public boolean checkCollision(final WordMap tempM)
         {
             for(Word tempW: tempM)
@@ -406,7 +498,12 @@ package Model;
             return false;
         }
 
-        // returns TRUE for a collision and FALSE for a non-collision
+        
+        /**
+         * returns TRUE for a collision and FALSE for a non-collision
+         * @param tempW
+         * @return
+         */
         public boolean checkCollision(final Word tempW)
         {
             if(tempW != null)
@@ -419,6 +516,15 @@ package Model;
         // If a TRUE collision occured then it will return true, else returns false.
         // TRUE collision = when a position matches, BUT letter doesn't.
         // SO... When a letter and position of the both words are equal this is NOT a TRUE collision
+        /**
+         *
+         * If a TRUE collision occured then it will return true, else returns false.
+         * TRUE collision = when a position matches, BUT letter doesn't.
+         * SO... When a letter and position of the both words are equal this is NOT a TRUE collision
+         *
+         * @param tempW
+         * @return
+         */
         private boolean checkLettersPos(final Word tempW)
         {
             if(tempW != null)
@@ -442,6 +548,13 @@ package Model;
             return false;
         }
 
+        /**
+         *
+         * @param mytempI Index of character in this word
+         * @param tempW word to compare to this word
+         * @param tempI character index of tempW
+         * @return true if the character's position in "this" word at index mytempI and character's position in tempW at index tempI
+         */
         private boolean comparePos(final int mytempI, final Word tempW, final int tempI)
         {
             if(tempW != null)
@@ -451,6 +564,13 @@ package Model;
             return false;
         }
 
+        /**
+         * Compares if the characters of this word and handed word tempW are the same
+         * @param mytempI
+         * @param tempW
+         * @param tempI
+         * @return true if characters match
+         */
         private boolean compareChar(final int mytempI, final Word tempW, final int tempI)
         {
             if(tempW != null)
@@ -460,9 +580,16 @@ package Model;
             return false;
         }
 
-        //bounding box - aka the size of the box that the puzzle is in
-        //returns true if the word is greater then the bound
-        //returns false if the word is inside the bound
+        
+        /**
+         *
+         * bounding box - aka the size of the box that the puzzle is in
+         * returns true if the word is greater then the bound
+         * returns false if the word is inside the bound
+         *
+         * @param bound
+         * @return
+         */
         public boolean checkBounds(int bound)
         {
             if(getLargestX() >= bound)
@@ -479,6 +606,13 @@ package Model;
             }
         }
 
+
+        /**
+         * Moves the word to fit inside of the given bound
+         * 
+         * @param bound
+         * @return
+         */
         public boolean moveBounds(int bound)
         {
             int ChangeX = getCharPosX(0);
