@@ -123,7 +123,12 @@ public class ControllerGUI {
         public void actionPerformed(ActionEvent e) {
             String filePath = view.fileOpenDialog();
             if (filePath != null && !filePath.equals("")) {
-                model.loadPuzzle(filePath);
+                try {
+                    model.loadPuzzle(filePath);
+                }
+                catch (Exception ex) {
+
+                }
                 view.printWordsearch(model.getMatrix());
                 view.updateWordArea(model.getwordList());
             }
@@ -135,7 +140,12 @@ public class ControllerGUI {
         public void actionPerformed(ActionEvent e) {
             String filePath = view.fileOpenDialog();
             if (filePath != null && !filePath.equals("")) {
-                model.loadWordList(filePath);
+                try {
+                    model.loadWordList(filePath);
+                }
+                catch (Exception ex) {
+
+                }
                 view.updateWordArea(model.getwordList());
             }
         }
@@ -156,7 +166,12 @@ public class ControllerGUI {
         public void actionPerformed(ActionEvent e) {
             String filePath = view.fileSaveDialog();
             if (filePath != null && !filePath.equals("")) {
-                model.savePuzzle(filePath);
+                try {
+                    model.savePuzzle(filePath);
+                }
+                catch (Exception ex) {
+
+                }
             }
         }
     }
@@ -166,7 +181,12 @@ public class ControllerGUI {
         public void actionPerformed(ActionEvent e) {
             String filePath = view.fileSaveDialog();
             if (filePath != null && !filePath.equals("")) {
-                model.saveWordList(filePath);
+                try {
+                    model.saveWordList(filePath);
+                }
+                catch (Exception ex) {
+                    
+                }
             }
         }
     }

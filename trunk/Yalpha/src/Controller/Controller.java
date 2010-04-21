@@ -91,10 +91,18 @@ public class Controller {
                     case 'i':
                         if (line.length() > 2 && line.charAt(1) == ' ') {
                             //System.out.println("Import: " + line.substring(2));
-                            model.loadWordList(line.substring(2));
+                            try {
+                                model.loadWordList(line.substring(2));
+                            }
+                            catch (Exception e) {
+                            }
                         } else if (line.length() > 7 && line.startsWith("import ")) {
                             //System.out.println("Import: " + line.substring(7));
-                            model.loadWordList(line.substring(7));
+                            try {
+                                model.loadWordList(line.substring(7));
+                            }
+                            catch (Exception e) {
+                            }
                         }
                         break;
                     case 'k':
@@ -117,10 +125,19 @@ public class Controller {
                         System.out.println("Open");
                         if (line.length() > 2 && line.charAt(1) == ' ') {
                             //System.out.println("Open file: " + line.substring(2));
-                            model.loadPuzzle(line.substring(2));
+                            try {
+                                model.loadPuzzle(line.substring(2));
+                            }
+                            catch (Exception e) {
+                            }
                         } else if (line.length() > 5 && line.startsWith("open ")) {
                             //System.out.println("Open file: " + line.substring(5));
-                            model.loadPuzzle(line.substring(5));
+                            try {
+                                model.loadPuzzle(line.substring(5));
+                            }
+                            catch (Exception e) {
+
+                            }
                         }
 
                     case 'p':
@@ -144,19 +161,38 @@ public class Controller {
                     case 's':
                         if (line.length() > 2 && line.charAt(1) == ' ') {
                             //System.out.println("Save To: " + line.substring(2));
-                            model.savePuzzle(line.substring(2));
+                            try {
+                                model.savePuzzle(line.substring(2));
+                            } catch (Exception e) {
+
+                            }
                         } else if (line.length() > 5 && line.startsWith("save ")) {
                             //System.out.println("Save To: " + line.substring(5));
-                            model.savePuzzle(line.substring(5));
+                            try {
+                                model.savePuzzle(line.substring(5));
+                            }
+                            catch (Exception e) {
+
+                            }
                         }
                         break;
                     case 'w':
                         if (line.length() > 2 && line.charAt(1) == ' ') {
                             //System.out.println("Save To: " + line.substring(2));
-                            model.saveWordList(line.substring(2));
+                            try {
+                                model.saveWordList(line.substring(2));
+                            }
+                            catch (Exception e) {
+
+                            }
                         } else if (line.length() > 5 && line.startsWith("word ")) {
                             //System.out.println("Save To: " + line.substring(5));
-                            model.saveWordList(line.substring(5));
+                            try {
+                                model.saveWordList(line.substring(5));
+                            }
+                            catch (Exception e) {
+                                
+                            }
                         }
                         break;
                 }
