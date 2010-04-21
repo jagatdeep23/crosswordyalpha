@@ -481,6 +481,25 @@ package Model;
             return ynDir;
         }
 
+        public boolean overlap(Word tempW)
+        {
+            if(tempW != null)
+            {
+               for(int i =0; i<size(); i++)
+               {             
+                    for(int j= 0; j < tempW.size(); j++)
+                    {
+                        if(comparePos(i, tempW, j ))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+            }
+            return false;
+        }
+
         /**
          * Checks all the words in tempM and make sure that they don't collide with THIS word
          * @param tempM
