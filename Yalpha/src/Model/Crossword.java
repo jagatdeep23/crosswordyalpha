@@ -112,7 +112,7 @@ public class Crossword extends Puzzle {
 
             random.setFirstCharPos(bX, bY);
 
-            if(random.checkCollision(B))
+            if(random.checkCollision(B) /*&& checkBuntingWords(random,B)*/)
             {
                 return false;
             }
@@ -120,6 +120,12 @@ public class Crossword extends Puzzle {
             return true;
             //return OneStepAwayTest();
         }
+
+        /*private boolean checkBuntingWords(Word hWord, WordMap hMap)
+        {
+            if()
+            return true;
+        }*/
 
         /**
          * First records the best crossword that is possible
