@@ -112,13 +112,36 @@ public class Crossword extends Puzzle {
 
             random.setFirstCharPos(bX, bY);
 
-            if(random.checkCollision(B) /*&& checkBuntingWords(random,B)*/)
+            if(random.checkCollision(B))
             {
                 return false;
             }
-
+            if(checkBuntingWords(random,B))
+            {
+                return false;
+            }
+            
             return true;
-            //return OneStepAwayTest();
+        }
+
+        public boolean checkBuntingWords(Word temp, WordMap tempList)
+        {
+            //first check if the word overlaps with any words in WordMap if it doesnt then
+            for(int i =0; i < tempList.size(); i++)
+            {
+                //if temp doesnt overlap with the i-th word
+                if(!temp.overlap(tempList.get(i)))
+                {
+                    if(!(temp.getSmallestX() > 1+tempList.get(i).getLargestX() || temp.getLargestX() +1 < tempList.get(i).getSmallestX()))
+                    {
+                       if(!(temp.getSmallestY() > 1+tempList.get(i).getLargestY() || temp.getLargestY() +1 < tempList.get(i).getSmallestY()))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         /*private boolean checkBuntingWords(Word hWord, WordMap hMap)
