@@ -267,6 +267,11 @@ public class ViewGUI {
         return "";
     }
 
+    /**
+     *
+     * @param puzzle    Takes a matrix of characters
+     */
+
     public void printCrossword(char[][] puzzle) {
         String crossword = "";
         for (int i = 0; i < puzzle.length; ++i) {
@@ -281,7 +286,10 @@ public class ViewGUI {
         }
         puzzleArea.setText(crossword);
     }
-
+/**
+ *
+ * @param puzzle    Takes a matrix of characters
+ */
     public void printCrosswordSolution(char[][] puzzle) {
         String crossword = "";
         for (int i = 0; i < puzzle.length; ++i) {
@@ -301,7 +309,10 @@ public class ViewGUI {
         JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
                 + "\nEvery word needs to be over 1 and under 20 letters in length.", "Greetings!", 1);
     }
-
+/**
+ *
+ * @param puzzle  Takes a matrix of characters
+ */
     public void printWordsearch(char[][] puzzle) {
         String puzzleString = "";
         if (puzzle != null && puzzle.length > 1) {
@@ -314,6 +325,11 @@ public class ViewGUI {
         }
         puzzleArea.setText(puzzleString);
     }
+
+    /**
+     *
+     * @param puzzle    Takes a matrix of characters
+     */
 
     public void printWordsearchSolution(char[][] puzzle) {
         for (int i = 0; i < puzzle.length; ++i) {
@@ -333,6 +349,11 @@ public class ViewGUI {
         wordBox.selectAll();
     }
 
+
+    /**
+     *
+     * @param words Takes the list of words
+     */
     public void updateWordArea(String[] words) {
         String puzzleList = "";
         if (words != null) {
