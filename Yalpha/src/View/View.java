@@ -14,6 +14,11 @@ public class View {
 
 	public View(){
 	}
+
+        /**
+         * @param puzzle    matrix of characters from the model
+         */
+
 	public void printPuzzle(char[][] puzzle){
             if (puzzle.length > 1){
 		for (int i = 0; i < puzzle.length; ++i){
@@ -24,6 +29,10 @@ public class View {
 		}
             }
 	}
+
+        /**
+         * @param puzzle    matrix of characters from the model
+         */
 
         public void printWordsearchSolution(char[][] puzzle){
             for(int i = 0; i < puzzle.length; ++i)
@@ -37,6 +46,10 @@ public class View {
             printPuzzle(puzzle);
         }
 
+
+        /**
+         * @param puzzle    matrix of characters from the model
+         */
         public void printCrossword(char[][] puzzle)
         {
             for(int i = 0; i < puzzle.length; ++i)
@@ -52,6 +65,10 @@ public class View {
             }
         }
 
+
+        /**
+         * @param puzzle    matrix of characters from the model
+         */
         public void printCrosswordSolution(char[][] puzzle){
             for(int i = 0; i < puzzle.length; ++i)
             {
@@ -67,6 +84,13 @@ public class View {
 	}
 
 
+        /**
+         *
+         * @param map       Wordmap that stores all letter locations
+         * @param numRows   num of rows
+         * @param numCols   num of columns
+         * @return          returns a character array of the puzzle solution
+         */
         public char[][] createSolution(WordMap map, int numRows, int numCols) {
             Word[] arrayMap = new Word[map.size()];
             map.toArray(arrayMap);
@@ -84,11 +108,17 @@ public class View {
         }
 
 
+
         public void printGreeting()
         {
             System.out.println("Welcome to Yalpha's puzzle! \nThe rules are:\nEvery word needs to be over 1 and under 20 letters in length. \nIf help needed type h.");
         }
 
+
+        /**
+         *
+         * @param words The list of words
+         */
 	public void printWordList(ArrayList<String> words){
 		System.out.println("Word list:");
 		for (int i = 0; i < words.size(); ++i){
