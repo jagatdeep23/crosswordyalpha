@@ -120,8 +120,30 @@ public class Crossword extends Puzzle {
             {
                 return false;
             }
+
+            if(checkParallelWords(random,B))
+            {
+                return false;
+            }
             
             return true;
+        }
+
+        public boolean checkParallelWords(Word temp, WordMap tempList)
+        {
+            //first check if the word overlaps with any words in WordMap if it doesnt then
+            for(int i =0; i < tempList.size(); i++)
+            {
+                //if temp doesnt overlap with the i-th word
+                if(temp.overlap(tempList.get(i)))
+                {
+                   if(temp.getDown() == tempList.get(i).getDown() || temp.getRight() == tempList.get(i).getRight())
+                   {
+                       return true;
+                   }
+                }
+            }
+            return false;
         }
 
         public boolean checkBuntingWords(Word temp, WordMap tempList)
