@@ -41,6 +41,7 @@ public class ControllerGUI {
         view.addExitMenuListener(new ExitMenuItemListener());
         view.addExportButtonListener(new ExportButtonListener());
         view.addGenerateButtonListener(new GenerateButtonListener());
+        view.addHelpMenuItemListener(new HelpMenuItemListener());
         view.addOpenPuzzleListener(new OpenPuzzleListener());
         view.addOpenWordListListener(new OpenWordListListener());
         view.addRemoveButtonListener(new RemoveButtonListener());
@@ -57,10 +58,11 @@ public class ControllerGUI {
      */
     private class AboutMenuListener implements ActionListener {
 
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             view.displayAbout();
         }
     }
+
     private class AddButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -109,12 +111,26 @@ public class ControllerGUI {
         public void actionPerformed(ActionEvent e) {
             model.generate();
             solutionDisplayed = false;
-            if (view.getPuzzleType().equals("Crossword")){
+            if (view.getPuzzleType().equals("Crossword")) {
                 view.printCrossword(model.getMatrix());
-            }
-            else {
+            } else {
                 view.printWordsearch(model.getMatrix());
             }
+            view.setSolutionMatrix(model.getMatrixSolution());
+        }
+    }
+
+    private class HelpMenuItemListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            view.createJOptionPane("Add words by typing words into the \"Enter "
+                    + "Word\" area and clicking the add button.\n"
+                    + "Generate the puzzle by clicking the generate button.\n"
+                    + "Switch puzzle type by clicking the drop down menu and "
+                    + "selecting a puzzle type.\n"
+                    + "Save/load puzzles/word lists through the file menu.",
+                    "Help", 1
+                    );
         }
     }
 
@@ -125,8 +141,7 @@ public class ControllerGUI {
             if (filePath != null && !filePath.equals("")) {
                 try {
                     model.loadPuzzle(filePath);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
 
                 }
                 view.printWordsearch(model.getMatrix());
@@ -142,8 +157,7 @@ public class ControllerGUI {
             if (filePath != null && !filePath.equals("")) {
                 try {
                     model.loadWordList(filePath);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
 
                 }
                 view.updateWordArea(model.getwordList());
@@ -168,8 +182,7 @@ public class ControllerGUI {
             if (filePath != null && !filePath.equals("")) {
                 try {
                     model.savePuzzle(filePath);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
 
                 }
             }
@@ -183,9 +196,8 @@ public class ControllerGUI {
             if (filePath != null && !filePath.equals("")) {
                 try {
                     model.saveWordList(filePath);
-                }
-                catch (Exception ex) {
-                    
+                } catch (Exception ex) {
+
                 }
             }
         }
@@ -195,21 +207,20 @@ public class ControllerGUI {
 
         public void actionPerformed(ActionEvent e) {
             solutionDisplayed = !solutionDisplayed;
-            if (solutionDisplayed) {
-                if (view.getPuzzleType().equals("Crossword")){
-                    view.printCrosswordSolution(model.getMatrix());
-                }
-                else {
-                    view.printWordsearch(model.getMatrixSolution());
-                }
-            } else {
-                if (view.getPuzzleType().equals("Crossword")){
-                    view.printCrossword(model.getMatrix());
-                }
-                else {
-                    view.printWordsearch(model.getMatrix());
-                }
-            }
+            view.setSolution(solutionDisplayed);
+//            if (solutionDisplayed) {
+//                if (view.getPuzzleType().equals("Crossword")) {
+//                    view.printCrosswordSolution(model.getMatrix());
+//                } else {
+//                    view.printWordsearch(model.getMatrixSolution());
+//                }
+//            } else {
+//                if (view.getPuzzleType().equals("Crossword")) {
+//                    view.printCrossword(model.getMatrix());
+//                } else {
+//                    view.printWordsearch(model.getMatrix());
+//                }
+//            }
         }
     }
 

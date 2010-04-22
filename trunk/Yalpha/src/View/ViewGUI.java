@@ -29,7 +29,7 @@ public class ViewGUI {
     JButton removeButton;
     JButton solutionButton;
     JComboBox changePuzzle;
-    JEditorPane puzzleArea;
+    //JEditorPane puzzleArea;
     JFrame frame;
     JLabel aboutLabel;
     JMenu menuFile;
@@ -37,12 +37,14 @@ public class ViewGUI {
     JMenuBar menuBar;
     JMenuItem aboutMenuItem;
     JMenuItem exitMenuItem;
+    JMenuItem helpMenuItem;
     JMenuItem openPuzzle;
     JMenuItem openWordList;
     JMenuItem savePuzzle;
     JMenuItem saveWordList;
     JTextArea wordArea;
     JTextField wordBox;
+    PuzzleAreaGUI puzzleArea = new PuzzleAreaGUI();
 
     /**
      * Creates and formats the graphical user interface.
@@ -76,6 +78,8 @@ public class ViewGUI {
         menuFile.add(exitMenuItem);
 
         menuHelp = new JMenu("Help");
+        helpMenuItem = new JMenuItem("Help");
+        menuHelp.add(helpMenuItem);
         aboutMenuItem = new JMenuItem("About");
         menuHelp.add(aboutMenuItem);
 
@@ -121,18 +125,23 @@ public class ViewGUI {
         wordArea.setEditable(false);
         wordArea.setBorder(lineBorder);
 
-        puzzleArea = new JEditorPane();
-        puzzleArea.setLocation(250, 40);
-        puzzleArea.setSize(500, 450);
-        puzzleArea.setEditable(false);
-        puzzleArea.setBorder(lineBorder);
-        puzzleArea.setFont(defaultFont);
+//        puzzleArea = new JEditorPane();
+//        puzzleArea.setLocation(250, 40);
+//        puzzleArea.setSize(500, 450);
+//        puzzleArea.setEditable(false);
+//        puzzleArea.setBorder(lineBorder);
+//        puzzleArea.setFont(defaultFont);
 
         menuBar.add(menuFile);
         menuBar.add(menuHelp);
 
+        puzzleArea.setLocation(250, 40);
+        puzzleArea.setSize(500, 450);
+        puzzleArea.setBorder(lineBorder);
+        puzzleArea.setFont(defaultFont);
 
         //frame.getContentPane().add(aboutLabel);
+        //frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(wordArea);
         frame.getContentPane().add(addButton);
@@ -183,6 +192,10 @@ public class ViewGUI {
         generateButton.addActionListener(click);
     }
 
+    public void addHelpMenuItemListener(ActionListener click) {
+        helpMenuItem.addActionListener(click);
+    }
+
     public void addOpenPuzzleListener(ActionListener click) {
         openPuzzle.addActionListener(click);
     }
@@ -216,7 +229,7 @@ public class ViewGUI {
     }
 
     public void clearPuzzle() {
-        puzzleArea.setText("");
+        puzzleArea.clear();
     }
 
     public void createJOptionPane(String Description, String Title, int Symbol) {
@@ -273,38 +286,39 @@ public class ViewGUI {
      */
 
     public void printCrossword(char[][] puzzle) {
-        String crossword = "";
-        for (int i = 0; i < puzzle.length; ++i) {
-            for (int j = 0; j < puzzle[0].length; ++j) {
-                if (puzzle[i][j] == '~') {
-                    crossword += "   ";
-                } else {
-                    crossword += "[ ]";
-                }
-            }
-            crossword += "\n";
-        }
-        puzzleArea.setText(crossword);
+//        String crossword = "";
+//        for (int i = 0; i < puzzle.length; ++i) {
+//            for (int j = 0; j < puzzle[0].length; ++j) {
+//                if (puzzle[i][j] == '~') {
+//                    crossword += "   ";
+//                } else {
+//                    crossword += "[ ]";
+//                }
+//            }
+//            crossword += "\n";
+//        }
+        puzzleArea.setPuzzleType(false);
+        puzzleArea.setPuzzle(puzzle);
     }
+//    public void printCrosswordSolution(char[][] puzzle) {
+//        String crossword = "";
+//        for (int i = 0; i < puzzle.length; ++i) {
+//            for (int j = 0; j < puzzle[0].length; ++j) {
+//                if (puzzle[i][j] == '~') {
+//                    crossword += "   ";
+//                } else {
+//                    crossword += "[" + puzzle[i][j] + "]";
+//                }
+//            }
+//            crossword += "\n";
+//        }
+//        puzzleArea.setPuzzle(puzzle);
+//    }
+
 /**
  *
  * @param puzzle    Takes a matrix of characters
  */
-    public void printCrosswordSolution(char[][] puzzle) {
-        String crossword = "";
-        for (int i = 0; i < puzzle.length; ++i) {
-            for (int j = 0; j < puzzle[0].length; ++j) {
-                if (puzzle[i][j] == '~') {
-                    crossword += "   ";
-                } else {
-                    crossword += "[" + puzzle[i][j] + "]";
-                }
-            }
-            crossword += "\n";
-        }
-        puzzleArea.setText(crossword);
-    }
-
     public void printGreeting() {
         JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
                 + "\nEvery word needs to be over 1 and under 20 letters in length.", "Greetings!", 1);
@@ -314,18 +328,30 @@ public class ViewGUI {
  * @param puzzle  Takes a matrix of characters
  */
     public void printWordsearch(char[][] puzzle) {
-        String puzzleString = "";
-        if (puzzle != null && puzzle.length > 1) {
-            for (int i = 0; i < puzzle.length; ++i) {
-                for (int j = 0; j < puzzle[i].length; ++j) {
-                    puzzleString += puzzle[i][j] + "  ";
-                }
-                puzzleString += "\n";
-            }
-        }
-        puzzleArea.setText(puzzleString);
+//        String puzzleString = "";
+//        if (puzzle != null && puzzle.length > 1) {
+//            for (int i = 0; i < puzzle.length; ++i) {
+//                for (int j = 0; j < puzzle[i].length; ++j) {
+//                    puzzleString += puzzle[i][j] + "  ";
+//                }
+//                puzzleString += "\n";
+//            }
+//        }
+        puzzleArea.setPuzzleType(true);
+        puzzleArea.setPuzzle(puzzle);
     }
 
+
+//    public void printWordsearchSolution(char[][] puzzle) {
+//        for (int i = 0; i < puzzle.length; ++i) {
+//            for (int j = 0; j < puzzle[0].length; ++j) {
+//                if (puzzle[i][j] == ' ') {
+//                    puzzle[i][j] = '-';
+//                }
+//            }
+//        }
+//        printWordsearch(puzzle);
+//    }
     /**
      *
      * @param puzzle    Takes a matrix of characters
@@ -349,6 +375,14 @@ public class ViewGUI {
         wordBox.selectAll();
     }
 
+    public void setSolution(boolean isSolution) {
+        puzzleArea.setSolution(isSolution);
+        puzzleArea.repaint();
+    }
+
+    public void setSolutionMatrix(char[][] puzzleSolution) {
+        puzzleArea.setSolutionMatrix(puzzleSolution);
+    }
 
     /**
      *
