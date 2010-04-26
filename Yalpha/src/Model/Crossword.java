@@ -19,10 +19,21 @@ public class Crossword extends Puzzle {
          *
          * @param wordlist is the words that are generated into puzzle
          */
-        public void generate(final WordList words)
+        public void generate(final WordList words,int psize)
         {
             FinishedList.clear();
-            WordMap mList = new WordMap(words, 10,false);
+
+            try
+            {
+                FinishedList.setBound(psize);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Bound is < 10");
+                System.exit(0);
+            }
+
+            WordMap mList = new WordMap(words, psize,false);
             WordMap SolvingPuzzle = new WordMap(false);
 
             int size = mList.size();
@@ -30,7 +41,7 @@ public class Crossword extends Puzzle {
             {
                 Word random = randomizeWord(mList, size); //issues with random direction - need to make it Right/Down
                 random.setFirstCharPos(0,0);
-                SolvingPuzzle.add(random);
+                SolvingPuzzle.add(random.clone());
                 if(!rec(mList.clone(),SolvingPuzzle))
                 {
                     SolvingPuzzle.remove(0); // randomly picks word
@@ -116,12 +127,13 @@ public class Crossword extends Puzzle {
             {
                 return false;
             }
+
             if(checkBuntingWords(random,B))
             {
                 return false;
             }
 
-            if(checkParallelWords(random,B))
+            if(checkOverlappingWords(random,B))
             {
                 return false;
             }
@@ -129,7 +141,7 @@ public class Crossword extends Puzzle {
             return true;
         }
 
-        public boolean checkParallelWords(Word temp, WordMap tempList)
+        public boolean checkOverlappingWords(Word temp, WordMap tempList)
         {
             //first check if the word overlaps with any words in WordMap if it doesnt then
             for(int i =0; i < tempList.size(); i++)
@@ -165,12 +177,6 @@ public class Crossword extends Puzzle {
             }
             return false;
         }
-
-        /*private boolean checkBuntingWords(Word hWord, WordMap hMap)
-        {
-            if()
-            return true;
-        }*/
 
         /**
          * First records the best crossword that is possible
@@ -229,13 +235,14 @@ public class Crossword extends Puzzle {
                                // A[random] = A.back();
                                // A.pop_back();
                                 //Maninpulate tempS's position (which should be cell/word)
-                                B.add(random);
+                                //System.out.println("Random.LargestX: " + random.getLargestX() + " Random.LargestY: " + random.getLargestY());
+                                
+                                B.add(random.clone());
                                 if(checkCrosswordBound(B) && rec(A.clone(),B)) //tempAdd - adds List A and List B returns some List C
                                 {
                                         return true;
                                 }else{
-                                        B.remove(B.size()-1);
-
+                                        Word wordremove = B.remove(B.size()-1);
                                 }
                         }
 
@@ -263,9 +270,11 @@ public class Crossword extends Puzzle {
             int SmallestY = temp.getSmallestY();
             int bound = temp.getBound();
 
-            if((LargestX - SmallestX) < bound && (LargestY - SmallestY) < bound)
+
+            
+
+            if(((LargestX - SmallestX) < bound) && ((LargestY - SmallestY) < bound))
             {
-                
                 return true;
             }
 

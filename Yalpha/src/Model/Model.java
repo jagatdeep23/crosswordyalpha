@@ -169,9 +169,13 @@ public class Model {
     /**
      * Generates a puzzle of the currently selected type
      */
+    public void generate(int size)
+    {
+        m_puzzle.generate(m_list, size);
+    }
     public void generate()
     {
-        m_puzzle.generate(m_list);
+        m_puzzle.generate(m_list, 10);
     }
 
     /**

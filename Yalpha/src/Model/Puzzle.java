@@ -20,7 +20,7 @@ public abstract class Puzzle {
      * Function creates a specific puzzle
      * @param words list of words to use in generate
      */
-    public abstract void generate(final WordList words);
+    public abstract void generate(final WordList words, int pSize);
 
     /**
      * Default constructor
@@ -53,6 +53,12 @@ public abstract class Puzzle {
     {
         //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
           map = new char [tempMap.getBound() ][tempMap.getBound()];
+
+          int LargestX = tempMap.getLargestX();
+            int SmallestX = tempMap.getSmallestX();
+            int LargestY = tempMap.getLargestY();
+            int SmallestY = tempMap.getSmallestY();
+            int bound = tempMap.getBound();
 
         //Random randGen = new Random();
         for(int i=0; i < map.length; i++)
