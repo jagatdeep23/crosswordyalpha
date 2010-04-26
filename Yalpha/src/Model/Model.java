@@ -16,6 +16,7 @@ public class Model {
     public enum PuzzleType{CROSSWORD,WORDSEARCH};
     private Puzzle  m_puzzle = null;
     private WordList m_list = null;
+    private PuzzleType m_type = PuzzleType.WORDSEARCH;
 
     /**
      * Default constructor
@@ -34,6 +35,8 @@ public class Model {
      */
     public void choosePuzzle(PuzzleType puzType)
     {
+        m_type = puzType;
+        
         if(puzType == PuzzleType.CROSSWORD)
         {
             m_puzzle = new Crossword();
@@ -42,6 +45,15 @@ public class Model {
         {
             m_puzzle = new Wordsearch();
         }
+    }
+
+    /**
+     * Gets the type of puzzle currently stored by the model
+     * @return the current puzzle type
+     */
+    public PuzzleType getPuzzleType()
+    {
+        return m_type;
     }
 
     /**
@@ -85,16 +97,9 @@ public class Model {
      * @param temp the name of the destination file
      */
     public void savePuzzle(String temp)
+        throws IOException
     {
-        try
-        {
-            FileHandler.savePuzzleText(temp, m_list, getMatrix());
-        }
-        catch(IOException e)
-        {
-            System.out.println("Can't Save puzzle ");
-            System.exit(0);
-        }
+        FileHandler.savePuzzleText(temp, m_list, getMatrix());
     }
 
     /**
@@ -102,17 +107,11 @@ public class Model {
      * @param temp name of the file to load
      */
     public void loadPuzzle(String temp)
+        throws IOException
     {
         Pair<WordList, char[][]> tempP = null;// = new Pair<WordList, char[][]>(m_list, m_cArray);
-        try
-        {
-            tempP = FileHandler.loadPuzzleText(temp);
-        }
-        catch(IOException e)
-        {
-            System.out.println("Can't Load puzzle ");
-            System.exit(0);
-        }
+
+        tempP = FileHandler.loadPuzzleText(temp);
 
         if(tempP != null)
         {
@@ -127,16 +126,9 @@ public class Model {
      * @param temp name of file to load
      */
     public void loadWordList(String temp)
+        throws IOException
     {
-        try
-        {
-           m_list = FileHandler.loadWordList(temp);
-        }
-        catch(IOException e)
-        {
-            System.out.println("Can't Load WordList ");
-            System.exit(0);
-        }
+        m_list = FileHandler.loadWordList(temp);
     }
 
     /**
@@ -144,15 +136,33 @@ public class Model {
      * @param temp name of destination file
      */
     public void saveWordList(String temp)
+        throws IOException
     {
-        try
+        FileHandler.saveWordList(temp, m_list);
+    }
+
+    public void export(String fileName, boolean isSolution)
+        throws IOException
+    {
+        if (m_type == PuzzleType.CROSSWORD)
         {
-            FileHandler.saveWordList(temp, m_list);
+
+            if (isSolution)
+            {
+                FileHandler.exportCrosswordSolution(fileName, m_puzzle.getMatrixSolution());
+            }
+            else
+            {
+                FileHandler.exportCrossword(fileName, m_puzzle.getMatrixSolution(), m_list);
+            }
         }
-        catch(IOException e)
+        else if (isSolution)
         {
-            System.out.println("Can't Save WordList");
-            System.exit(0);
+            FileHandler.exportWordSearchSolution(fileName, m_puzzle.getMatrixSolution());
+        }
+        else
+        {
+            FileHandler.exportWordSearch(fileName, m_puzzle.getMatrixRandomize(), m_list);
         }
     }
 
