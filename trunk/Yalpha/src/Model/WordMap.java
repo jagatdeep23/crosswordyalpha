@@ -192,7 +192,7 @@ import java.rmi.NotBoundException;
 
         public void setBound(int tempB) throws Exception
         {
-            if(tempB > 0)
+            if(tempB >= 10)
             {
                 m_bound = tempB;
             }

@@ -15,9 +15,9 @@ public class Wordsearch extends Puzzle {
        private int m_size = 10;
        char map_Randomize [][] = null;//new char[FinishedList.getBound()][FinishedList.getBound()];
        
-        public void generate(final WordList words)
+        public void generate(final WordList words, int pSize)
         {
-            WordMap randomWords = new WordMap(words, m_size);
+            WordMap randomWords = new WordMap(words, pSize);
            
             WordMap mappedWords = new WordMap();
 
