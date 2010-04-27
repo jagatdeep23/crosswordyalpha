@@ -72,16 +72,18 @@ public class FileHandler
      * @return Pair object containing the word list and the puzzle array from the file
      * @throws IOException if there is an error with the file
      */
-    public static Pair<WordList, char[][]> loadPuzzleText (String fileName)
+    public static Pair<WordList, Pair<char[][], Model.PuzzleType> > loadPuzzleText (String fileName)
             throws IOException
     {
         FileReader reader;
         Scanner fileScan;
 
         char [][] puzzleArray;
+        Model.PuzzleType type;
         WordList words = new WordList();
 
-        Pair<WordList, char[][]> result;
+        Pair<char[][], Model.PuzzleType> puzzleData;
+        Pair<WordList, Pair<char[][], Model.PuzzleType> > result;
 
         try
         {
@@ -95,6 +97,19 @@ public class FileHandler
 
         try
         {
+            // Read type
+            String typeStr = fileScan.next();
+
+            if (typeStr.equals("CROSSWORD"))
+            {
+                type = Model.PuzzleType.CROSSWORD;
+            }
+            else
+            {
+                type = Model.PuzzleType.WORDSEARCH;
+            }
+
+            // Read puzzle matrix
             int h = fileScan.nextInt(), w = fileScan.nextInt();
 
             fileScan.nextLine();
@@ -120,7 +135,8 @@ public class FileHandler
 
         reader.close();
 
-        result = new Pair<WordList, char[][]> (words, puzzleArray);
+        puzzleData = new Pair<char[][], Model.PuzzleType> (puzzleArray, type);
+        result = new Pair<WordList, Pair<char [][], Model.PuzzleType> > (words, puzzleData);
 
         return result;
     }
@@ -135,16 +151,25 @@ public class FileHandler
      * @param puzzleArray the character array containing the puzzle
      * @throws IOException if there is an error with the file
      */
-    public static void savePuzzleText (String fileName, WordList words, char[][] puzzleArray)
+    public static void savePuzzleText (String fileName, WordList words, char[][] puzzleArray, Model.PuzzleType type)
             throws IOException
     {
         FileWriter writer = createFileWriter(fileName, "puzzle");
         
         try
         {
-            int h = puzzleArray.length, w = puzzleArray[0].length;
+            // Write Type
+            if (type == Model.PuzzleType.CROSSWORD)
+            {
+                writer.write("CROSSWORD");
+            }
+            else
+            {
+                writer.write("WORDSEARCH");
+            }
 
-            System.out.println("" + h + ' ' + w + '\n');
+            // Wrtie Puzzle
+            int h = puzzleArray.length, w = puzzleArray[0].length;
 
             writer.write(String.valueOf(h) + ' ' + String.valueOf(w) + '\n');
 

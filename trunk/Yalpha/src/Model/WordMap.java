@@ -268,6 +268,18 @@ import java.rmi.NotBoundException;
             return m_indexSmallest.getY();
         }
 
+        public WordList toWordList()
+        {
+            WordList list = new WordList();
+
+            for (Word w : this)
+            {
+                list.add(w.toString());
+            }
+
+            return list;
+        }
+
         private void checkLargest(final Word temp, int index)
         {
             if(temp.getLargestX() > m_largest.getX())
