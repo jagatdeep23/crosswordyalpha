@@ -161,11 +161,11 @@ public class FileHandler
             // Write Type
             if (type == Model.PuzzleType.CROSSWORD)
             {
-                writer.write("CROSSWORD");
+                writer.write("CROSSWORD\n");
             }
             else
             {
-                writer.write("WORDSEARCH");
+                writer.write("WORDSEARCH\n");
             }
 
             // Wrtie Puzzle
