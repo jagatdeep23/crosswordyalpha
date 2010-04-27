@@ -99,17 +99,30 @@ public class ControllerGUI {
         }
     }
 
+    //I'm tipsy sand writing this code, I hope its' right
     private class ExportButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            view.createJOptionPane("Export will be functioning after iteration 3.", "Export", 0);
+            String filePath = view.fileSaveDialog();
+            if (filePath != null && !filePath.equals("")) {
+                try {
+                    if (filePath.length() > 5
+                            && filePath.substring(filePath.length() - 5, filePath.length()).equals(".html")) {
+                        model.export(filePath, solutionDisplayed);
+                    } else {
+                        model.export(filePath + ".html", solutionDisplayed);
+                    }
+                } catch (Exception ex) {
+                }
+            }
         }
     }
 
     private class GenerateButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            model.generate();
+            int puzzleSize = view.getPuzzleSize();
+            model.generate(puzzleSize);
             solutionDisplayed = false;
             if (view.getPuzzleType().equals("Crossword")) {
                 view.printCrossword(model.getMatrix());
@@ -129,8 +142,7 @@ public class ControllerGUI {
                     + "Switch puzzle type by clicking the drop down menu and "
                     + "selecting a puzzle type.\n"
                     + "Save/load puzzles/word lists through the file menu.",
-                    "Help", 1
-                    );
+                    "Help", 1);
         }
     }
 
@@ -141,11 +153,15 @@ public class ControllerGUI {
             if (filePath != null && !filePath.equals("")) {
                 try {
                     model.loadPuzzle(filePath);
+                    view.updateWordArea(model.getwordList());
+                    if (model.getPuzzleType().equals(Model.PuzzleType.WORDSEARCH)) {
+                        view.printWordsearch(model.getMatrix());
+                    } else {
+                        view.printCrossword(model.getMatrix());
+                    }
+                    view.setSolutionMatrix(model.getMatrixSolution());
                 } catch (Exception ex) {
-
                 }
-                view.printWordsearch(model.getMatrix());
-                view.updateWordArea(model.getwordList());
             }
         }
     }
@@ -158,7 +174,6 @@ public class ControllerGUI {
                 try {
                     model.loadWordList(filePath);
                 } catch (Exception ex) {
-
                 }
                 view.updateWordArea(model.getwordList());
             }
@@ -168,10 +183,8 @@ public class ControllerGUI {
     private class RemoveButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            //if (model.remove(view.getWord())) {
             model.remove(view.getWord());
             view.updateWordArea(model.getwordList());
-            //}
         }
     }
 
@@ -181,9 +194,13 @@ public class ControllerGUI {
             String filePath = view.fileSaveDialog();
             if (filePath != null && !filePath.equals("")) {
                 try {
-                    model.savePuzzle(filePath);
+                    if (filePath.length() > 4
+                            && filePath.substring(filePath.length() - 4, filePath.length()).equals(".txt")) {
+                        model.savePuzzle(filePath);
+                    } else {
+                        model.savePuzzle(filePath + ".txt");
+                    }
                 } catch (Exception ex) {
-
                 }
             }
         }
@@ -195,9 +212,13 @@ public class ControllerGUI {
             String filePath = view.fileSaveDialog();
             if (filePath != null && !filePath.equals("")) {
                 try {
-                    model.saveWordList(filePath);
+                    if (filePath.length() > 4
+                            && filePath.substring(filePath.length() - 4, filePath.length()).equals(".txt")) {
+                        model.saveWordList(filePath);
+                    } else {
+                        model.saveWordList(filePath + ".txt");
+                    }
                 } catch (Exception ex) {
-
                 }
             }
         }
@@ -208,19 +229,6 @@ public class ControllerGUI {
         public void actionPerformed(ActionEvent e) {
             solutionDisplayed = !solutionDisplayed;
             view.setSolution(solutionDisplayed);
-//            if (solutionDisplayed) {
-//                if (view.getPuzzleType().equals("Crossword")) {
-//                    view.printCrosswordSolution(model.getMatrix());
-//                } else {
-//                    view.printWordsearch(model.getMatrixSolution());
-//                }
-//            } else {
-//                if (view.getPuzzleType().equals("Crossword")) {
-//                    view.printCrossword(model.getMatrix());
-//                } else {
-//                    view.printWordsearch(model.getMatrix());
-//                }
-//            }
         }
     }
 

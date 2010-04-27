@@ -29,7 +29,7 @@ public class ViewGUI {
     JButton removeButton;
     JButton solutionButton;
     JComboBox changePuzzle;
-    //JEditorPane puzzleArea;
+    JComboBox puzzleSize;
     JFrame frame;
     JLabel aboutLabel;
     JMenu menuFile;
@@ -85,33 +85,40 @@ public class ViewGUI {
 
         addButton = new JButton("Add");
         addButton.setLocation(10, 500);
-        addButton.setSize(80, 30);
+        addButton.setSize(90, 30);
 
         clearButton = new JButton("Clear");
-        clearButton.setLocation(170, 500);
-        clearButton.setSize(80, 30);
+        clearButton.setLocation(190, 500);
+        clearButton.setSize(90, 30);
 
         exportButton = new JButton("Export");
         exportButton.setLocation(570, 500);
-        exportButton.setSize(100, 30);
+        exportButton.setSize(110, 30);
 
         generateButton = new JButton("Generate");
-        generateButton.setLocation(370, 500);
-        generateButton.setSize(100, 30);
+        generateButton.setLocation(350, 500);
+        generateButton.setSize(110, 30);
 
         removeButton = new JButton("Remove");
-        removeButton.setLocation(90, 500);
-        removeButton.setSize(80, 30);
+        removeButton.setLocation(100, 500);
+        removeButton.setSize(90, 30);
 
         solutionButton = new JButton("Solution");
-        solutionButton.setLocation(470, 500);
-        solutionButton.setSize(100, 30);
+        solutionButton.setLocation(460, 500);
+        solutionButton.setSize(110, 30);
 
         changePuzzle = new JComboBox();
-        changePuzzle.setLocation(450, 10);
+        changePuzzle.setLocation(510, 10);
         changePuzzle.setSize(100, 20);
         changePuzzle.addItem("Word Search");
         changePuzzle.addItem("Crossword");
+
+        puzzleSize = new JComboBox();
+        puzzleSize.setLocation(410, 10);
+        puzzleSize.setSize(100, 20);
+        puzzleSize.addItem("10x10");
+        puzzleSize.addItem("15x15");
+        puzzleSize.addItem("20x20");
 
         Border lineBorder = BorderFactory.createLineBorder(new Color(100, 100, 255));
         wordBox = new JTextField("Enter Word");
@@ -125,13 +132,6 @@ public class ViewGUI {
         wordArea.setEditable(false);
         wordArea.setBorder(lineBorder);
 
-//        puzzleArea = new JEditorPane();
-//        puzzleArea.setLocation(250, 40);
-//        puzzleArea.setSize(500, 450);
-//        puzzleArea.setEditable(false);
-//        puzzleArea.setBorder(lineBorder);
-//        puzzleArea.setFont(defaultFont);
-
         menuBar.add(menuFile);
         menuBar.add(menuHelp);
 
@@ -140,8 +140,6 @@ public class ViewGUI {
         puzzleArea.setBorder(lineBorder);
         puzzleArea.setFont(defaultFont);
 
-        //frame.getContentPane().add(aboutLabel);
-        //frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(puzzleArea);
         frame.getContentPane().add(wordArea);
         frame.getContentPane().add(addButton);
@@ -151,8 +149,8 @@ public class ViewGUI {
         frame.getContentPane().add(removeButton);
         frame.getContentPane().add(solutionButton);
         frame.getContentPane().add(changePuzzle);
+        frame.getContentPane().add(puzzleSize);
         frame.getContentPane().add(wordBox);
-        //frame.add(aboutLabel);
         frame.setJMenuBar(menuBar);
 
         frame.pack();
@@ -254,6 +252,19 @@ public class ViewGUI {
         JOptionPane.showMessageDialog(frame, "", "", 0, aboutImage);
     }
 
+    public int getPuzzleSize(){
+        String selected = (String) puzzleSize.getSelectedItem();
+        if (selected.equals("10x10")){
+            return 10;
+        }
+        else if (selected.equals("15x15")){
+            return 15;
+        }
+        else {
+            return 20;
+        }
+    }
+
     public String getPuzzleType() {
         return (String) changePuzzle.getSelectedItem();
     }
@@ -286,34 +297,10 @@ public class ViewGUI {
      */
 
     public void printCrossword(char[][] puzzle) {
-//        String crossword = "";
-//        for (int i = 0; i < puzzle.length; ++i) {
-//            for (int j = 0; j < puzzle[0].length; ++j) {
-//                if (puzzle[i][j] == '~') {
-//                    crossword += "   ";
-//                } else {
-//                    crossword += "[ ]";
-//                }
-//            }
-//            crossword += "\n";
-//        }
         puzzleArea.setPuzzleType(false);
         puzzleArea.setPuzzle(puzzle);
+        puzzleArea.repaint();
     }
-//    public void printCrosswordSolution(char[][] puzzle) {
-//        String crossword = "";
-//        for (int i = 0; i < puzzle.length; ++i) {
-//            for (int j = 0; j < puzzle[0].length; ++j) {
-//                if (puzzle[i][j] == '~') {
-//                    crossword += "   ";
-//                } else {
-//                    crossword += "[" + puzzle[i][j] + "]";
-//                }
-//            }
-//            crossword += "\n";
-//        }
-//        puzzleArea.setPuzzle(puzzle);
-//    }
 
 /**
  *
@@ -328,47 +315,9 @@ public class ViewGUI {
  * @param puzzle  Takes a matrix of characters
  */
     public void printWordsearch(char[][] puzzle) {
-//        String puzzleString = "";
-//        if (puzzle != null && puzzle.length > 1) {
-//            for (int i = 0; i < puzzle.length; ++i) {
-//                for (int j = 0; j < puzzle[i].length; ++j) {
-//                    puzzleString += puzzle[i][j] + "  ";
-//                }
-//                puzzleString += "\n";
-//            }
-//        }
         puzzleArea.setPuzzleType(true);
         puzzleArea.setPuzzle(puzzle);
-    }
-
-
-//    public void printWordsearchSolution(char[][] puzzle) {
-//        for (int i = 0; i < puzzle.length; ++i) {
-//            for (int j = 0; j < puzzle[0].length; ++j) {
-//                if (puzzle[i][j] == ' ') {
-//                    puzzle[i][j] = '-';
-//                }
-//            }
-//        }
-//        printWordsearch(puzzle);
-//    }
-    /**
-     *
-     * @param puzzle    Takes a matrix of characters
-     */
-
-    public void printWordsearchSolution(char[][] puzzle) {
-        for (int i = 0; i < puzzle.length; ++i) {
-            for (int j = 0; j < puzzle[0].length; ++j) {
-                if (puzzle[i][j] == ' ') {
-                    puzzle[i][j] = '-';
-                }
-            }
-        }
-        printWordsearch(puzzle);
-    }
-
-    public void refreshWordList() {
+        puzzleArea.repaint();
     }
 
     public void selectText() {
