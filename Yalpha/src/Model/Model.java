@@ -100,7 +100,8 @@ public class Model {
     public void savePuzzle(String temp)
         throws IOException
     {
-        FileHandler.savePuzzleText(temp, m_list, getMatrix());
+        WordList words = m_puzzle.getWordsUsed().toWordList();
+        FileHandler.savePuzzleText(temp, words, getMatrix(), m_type);
     }
 
     /**
@@ -110,15 +111,17 @@ public class Model {
     public void loadPuzzle(String temp)
         throws IOException
     {
-        Pair<WordList, char[][]> tempP = null;// = new Pair<WordList, char[][]>(m_list, m_cArray);
+        Pair<WordList, Pair<char[][], PuzzleType> > data = null;
 
-        tempP = FileHandler.loadPuzzleText(temp);
+        data = FileHandler.loadPuzzleText(temp);
 
-        if(tempP != null)
+        if(data != null)
         {
-            m_list = tempP.getFirst();
-            char [][] m_cArray = tempP.getSecond();
+            choosePuzzle(data.getSecond().getSecond());
+            m_list = data.getFirst();
+            char [][] m_cArray = data.getSecond().getFirst();
             m_puzzle.populateWordMatrix(m_cArray);
+            m_puzzle.setWordsUsed(new WordMap(m_list));
         }
     }
 
@@ -157,13 +160,16 @@ public class Model {
                 FileHandler.exportCrossword(fileName, m_puzzle.getMatrixSolution(), m_list);
             }
         }
-        else if (isSolution)
-        {
-            FileHandler.exportWordSearchSolution(fileName, m_puzzle.getMatrixSolution());
-        }
         else
         {
-            FileHandler.exportWordSearch(fileName, m_puzzle.getMatrixRandomize(), m_list);
+            if (isSolution)
+            {
+                FileHandler.exportWordSearchSolution(fileName, m_puzzle.getMatrixSolution());
+            }
+            else
+            {
+                FileHandler.exportWordSearch(fileName, m_puzzle.getMatrixRandomize(), m_list);
+            }
         }
     }
 

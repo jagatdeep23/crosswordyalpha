@@ -113,7 +113,17 @@ public abstract class Puzzle {
          return map;
     }
 
-    public ArrayList<Word> getWordsNotUsed()
+    public WordMap getWordsUsed()
+    {
+        return FinishedList;
+    }
+
+    public void setWordsUsed(WordMap words)
+    {
+        FinishedList = words;
+    }
+
+    public WordMap getWordsNotUsed()
     {
         return RemovedList;
     }
