@@ -33,6 +33,7 @@ public class Controller {
         String line;
         String puzzleType = "wordsearch";
         int puzzleSize = 10;
+        boolean isSolution = false;
 
 
         view.printGreeting();
@@ -96,6 +97,7 @@ public class Controller {
                         } else {
                             view.printCrossword(model.getMatrix());
                         }
+                        isSolution = false;
 
                         break;
                     case 'h':
@@ -122,6 +124,7 @@ public class Controller {
                         } else {
                             view.printCrosswordSolution(model.getMatrixSolution());
                         }
+                        isSolution = true;
 
                         break;
                     case 'l':
@@ -152,6 +155,7 @@ public class Controller {
                         } else {
                             view.printCrossword(model.getMatrix());
                         }
+                        isSolution = false;
 
                         break;
                     case 'r':
@@ -194,6 +198,20 @@ public class Controller {
                             } catch (Exception e) {
                             }
                         }
+                        break;
+                    case 'x':
+                        if (line.length() > 2 && line.charAt(1) == ' ') {
+                            try {
+                                model.export(line.substring(2), isSolution);
+                            } catch (Exception e) {
+                            }
+                        } else if (line.length() > 6 && line.startsWith("xport ")) {
+                            try {
+                                model.export(line.substring(6), isSolution);
+                            } catch (Exception e) {
+                            }
+                        }
+
                         break;
                 }
             }
