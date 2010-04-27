@@ -23,7 +23,6 @@ public class Controller {
      *
      * @param args
      */
-
     public static void main(String[] args) {
 
         Model model = new Model();
@@ -33,6 +32,7 @@ public class Controller {
         char command;
         String line;
         String puzzleType = "wordsearch";
+        int puzzleSize = 10;
 
 
         view.printGreeting();
@@ -45,12 +45,27 @@ public class Controller {
                 switch (command) {
                     case 'a':
                         if (line.length() > 2 && line.charAt(1) == ' ') {
-                            //System.out.println("Added: " + line.substring(2));
                             model.add(line.substring(2));
                         } else if (line.length() > 4 && line.startsWith("add ")) {
-                            //System.out.println("Added: " + line.substring(4));
                             model.add(line.substring(4));
                         }
+                        break;
+                    case 'b':
+                        int tempIndex = line.indexOf(" ");
+                        String newSize = line.substring(++tempIndex);
+                        try {
+                            int tempPuzzleSize = Integer.parseInt(newSize.trim());
+
+                            if(tempPuzzleSize >9 && tempPuzzleSize < 31)
+                                puzzleSize = tempPuzzleSize;
+                            else
+                                System.out.println("Size must be between 10 and 30");
+
+                        } catch (NumberFormatException nfe) {
+                            System.out.println("Error: Are you sure that was an integer size?");
+                        }
+
+
                         break;
                     case 'c':
                         String tempParameter = "";
@@ -60,14 +75,11 @@ public class Controller {
                             tempParameter = line.substring(7);
                         }
 
-                        if (tempParameter.toLowerCase().equals("crossword"))
-                        {
+                        if (tempParameter.toLowerCase().equals("crossword")) {
                             model.choosePuzzle(Model.PuzzleType.CROSSWORD);
 
                             puzzleType = "crossword";
-                        }
-                        else if (tempParameter.toLowerCase().equals("wordsearch"))
-                        {
+                        } else if (tempParameter.toLowerCase().equals("wordsearch")) {
                             model.choosePuzzle(Model.PuzzleType.WORDSEARCH);
                             puzzleType = "wordsearch";
                         }
@@ -77,12 +89,13 @@ public class Controller {
                         exit = true;
                         break;
                     case 'g':
-                        model.generate();
+                        model.generate(puzzleSize);
 
-                        if(puzzleType.equals("wordsearch"))
+                        if (puzzleType.equals("wordsearch")) {
                             view.printPuzzle(model.getMatrix());
-                        else
+                        } else {
                             view.printCrossword(model.getMatrix());
+                        }
 
                         break;
                     case 'h':
@@ -93,33 +106,29 @@ public class Controller {
                             //System.out.println("Import: " + line.substring(2));
                             try {
                                 model.loadWordList(line.substring(2));
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                             }
                         } else if (line.length() > 7 && line.startsWith("import ")) {
                             //System.out.println("Import: " + line.substring(7));
                             try {
                                 model.loadWordList(line.substring(7));
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                             }
                         }
                         break;
                     case 'k':
-                        if(puzzleType.equals("wordsearch"))
-                        {
+                        if (puzzleType.equals("wordsearch")) {
                             view.printPuzzle(model.getMatrixSolution());
-                        }
-                        else
-                        {
+                        } else {
                             view.printCrosswordSolution(model.getMatrixSolution());
                         }
 
                         break;
                     case 'l':
-                        String [] tempWordList = model.getwordList();
-                        for(int i = 0; i < tempWordList.length; ++i)
+                        String[] tempWordList = model.getwordList();
+                        for (int i = 0; i < tempWordList.length; ++i) {
                             System.out.println(tempWordList[i]);
+                        }
                         break;
                     case 'o':
                         System.out.println("Open");
@@ -127,24 +136,22 @@ public class Controller {
                             //System.out.println("Open file: " + line.substring(2));
                             try {
                                 model.loadPuzzle(line.substring(2));
-                            }
-                            catch (Exception e) {
+                            } catch (Exception e) {
                             }
                         } else if (line.length() > 5 && line.startsWith("open ")) {
                             //System.out.println("Open file: " + line.substring(5));
                             try {
                                 model.loadPuzzle(line.substring(5));
-                            }
-                            catch (Exception e) {
-
+                            } catch (Exception e) {
                             }
                         }
 
                     case 'p':
-                        if(puzzleType.equals("wordsearch"))
+                        if (puzzleType.equals("wordsearch")) {
                             view.printPuzzle(model.getMatrix());
-                        else
+                        } else {
                             view.printCrossword(model.getMatrix());
+                        }
 
                         break;
                     case 'r':
@@ -164,15 +171,12 @@ public class Controller {
                             try {
                                 model.savePuzzle(line.substring(2));
                             } catch (Exception e) {
-
                             }
                         } else if (line.length() > 5 && line.startsWith("save ")) {
                             //System.out.println("Save To: " + line.substring(5));
                             try {
                                 model.savePuzzle(line.substring(5));
-                            }
-                            catch (Exception e) {
-
+                            } catch (Exception e) {
                             }
                         }
                         break;
@@ -181,17 +185,13 @@ public class Controller {
                             //System.out.println("Save To: " + line.substring(2));
                             try {
                                 model.saveWordList(line.substring(2));
-                            }
-                            catch (Exception e) {
-
+                            } catch (Exception e) {
                             }
                         } else if (line.length() > 5 && line.startsWith("word ")) {
                             //System.out.println("Save To: " + line.substring(5));
                             try {
                                 model.saveWordList(line.substring(5));
-                            }
-                            catch (Exception e) {
-                                
+                            } catch (Exception e) {
                             }
                         }
                         break;
