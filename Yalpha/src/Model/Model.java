@@ -175,7 +175,7 @@ public class Model {
     }
     public void generate()
     {
-        m_puzzle.generate(m_list, 10);
+        m_puzzle.generate(m_list, 20);
     }
 
     /**

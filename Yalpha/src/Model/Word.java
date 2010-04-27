@@ -71,6 +71,8 @@ package Model;
             m_right = tempW.m_right;
             m_up = tempW.m_up;
             m_down = tempW.m_down;
+
+            m_checkPosNeg = tempW.m_checkPosNeg;
             
         }
 

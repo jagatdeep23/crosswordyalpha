@@ -1,5 +1,6 @@
 package Model;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 /**
  * Generates a crossword puzzle that attempts to elimnate any chance
  * that a word can't be used in the puzzle through an exausting recursive function.
@@ -8,8 +9,71 @@ import java.util.*;
  * @version 1.0
  */
 public class Crossword extends Puzzle {
+
+        private class CrosswordStop implements Runnable
+        {
+            CrosswordStop()
+            {
+                setContinue(true);
+            }
+            public void run()
+            {
+                long start = System.currentTimeMillis();
+                while(getContinue())
+                {                    
+                    long current = System.currentTimeMillis();
+                    if((current-start) > 2000)
+                    {
+                        setContinue(false);
+                        System.out.println("TIMED OUT: BEST PUZZLE IS USED");
+                    }
+                }
+                System.out.println("EXITING");
+            }
+        }
         
         WordMap FinishedList = new WordMap(false);
+        WordMap RemovedList = new WordMap(false);
+
+        boolean m_continue = false;
+
+        Semaphore a = new Semaphore(1);
+        Semaphore mutex = new Semaphore(1);
+
+        public void setContinue(boolean pBool)
+        {
+            try {
+                mutex.acquire();
+                a.acquire();
+            } catch (InterruptedException ie) {
+                System.out.println("aquire semaphore error..");
+                System.exit(0);
+            }
+
+            m_continue = pBool;
+
+            a.release();
+            mutex.release();
+        }
+
+        public boolean getContinue()
+        {
+            boolean moveOn;
+            try {
+                mutex.acquire();
+                a.acquire();
+            } catch (InterruptedException ie) {
+                System.out.println("aquire semaphore error..");
+                System.exit(0);
+            }
+
+            moveOn = m_continue;
+
+            a.release();
+            mutex.release();
+
+            return moveOn;
+        }
 
         @Override
         /**
@@ -22,10 +86,12 @@ public class Crossword extends Puzzle {
         public void generate(final WordList words,int psize)
         {
             FinishedList.clear();
-
+            WordMap mList = new WordMap(words, psize,false);
+            WordMap SolvingPuzzle = new WordMap(false);
             try
             {
                 FinishedList.setBound(psize);
+                SolvingPuzzle.setBound(psize);
             }
             catch(Exception e)
             {
@@ -33,8 +99,11 @@ public class Crossword extends Puzzle {
                 System.exit(0);
             }
 
-            WordMap mList = new WordMap(words, psize,false);
-            WordMap SolvingPuzzle = new WordMap(false);
+            
+            
+
+            Thread timeOut = new Thread(new CrosswordStop());
+            timeOut.start();
 
             int size = mList.size();
             for(; 0 < size; --size)
@@ -53,6 +122,18 @@ public class Crossword extends Puzzle {
                 mList.add(random);
             }
 
+            System.out.println("STOP");
+            setContinue(false);
+            //m_continue = true;
+            /*try
+            {
+                //timeOut.join();
+            }
+            catch(InterruptedException ie)
+            {
+                System.out.println("Error with interruption...");
+                System.exit(0);
+            }*/
             
             FinishedList.TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative();
 
@@ -207,7 +288,11 @@ public class Crossword extends Puzzle {
         }
 
        	int Size = A.size();
-        if(Size <= 0)
+        boolean moveOn;
+
+        moveOn = getContinue();
+
+        if(Size <= 0 ||!moveOn)
        	{
             return true;
         }else{
@@ -358,64 +443,3 @@ public class Crossword extends Puzzle {
             return super.getMatrixSolution();
         }
 }
-
-
-
-
-
-/*class CrossWord
-{
-
-public boolean rec(stringList & A, stringList & B)
-{
-
-        if(globalList.size() < B.size())
-        {
-            globalList.set(B);
-        }
-        
-       	int Size = A.size();
-        if(Size <= 0)
-       	{
-            return true;
-        }else{
-
-                for( ; size > 0; size--)
-                {
-                    
-                        word random = randomize(0, Size,A); // randomly picks word
-                        
-                        int [] possibleIntersectionAnswer = getAnswers(B, random);
-                        int PIASize = possibleIntersectionAnswer.size();
-                        
-                    for(int j =0; j < possibleIntersectionAnswer.size(); j++)
-                    {
-                        int randomSolution = randomize(0,PIASize);
-
-                        //int choosenAnswer = checkSetWordWorks(B,A[random],possibleIntersectionAnswers[j]); // collision && boundBox
-                        //choosenAnswer is the word in B 
-                       	if(checkSetWordWorks(B,random,possibleIntersectionAnswers[j]))
-                        {
-                               // string tempS = A[random];
-                               // A[random] = A.back();
-                               // A.pop_back();
-                                //Maninpulate tempS's position (which should be cell/word)
-                                B.push_back(random);
-                                if(rec(A,B)) //tempAdd - adds List A and List B returns some List C
-                                {
-                                        return true;
-                                }else{
-                                        B.pop_back();
-
-                                }
-                        }
-
-                    }
-                    A.push_back(random);
-        }
-	return false;
-}
-
-
-}*/
-
