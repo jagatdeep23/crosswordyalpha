@@ -1,6 +1,8 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 /**
  * An abstract class that has an arcinal of protected classs that help subdue problems
  * that other more general wordPuzzles may have. 
@@ -10,6 +12,37 @@ import java.util.Random;
  */
 public abstract class Puzzle {
 
+    protected class PuzzleStop implements Runnable
+        {
+            Puzzle m_puz;
+            PuzzleStop(Puzzle temp)
+            {
+                m_puz = temp;
+                setContinue(true);
+            }
+            public void run()
+            {
+                long start = System.currentTimeMillis();
+                while(m_puz.getContinue())
+                {
+                    long current = System.currentTimeMillis();
+                    if((current-start) > 2000)
+                    {
+                        m_puz.setContinue(false);
+                        System.out.println("TIMED OUT: BEST PUZZLE IS USED");
+                    }
+                }
+                System.out.println("EXITING");
+            }
+        }
+
+    WordMap FinishedList = new WordMap();
+    WordMap RemovedList = new WordMap();
+
+    boolean m_continue = false;
+
+    Semaphore a = new Semaphore(1);
+    Semaphore mutex = new Semaphore(1);
 
     protected Random myRandom = new Random();
 
@@ -29,6 +62,42 @@ public abstract class Puzzle {
     {
     }
 
+
+        public void setContinue(boolean pBool)
+        {
+            try {
+                mutex.acquire();
+                a.acquire();
+            } catch (InterruptedException ie) {
+                System.out.println("aquire semaphore error..");
+                System.exit(0);
+            }
+
+            m_continue = pBool;
+
+            a.release();
+            mutex.release();
+        }
+
+        public boolean getContinue()
+        {
+            boolean moveOn;
+            try {
+                mutex.acquire();
+                a.acquire();
+            } catch (InterruptedException ie) {
+                System.out.println("aquire semaphore error..");
+                System.exit(0);
+            }
+
+            moveOn = m_continue;
+
+            a.release();
+            mutex.release();
+
+            return moveOn;
+        }
+
     /**
      *
      * @return if used by wordsearch it returns matrix with true words hidden by random letters and crossword returns the same as MatrixSolution
@@ -42,6 +111,11 @@ public abstract class Puzzle {
     public char [][] getMatrixSolution()
     {
          return map;
+    }
+
+    public ArrayList<Word> getWordsNotUsed()
+    {
+        return RemovedList;
     }
 
     

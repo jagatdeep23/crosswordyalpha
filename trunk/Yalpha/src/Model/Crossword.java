@@ -10,71 +10,6 @@ import java.util.concurrent.Semaphore;
  */
 public class Crossword extends Puzzle {
 
-        private class CrosswordStop implements Runnable
-        {
-            CrosswordStop()
-            {
-                setContinue(true);
-            }
-            public void run()
-            {
-                long start = System.currentTimeMillis();
-                while(getContinue())
-                {                    
-                    long current = System.currentTimeMillis();
-                    if((current-start) > 2000)
-                    {
-                        setContinue(false);
-                        System.out.println("TIMED OUT: BEST PUZZLE IS USED");
-                    }
-                }
-                System.out.println("EXITING");
-            }
-        }
-        
-        WordMap FinishedList = new WordMap(false);
-        WordMap RemovedList = new WordMap(false);
-
-        boolean m_continue = false;
-
-        Semaphore a = new Semaphore(1);
-        Semaphore mutex = new Semaphore(1);
-
-        public void setContinue(boolean pBool)
-        {
-            try {
-                mutex.acquire();
-                a.acquire();
-            } catch (InterruptedException ie) {
-                System.out.println("aquire semaphore error..");
-                System.exit(0);
-            }
-
-            m_continue = pBool;
-
-            a.release();
-            mutex.release();
-        }
-
-        public boolean getContinue()
-        {
-            boolean moveOn;
-            try {
-                mutex.acquire();
-                a.acquire();
-            } catch (InterruptedException ie) {
-                System.out.println("aquire semaphore error..");
-                System.exit(0);
-            }
-
-            moveOn = m_continue;
-
-            a.release();
-            mutex.release();
-
-            return moveOn;
-        }
-
         @Override
         /**
          * Is the caller method to rec(A,B)
@@ -87,6 +22,7 @@ public class Crossword extends Puzzle {
         {
             FinishedList.clear();
             WordMap mList = new WordMap(words, psize,false);
+            RemovedList = mList;
             WordMap SolvingPuzzle = new WordMap(false);
             try
             {
@@ -99,10 +35,7 @@ public class Crossword extends Puzzle {
                 System.exit(0);
             }
 
-            
-            
-
-            Thread timeOut = new Thread(new CrosswordStop());
+            Thread timeOut = new Thread(new PuzzleStop(this));
             timeOut.start();
 
             int size = mList.size();

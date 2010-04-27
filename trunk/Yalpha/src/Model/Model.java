@@ -1,6 +1,7 @@
 package Model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Alters the data handed to it by the controller and exports the final 
@@ -175,7 +176,7 @@ public class Model {
     }
     public void generate()
     {
-        m_puzzle.generate(m_list, 20);
+        m_puzzle.generate(m_list, 10);
     }
 
     /**
@@ -195,5 +196,10 @@ public class Model {
     {
         String [] tempS = new String [m_list.size()];
         return m_list.toArray(tempS);
+    }
+
+    public ArrayList<Word> getWordsNotUsed()
+    {
+        return m_puzzle.getWordsNotUsed();
     }
 }
