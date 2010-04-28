@@ -11,7 +11,7 @@ import java.rmi.NotBoundException;
  * Generates a crossword puzzle that attempts to elimnate any chance
  * that a word can't be used in the puzzle through an exausting recursive function.
  *
- * @author Team Yalpha, specifically Patrick Martin,Jordan Hollinger
+ * @author Team Yalpha, specifically Patrick Martin, Jordan Hollinger
  * @version 1.0
  */
  public class WordMap extends ArrayList<Word> //implements Cloneable
@@ -36,10 +36,11 @@ import java.rmi.NotBoundException;
             //m_bound = bounds;
             try
             {
-                this.setBound(bounds);
-            }catch(Exception e)
+                setBound(bounds);
+            }
+            catch (Exception e)
             {
-                System.out.println("HEllo world fuck you!");
+                System.out.println("Set bounds error.");
                 System.exit(0);
             }
             m_checkNeg = checkNeg;
@@ -162,7 +163,7 @@ import java.rmi.NotBoundException;
         /**
          * Moves the Smallest X and the Smallest Y to be equal to zero (indirectly moving all the points in the entire list as well)
          */
-        public void TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative()
+        public void TranslatePositionalStateOfWordsToTheConditionOfBeingNotNegative()
         {
             Point tP = new Point();
             
