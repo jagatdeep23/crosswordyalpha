@@ -113,6 +113,7 @@ public class ControllerGUI {
                         model.export(filePath + ".html", solutionDisplayed);
                     }
                 } catch (Exception ex) {
+                    view.messageBox(ex.getMessage(), "Error");
                 }
             }
         }
@@ -161,6 +162,7 @@ public class ControllerGUI {
                     }
                     view.setSolutionMatrix(model.getMatrixSolution());
                 } catch (Exception ex) {
+                    view.messageBox(ex.getMessage(), "Error");
                 }
             }
         }
@@ -174,6 +176,7 @@ public class ControllerGUI {
                 try {
                     model.loadWordList(filePath);
                 } catch (Exception ex) {
+                    view.messageBox(ex.getMessage(), "Error");
                 }
                 view.updateWordArea(model.getwordList());
             }
@@ -201,6 +204,7 @@ public class ControllerGUI {
                         model.savePuzzle(filePath + ".txt");
                     }
                 } catch (Exception ex) {
+                    view.messageBox(ex.getMessage(), "Error");
                 }
             }
         }
@@ -219,6 +223,7 @@ public class ControllerGUI {
                         model.saveWordList(filePath + ".txt");
                     }
                 } catch (Exception ex) {
+                    view.messageBox(ex.getMessage(), "Error");
                 }
             }
         }

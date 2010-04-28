@@ -109,12 +109,14 @@ public class Controller {
                             try {
                                 model.loadWordList(line.substring(2));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         } else if (line.length() > 7 && line.startsWith("import ")) {
                             //System.out.println("Import: " + line.substring(7));
                             try {
                                 model.loadWordList(line.substring(7));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         }
                         break;
@@ -140,12 +142,14 @@ public class Controller {
                             try {
                                 model.loadPuzzle(line.substring(2));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         } else if (line.length() > 5 && line.startsWith("open ")) {
                             //System.out.println("Open file: " + line.substring(5));
                             try {
                                 model.loadPuzzle(line.substring(5));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         }
 
@@ -175,12 +179,14 @@ public class Controller {
                             try {
                                 model.savePuzzle(line.substring(2));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         } else if (line.length() > 5 && line.startsWith("save ")) {
                             //System.out.println("Save To: " + line.substring(5));
                             try {
                                 model.savePuzzle(line.substring(5));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         }
                         break;
@@ -190,12 +196,14 @@ public class Controller {
                             try {
                                 model.saveWordList(line.substring(2));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         } else if (line.length() > 5 && line.startsWith("word ")) {
                             //System.out.println("Save To: " + line.substring(5));
                             try {
                                 model.saveWordList(line.substring(5));
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         }
                         break;
@@ -204,11 +212,13 @@ public class Controller {
                             try {
                                 model.export(line.substring(2), isSolution);
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         } else if (line.length() > 6 && line.startsWith("xport ")) {
                             try {
                                 model.export(line.substring(6), isSolution);
                             } catch (Exception e) {
+                                System.out.println("ERROR: " + e.getMessage());
                             }
                         }
 
