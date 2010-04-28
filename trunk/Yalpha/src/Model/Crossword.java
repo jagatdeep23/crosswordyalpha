@@ -68,7 +68,7 @@ public class Crossword extends Puzzle {
             System.exit(0);
         }*/
 
-        FinishedList.TranslatePositionalStateOfWordToTheConditionOfBeingNotNegative();
+        FinishedList.TranslatePositionalStateOfWordsToTheConditionOfBeingNotNegative();
 
         populateWordMatrix(FinishedList);
         //rec(mList,SolvingPuzzle);
@@ -84,9 +84,9 @@ public class Crossword extends Puzzle {
      * @param tempWM is a list of words to check VS a word tempW.
      * @return returns list of Point3D where character overlap.
      */
-    public ArrayList<Point3D> getIntersection(WordMap tempWM, Word tempW)
+    public ArrayList<WordIntersection> getPossibleIntersections(WordMap tempWM, Word tempW)
     {
-        ArrayList<Point3D> pointList = new ArrayList<Point3D>();
+        ArrayList<WordIntersection> pointList = new ArrayList<WordIntersection>();
         for(int i=0; i < tempWM.size(); i++)
         {
             Word tempP = tempWM.get(i);
@@ -99,7 +99,7 @@ public class Crossword extends Puzzle {
                         //X = Index of WordA in Map
                         //Y = Index of character in WordA
                         //Z = Index of WordB that matches a character in WordA
-                        pointList.add(new Point3D(i,j,k));
+                        pointList.add(new WordIntersection(i,j,k));
                     }
                 }
             }
@@ -116,23 +116,23 @@ public class Crossword extends Puzzle {
      * @return returns true if No TRUE collision happens, False if a true collision
      * @param B is a list of words, random is the word to check against list B, randomSolution is the word in B and it's character the character in random that needs to be overlapped
      */
-    public boolean checkSetWordWorks(WordMap B, Word random,Point3D randomSolution)
+    public boolean checkSetWordWorks(WordMap B, Word random,WordIntersection randomIntersection)
     {
-        Word tempWordB = B.get(randomSolution.getX());
+        Word tempWordB = B.get(randomIntersection.getWordIndex());
 
-        int bX = tempWordB.getCharPosX(randomSolution.getY());
-        int bY = tempWordB.getCharPosY(randomSolution.getY());
+        int bX = tempWordB.getCharPosX(randomIntersection.getWordAPosition());
+        int bY = tempWordB.getCharPosY(randomIntersection.getWordAPosition());
 
         random.setDown(!tempWordB.getDown());       //change of direction from UP to DOWN
         random.setRight(!tempWordB.getRight());  //change of direction from UP to DOWN
 
          if(random.getDown())                     //change of direction from UP TO DOWN
          {
-             bY -= randomSolution.getZ();
+             bY -= randomIntersection.getWordBPosition();
          }
          else
          {
-            bX -= randomSolution.getZ();
+            bX -= randomIntersection.getWordBPosition();
          }
 
         random.setFirstCharPos(bX, bY);
@@ -174,15 +174,18 @@ public class Crossword extends Puzzle {
 
     public boolean checkBuntingWords(Word temp, WordMap tempList)
     {
+        int wordSmallestX = temp.getSmallestX(), wordLargestX = temp.getLargestX(),
+            wordSmallestY = temp.getSmallestY(), wordLargestY = temp.getLargestY();
         //first check if the word overlaps with any words in WordMap if it doesnt then
         for(int i =0; i < tempList.size(); i++)
         {
+            Word compareWord = tempList.get(i);
             //if temp doesnt overlap with the i-th word
-            if(!temp.overlap(tempList.get(i)))
+            if(!temp.overlap(compareWord))
             {
-                if(!(temp.getSmallestX() > 1+tempList.get(i).getLargestX() || temp.getLargestX() +1 < tempList.get(i).getSmallestX()))
+                if(wordSmallestX <= 1 + compareWord.getLargestX() && wordLargestX + 1 >= compareWord.getSmallestX())
                 {
-                   if(!(temp.getSmallestY() > 1+tempList.get(i).getLargestY() || temp.getLargestY() +1 < tempList.get(i).getSmallestY()))
+                    if(wordSmallestY <= 1 + compareWord.getLargestY() && wordLargestY + 1 >= compareWord.getSmallestY())
                     {
                         return true;
                     }
@@ -236,18 +239,18 @@ public class Crossword extends Puzzle {
                     Word random = randomizeWord(A,Size); // randomly picks word
 
 
-                    ArrayList<Point3D> possibleIntersection = getIntersection(B, random);
-                    int PIASize = possibleIntersection.size();
+                    ArrayList<WordIntersection> possibleIntersections = getPossibleIntersections(B, random);
+                    int PIASize = possibleIntersections.size();
 
                 for(; PIASize > 0; PIASize--)
                 {
-                    Point3D randomSolution = randomizeAnswers(possibleIntersection,PIASize);
+                    WordIntersection randomIntersection = randomizeIntersections(possibleIntersections,PIASize);
 
                     //int choosenAnswer = checkSetWordWorks(B,A[random],possibleIntersectionAnswers[j]); // collision && boundBox
                     //choosenAnswer is the word in B
 
                     //checkSetWordWorks alters the position of random once a possible intersection is found
-                    if(checkSetWordWorks(B,random,randomSolution))
+                    if(checkSetWordWorks(B,random,randomIntersection))
                     {
                            // string tempS = A[random];
                            // A[random] = A.back();
@@ -260,7 +263,7 @@ public class Crossword extends Puzzle {
                             {
                                     return true;
                             }else{
-                                    Word wordremove = B.remove(B.size()-1);
+                                    B.remove(B.size()-1);
                             }
                     }
 
@@ -287,9 +290,6 @@ public class Crossword extends Puzzle {
         int LargestY = temp.getLargestY();
         int SmallestY = temp.getSmallestY();
         int bound = temp.getBound();
-
-
-
 
         if(((LargestX - SmallestX) < bound) && ((LargestY - SmallestY) < bound))
         {
@@ -360,7 +360,7 @@ public class Crossword extends Puzzle {
      * @param end random 0 to end-1
      * @return
      */
-    private Point3D randomizeAnswers(ArrayList<Point3D> tempALP, int end)
+    private WordIntersection randomizeIntersections(ArrayList<WordIntersection> tempALP, int end)
     {
         int tempi = myRandom.nextInt(end);
         return tempALP.remove(tempi);

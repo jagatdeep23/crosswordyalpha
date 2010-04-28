@@ -97,7 +97,7 @@ package Model;
          */
         public final int getCharPosX(int c)
         {
-            return getX(m_pos[c]);
+            return m_pos[c].getX();
         }
 
         /**
@@ -108,27 +108,7 @@ package Model;
          */
         public final int getCharPosY(int c)
         {
-            return getY(m_pos[c]);
-        }
-
-        /**
-         * returns the X value of poitn temp
-         * @param temp
-         * @return X value
-         */
-        private final int getX(Point temp)
-        {
-            return temp.getX();
-        }
-
-        /**
-         * returns the Y value of poitn temp
-         * @param temp
-         * @return Y value
-         */
-        private final int getY(Point temp)
-        {
-            return temp.getY();
+            return m_pos[c].getY();
         }
 
         /**
@@ -137,7 +117,7 @@ package Model;
          */
         public int getLargestX()
         {
-            ObtainGreatest();
+            //ObtainGreatest();
             return m_largest.getX();
         }
 
@@ -147,7 +127,7 @@ package Model;
          */
         public int getLargestY()
         {
-            ObtainGreatest();
+            //ObtainGreatest();
             return m_largest.getY();
         }
 
@@ -157,7 +137,7 @@ package Model;
          */
         public int getSmallestY()
         {
-            ObtainSmallest();
+            //ObtainSmallest();
             return m_smallest.getY();
         }
 
@@ -167,7 +147,7 @@ package Model;
          */
         public int getSmallestX()
         {
-            ObtainSmallest();
+            //ObtainSmallest();
             return m_smallest.getX();
         }
 
@@ -428,20 +408,42 @@ package Model;
          */ 
         private void ObtainGreatest()
         {
-            m_largest.setX(m_pos[0].getX());
-            m_largest.setY(m_pos[0].getY());
-            for(int i = 1; i < m_pos.length; i++)
+            
+            // max x
+            if (m_right)
             {
-                if(m_largest.getX() < m_pos[i].getX())
-                {
-                    m_largest.setX(m_pos[i].getX());
-                }
-
-                if(m_largest.getY() < m_pos[i].getY())
-                {
-                    m_largest.setY(m_pos[i].getY());
-                }
+                m_largest.setX(m_pos[m_pos.length - 1].getX());
             }
+            else
+            {
+                m_largest.setX(m_pos[0].getX());
+            }
+            
+            // max Y
+            if (m_down)
+            {
+                m_largest.setY(m_pos[m_pos.length - 1].getY());
+            }
+            else
+            {
+                m_largest.setY(m_pos[0].getY());
+            }
+
+//            m_largest.setX(m_pos[0].getX());
+//            m_largest.setY(m_pos[0].getY());
+//
+//            for(int i = 1; i < m_pos.length; i++)
+//            {
+//                if(m_largest.getX() < m_pos[i].getX())
+//                {
+//                    m_largest.setX(m_pos[i].getX());
+//                }
+//
+//                if(m_largest.getY() < m_pos[i].getY())
+//                {
+//                    m_largest.setY(m_pos[i].getY());
+//                }
+//            }
         }
 
         /**
@@ -449,20 +451,40 @@ package Model;
          */
         private void ObtainSmallest()
         {
-            m_smallest.setX(m_pos[0].getX());
-            m_smallest.setY(m_pos[0].getY());
-            for(int i = 1; i < m_pos.length; i++)
+            // min x
+            if (m_left)
             {
-                if(m_smallest.getX() > m_pos[i].getX())
-                {
-                    m_smallest.setX(m_pos[i].getX());
-                }
-
-                if(m_smallest.getY() > m_pos[i].getY())
-                {
-                    m_smallest.setY(m_pos[i].getY());
-                }
+                m_smallest.setX(m_pos[m_pos.length - 1].getX());
             }
+            else
+            {
+                m_smallest.setX(m_pos[0].getX());
+            }
+
+            // min Y
+            if (m_up)
+            {
+                m_smallest.setY(m_pos[m_pos.length - 1].getY());
+            }
+            else
+            {
+                m_smallest.setY(m_pos[0].getY());
+            }
+
+//            m_smallest.setX(m_pos[0].getX());
+//            m_smallest.setY(m_pos[0].getY());
+//            for(int i = 1; i < m_pos.length; i++)
+//            {
+//                if(m_smallest.getX() > m_pos[i].getX())
+//                {
+//                    m_smallest.setX(m_pos[i].getX());
+//                }
+//
+//                if(m_smallest.getY() > m_pos[i].getY())
+//                {
+//                    m_smallest.setY(m_pos[i].getY());
+//                }
+//            }
 
         }
 
@@ -587,7 +609,7 @@ package Model;
         }
 
         /**
-         * Compares if the characters of this word and handed word tempW are the same
+         * Compares if the characters of this word and passed word tempW are the same
          * @param mytempI
          * @param tempW
          * @param tempI
