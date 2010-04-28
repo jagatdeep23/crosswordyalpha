@@ -264,5 +264,26 @@ public abstract class Puzzle {
         }
 
     }
+
+    //puts all the words into the char matrix(MxM)
+    public void populateSolutionMatrix(char [][] tempMap)
+    {
+        map = new char[tempMap.length][tempMap[0].length];
+
+        for(int i=0; i < tempMap.length; i++)
+        {
+            for(int j = 0; j < tempMap[i].length; j++ )
+            {
+                map[i][j] = tempMap[i][j];
+            }
+        }
+
+    }
+    
+    /**
+     * Gets the type of puzzle (Crossword or Wordsearch)
+     * @return the puzzle type
+     */
+    public abstract Model.PuzzleType getPuzzleType();
 }
 

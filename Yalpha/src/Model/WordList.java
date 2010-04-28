@@ -46,6 +46,18 @@ public class WordList extends ArrayList<String> {
     }
 
     /**
+     * Adds the contents of another WordList to this instance
+     * @param addend the WordList to be added
+     */
+    public void add(WordList addend)
+    {
+        for (String word : addend)
+        {
+            add(word);
+        }
+    }
+
+    /**
      * Checks if a word is a valid word or not. A valid word is defined as a
      * String that is between 3 and 12 characters exclusively with only US
      * alphabet letters. Will return true if the word is valid.

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * product(aka <Specific>puzzle) back to the controller in the form of a
  * matric array.
  *
- * @author Team Yalpha, specifically Patrick Martin
+ * @author Team Yalpha, specifically Patrick Martin and Jordan Hollinger
  * @version 1.0
  */
 
@@ -17,7 +17,6 @@ public class Model {
     public enum PuzzleType{CROSSWORD,WORDSEARCH};
     private Puzzle  m_puzzle = null;
     private WordList m_list = null;
-    private PuzzleType m_type = PuzzleType.WORDSEARCH;
 
     /**
      * Default constructor
@@ -36,8 +35,6 @@ public class Model {
      */
     public void choosePuzzle(PuzzleType puzType)
     {
-        m_type = puzType;
-        
         if(puzType == PuzzleType.CROSSWORD)
         {
             m_puzzle = new Crossword();
@@ -54,7 +51,7 @@ public class Model {
      */
     public PuzzleType getPuzzleType()
     {
-        return m_type;
+        return m_puzzle.getPuzzleType();
     }
 
     /**
@@ -100,8 +97,7 @@ public class Model {
     public void savePuzzle(String temp)
         throws IOException
     {
-        WordList words = m_puzzle.getWordsUsed().toWordList();
-        FileHandler.savePuzzleText(temp, words, getMatrix(), m_type);
+        FileHandler.savePuzzleText(temp, m_puzzle);
     }
 
     /**
@@ -111,18 +107,8 @@ public class Model {
     public void loadPuzzle(String temp)
         throws IOException
     {
-        Pair<WordList, Pair<char[][], PuzzleType> > data = null;
-
-        data = FileHandler.loadPuzzleText(temp);
-
-        if(data != null)
-        {
-            choosePuzzle(data.getSecond().getSecond());
-            m_list = data.getFirst();
-            char [][] m_cArray = data.getSecond().getFirst();
-            m_puzzle.populateWordMatrix(m_cArray);
-            m_puzzle.setWordsUsed(new WordMap(m_list));
-        }
+        m_puzzle = FileHandler.loadPuzzleText(temp);
+        m_list = m_puzzle.getWordsUsed().toWordList();
     }
 
     /**
@@ -148,16 +134,15 @@ public class Model {
     public void export(String fileName, boolean isSolution)
         throws IOException
     {
-        if (m_type == PuzzleType.CROSSWORD)
+        if (m_puzzle.getPuzzleType() == PuzzleType.CROSSWORD)
         {
-
             if (isSolution)
             {
                 FileHandler.exportCrosswordSolution(fileName, m_puzzle.getMatrixSolution());
             }
             else
             {
-                FileHandler.exportCrossword(fileName, m_puzzle.getMatrixSolution(), m_list);
+                FileHandler.exportCrossword(fileName, m_puzzle.getMatrixSolution(), m_puzzle.getWordsUsed().toWordList());
             }
         }
         else
@@ -168,7 +153,7 @@ public class Model {
             }
             else
             {
-                FileHandler.exportWordSearch(fileName, m_puzzle.getMatrixRandomize(), m_list);
+                FileHandler.exportWordSearch(fileName, m_puzzle.getMatrixRandomize(), m_puzzle.getWordsUsed().toWordList());
             }
         }
     }
