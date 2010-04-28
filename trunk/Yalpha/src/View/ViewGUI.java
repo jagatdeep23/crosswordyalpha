@@ -310,6 +310,15 @@ public class ViewGUI {
         JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
                 + "\nEvery word needs to be over 1 and under 20 letters in length.", "Greetings!", 1);
     }
+
+ /**
+  *
+  * @param message  message to display
+  * @param title    title of dialog box
+  */
+    public void messageBox(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, 1);
+    }
 /**
  *
  * @param puzzle  Takes a matrix of characters
