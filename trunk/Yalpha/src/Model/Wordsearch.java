@@ -705,43 +705,64 @@ public class Wordsearch extends Puzzle {
         }
 
     }
-        
 
-        /** Check for:
-         *  overlap/collision
-         *  returns true if "tempW" collided
-         *  returns false for no collision
-         */
-        public boolean checkWord(final Word tempW, final WordMap tempMap)
+    //puts all the words into the char matrix(MxM)
+    public void populateWordMatrix(char [][] tempMap)
+    {
+        map_Randomize = new char[tempMap.length][tempMap[0].length];
+
+        for(int i=0; i < tempMap.length; i++)
         {
-            for(int i=0; i < tempMap.size(); i++)
+            for(int j = 0; j < tempMap[i].length; j++ )
             {
-               if(tempW.checkCollision(tempMap.get(i)))
-               {
-                   return true;
-               }
+                map_Randomize[i][j] = tempMap[i][j];
             }
-
-            if(tempW.checkBounds(tempMap.getBound()))
-            {
-                return true;
-            }
-            
-            return false;
         }
 
-        private Word randomizeWord(WordMap tempMap, WordMap badMap)
+    }
+
+    /** Check for:
+     *  overlap/collision
+     *  returns true if "tempW" collided
+     *  returns false for no collision
+     */
+    public boolean checkWord(final Word tempW, final WordMap tempMap)
+    {
+        for(int i=0; i < tempMap.size(); i++)
         {
-            Word tempW = super.randomizeWord(tempMap,tempMap.size());
-            
-            if(check_correctBounds(tempW,tempMap))
-            {
-                badMap.add(tempW);
-                return null;
-            }
-
-            return tempW;
+           if(tempW.checkCollision(tempMap.get(i)))
+           {
+               return true;
+           }
         }
-        
 
+        if(tempW.checkBounds(tempMap.getBound()))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private Word randomizeWord(WordMap tempMap, WordMap badMap)
+    {
+        Word tempW = super.randomizeWord(tempMap,tempMap.size());
+
+        if(check_correctBounds(tempW,tempMap))
+        {
+            badMap.add(tempW);
+            return null;
+        }
+
+        return tempW;
+    }
+
+    /**
+     * Gets the type of puzzle (Crossword or Wordsearch)
+     * @return the word search puzzle type
+     */
+    public Model.PuzzleType getPuzzleType()
+    {
+        return Model.PuzzleType.WORDSEARCH;
+    }
 }

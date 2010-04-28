@@ -1,4 +1,3 @@
-
 package Model;
 
 import java.io.IOException;
@@ -19,31 +18,20 @@ public class FileHandler
     /**
      * Loads a word list from a data file.
      *
-     * @param fileName the name of the file to load from
+     * @param fileName the path of the file to load from
      * @return list of the words from the file
-     * @throws IOException if there is an error with the file
+     * @throws IOException error opening or reading from the file
      */
     public static WordList loadWordList(String fileName)
             throws IOException
     {
-        FileReader reader;
-        Scanner fileScan;
+        Scanner fileScan = createFileScanner(fileName, "word list");
 
         WordList words = new WordList();
-
-        try
-        {
-            reader = new FileReader (new File (fileName));
-            fileScan = new Scanner(reader);
-        }
-        catch (Exception e)
-        {
-            throw new IOException ("Could not open the word list file.");
-        }
         
         words = readWordList (fileScan);
 
-        reader.close();
+        fileScan.close();
 
         return words;
     }
@@ -51,9 +39,9 @@ public class FileHandler
     /**
      * Saves a word list to a data file.
      *
-     * @param fileName the name of the file to load from
+     * @param fileName the path of the file to save to
      * @param words the list of words to be saved
-     * @throws IOException if there is an error with the file
+     * @throws IOException error creating or writing to the file
      */
     public static void saveWordList (String fileName, WordList words)
             throws IOException
@@ -66,34 +54,21 @@ public class FileHandler
     }
 
     /**
-     * Loads both a word list and a puzzel array from a data file.
-     *
-     * @param fileName the name of the file to load from
-     * @return Pair object containing the word list and the puzzle array from the file
-     * @throws IOException if there is an error with the file
+     * Loads a puzzle from a data file.
+     * @param fileName the path of the file to load from
+     * @return the puzzle loaded from the file
+     * @throws IOException error opening or reading from the file
      */
-    public static Pair<WordList, Pair<char[][], Model.PuzzleType> > loadPuzzleText (String fileName)
+    public static Puzzle loadPuzzleText (String fileName)
             throws IOException
     {
-        FileReader reader;
-        Scanner fileScan;
+        Scanner fileScan = createFileScanner(fileName, "word list");
 
         char [][] puzzleArray;
         Model.PuzzleType type;
         WordList words = new WordList();
 
-        Pair<char[][], Model.PuzzleType> puzzleData;
-        Pair<WordList, Pair<char[][], Model.PuzzleType> > result;
-
-        try
-        {
-            reader = new FileReader (new File (fileName));
-            fileScan = new Scanner(reader);
-        }
-        catch (Exception e)
-        {
-            throw new IOException ("Could not open the word list file.");
-        }
+        Puzzle resultPuzzle;
 
         try
         {
@@ -102,28 +77,26 @@ public class FileHandler
 
             if (typeStr.equals("CROSSWORD"))
             {
-                type = Model.PuzzleType.CROSSWORD;
+                resultPuzzle = new Crossword();
             }
             else
             {
-                type = Model.PuzzleType.WORDSEARCH;
+                resultPuzzle = new Wordsearch();
             }
 
-            // Read puzzle matrix
-            int h = fileScan.nextInt(), w = fileScan.nextInt();
-
+            // Read puzzle matrix size
+            int size = fileScan.nextInt();
             fileScan.nextLine();
 
-            puzzleArray = new char[h][w];
+            // Read puzzle matrix
+            puzzleArray = readPuzzleMatrix(fileScan, size);
+            resultPuzzle.populateWordMatrix(puzzleArray);
 
-            for (int i = 0; i < h; i++)
+            // For a word search, read solution matrix
+            if (resultPuzzle.getPuzzleType() == Model.PuzzleType.WORDSEARCH)
             {
-                String line = fileScan.nextLine();
-
-                for (int j = 0; j < w; j++)
-                {
-                    puzzleArray[i][j] = line.charAt(j * 2);
-                }
+                char[][] solutionArray = readPuzzleMatrix(fileScan, size);
+                resultPuzzle.populateSolutionMatrix(solutionArray);
             }
         }
         catch (Exception e)
@@ -132,34 +105,29 @@ public class FileHandler
         }
 
         words = readWordList (fileScan);
+        resultPuzzle.setWordsUsed(new WordMap(words));
 
-        reader.close();
+        fileScan.close();
 
-        puzzleData = new Pair<char[][], Model.PuzzleType> (puzzleArray, type);
-        result = new Pair<WordList, Pair<char [][], Model.PuzzleType> > (words, puzzleData);
-
-        return result;
+        return resultPuzzle;
     }
 
-
-
     /**
-     * Saves both a word list and a puzzle array to a data file.
+     * Saves a puzzle to a data file to a data file.
      *
-     * @param fileName the name of the file to load from
-     * @param words the list of words to be saved
-     * @param puzzleArray the character array containing the puzzle
-     * @throws IOException if there is an error with the file
+     * @param fileName the path of the file to save to
+     * @param puzzle the puzzle to write to the file
+     * @throws IOException error creating or writing to the file
      */
-    public static void savePuzzleText (String fileName, WordList words, char[][] puzzleArray, Model.PuzzleType type)
+    public static void savePuzzleText (String fileName, Puzzle puzzle)
             throws IOException
     {
         FileWriter writer = createFileWriter(fileName, "puzzle");
-        
+
         try
         {
-            // Write Type
-            if (type == Model.PuzzleType.CROSSWORD)
+            // Write Puzzle Type
+            if (puzzle.getPuzzleType() == Model.PuzzleType.CROSSWORD)
             {
                 writer.write("CROSSWORD\n");
             }
@@ -168,19 +136,19 @@ public class FileHandler
                 writer.write("WORDSEARCH\n");
             }
 
-            // Wrtie Puzzle
-            int h = puzzleArray.length, w = puzzleArray[0].length;
+            char[][] puzzleArray = puzzle.getMatrixRandomize();
 
-            writer.write(String.valueOf(h) + ' ' + String.valueOf(w) + '\n');
+            // Write Puzzle Size
+            writer.write(String.valueOf(puzzleArray.length) + '\n');
 
-            for (int i = 0; i < puzzleArray.length; i++)
+            // Write Puzzle Matrix
+            writePuzzleMatrix(writer, puzzleArray);
+
+            if (puzzle.getPuzzleType() == Model.PuzzleType.WORDSEARCH)
             {
-                for (int j = 0; j < puzzleArray[i].length; j++)
-                {
-                    writer.write(puzzleArray[i][j]);
-                    writer.write(' ');
-                }
-                writer.write('\n');
+                char [][] solutionArray = puzzle.getMatrixSolution();
+
+                writePuzzleMatrix(writer, solutionArray);
             }
         }
         catch (Exception e)
@@ -188,13 +156,14 @@ public class FileHandler
             throw new IOException ("Could not write the puzzle to the file.");
         }
 
-        writeWordList (writer, words);
+        writeWordList (writer, puzzle.getWordsUsed().toWordList());
 
         writer.close();
     }
 
     /**
-     * Exports a crossword in HTML to a specified file
+     * Exports a crossword in HTML to a specified file.
+     *
      * @param fileName the destination file
      * @param puzzleMatrix the matrix containing the puzzle
      * @param words the list of words in the puzzle
@@ -231,7 +200,8 @@ public class FileHandler
     }
 
     /**
-     * Exports a crossword solution in HTML to a specified file
+     * Exports a crossword solution in HTML to a specified file.
+     *
      * @param fileName the destination file
      * @param puzzleMatrix the matrix containing the puzzle solution
      * @throws IOException error writing to file
@@ -261,7 +231,8 @@ public class FileHandler
     }
 
     /**
-     * Exports a word search in HTML to a specified file
+     * Exports a word search in HTML to a specified file.
+     *
      * @param fileName the destination file
      * @param puzzleMatrix the matrix containing the puzzle
      * @param words the list of words in the puzzle
@@ -312,7 +283,8 @@ public class FileHandler
     }
 
     /**
-     * Exports a word search solution in HTML to a specified file
+     * Exports a word search solution in HTML to a specified file.
+     *
      * @param fileName the destination file
      * @param puzzleMatrix the matrix containing the puzzle solution
      * @throws IOException error writing to file
@@ -354,7 +326,8 @@ public class FileHandler
     }
 
     /**
-     * Reads a word list from the specified scanner
+     * Reads a word list from the specified scanner.
+     *
      * @param fileScan scanner for the file
      * @return the read WordList
      * @throws IOException error reading from scanner
@@ -380,7 +353,8 @@ public class FileHandler
     }
     
     /**
-     * Writes a word list to the given file writer
+     * Writes a word list to the given file writer.
+     *
      * @param writer writer for the destination file
      * @param words the word list to be written
      * @throws IOException error writing to file
@@ -398,6 +372,51 @@ public class FileHandler
         catch (Exception e)
         {
             throw new IOException ("Could not write the word list to file.");
+        }
+    }
+
+    /**
+     * Reads a puzzle matrix from a given file scanner
+     * @param fileScan scanner for the data file
+     * @param size dimensions of the puzzle (always square)
+     * @return the character array representing the puzzle
+     * @throws IOException error reading from the file
+     */
+    private static char[][] readPuzzleMatrix(Scanner fileScan, int size)
+            throws IOException
+    {
+        char[][] puzzleArray = new char[size][size];
+
+        for (int i = 0; i < size; i++)
+        {
+            String line = fileScan.nextLine();
+
+            for (int j = 0; j < size; j++)
+            {
+                puzzleArray[i][j] = line.charAt(j * 2);
+            }
+        }
+
+        return puzzleArray;
+    }
+
+    /**
+     * Writes a puzzle matrix into a given file writer
+     * @param writer writer for the data file
+     * @param puzzleArray character array representing the puzzle
+     * @throws IOException error writing to the file
+     */
+    private static void writePuzzleMatrix(FileWriter writer, char[][] puzzleArray)
+            throws IOException
+    {
+        for (int i = 0; i < puzzleArray.length; i++)
+        {
+            for (int j = 0; j < puzzleArray[i].length; j++)
+            {
+                writer.write(puzzleArray[i][j]);
+                writer.write(' ');
+            }
+            writer.write('\n');
         }
     }
 
@@ -579,9 +598,30 @@ public class FileHandler
     }
 
     /**
+     * Creates a Scanner for a specified file
+     * @param fileName the path of the file
+     * @param type name of the type of file, used for error message in exceptions
+     * @return the Scanner for the given file
+     * @throws IOException error creating Scanner
+     */
+    private static Scanner createFileScanner(String fileName, String type)
+            throws IOException
+    {
+        try
+        {
+            FileReader reader = new FileReader (new File (fileName));
+            return new Scanner(reader);
+        }
+        catch (Exception e)
+        {
+            throw new IOException ("Could not open the " + type + " file.");
+        }
+    }
+
+    /**
      * Creates a writer for the specified file
      * @param fileName the path of the file
-     * @param type name of the type of file, used in error message in exceptions
+     * @param type name of the type of file, used for error message in exceptions
      * @return the FileWriter for the given file
      * @throws IOException error creating FileWriter
      */
