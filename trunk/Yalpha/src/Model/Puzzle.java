@@ -59,6 +59,11 @@ public abstract class Puzzle {
     protected Random myRandom = new Random();
 
     private char [][] map = null;
+
+    public int size()
+    {
+        return FinishedList.size();
+    }
             
     /**
      * Function creates a specific puzzle
