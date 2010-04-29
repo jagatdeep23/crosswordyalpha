@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Model;
 
 /**
@@ -15,8 +10,6 @@ package Model;
  public class Word implements Cloneable
     {
         public final static int num_direction = 5;
-        //private point front,back;
-        //private String m_word = null;
         private char [] m_letters = null;
         private Point [] m_pos = null;
         private Point m_offset = null;
@@ -196,6 +189,10 @@ package Model;
            return m_letters.length;
         }
 
+        /**
+         *
+         * @return array of characters in the word
+         */
         public char [] getString()
         {
             return m_letters;
@@ -365,9 +362,6 @@ package Model;
                 ObtainSmallest();
            }
         }
-
-        
-          
          
        /**
          * if the position of the characters is negative then move the characters into a positive postion
@@ -505,7 +499,10 @@ package Model;
             return ynDir;
         }
 
-        
+        /**
+         * @param tempW is a word to check VS this for an overlapped position and character
+         * @return (true: if words overlap) || (false: if words dont overlap)
+         */
         public boolean overlap(Word tempW)
         {
             if(tempW != null)

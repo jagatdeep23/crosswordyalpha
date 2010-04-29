@@ -187,8 +187,12 @@ public class Model {
         return m_list.toArray(tempS);
     }
 
-    public ArrayList<Word> getWordsNotUsed()
+    /**
+     *
+     * @return Arraylist of words not used in the currently generated puzzle
+     */
+    public ArrayList<String> getWordsNotUsed()
     {
-        return m_puzzle.getWordsNotUsed();
+        return m_puzzle.getWordsNotUsed().toWordList();
     }
 }
