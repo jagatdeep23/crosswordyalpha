@@ -264,7 +264,7 @@ public class ViewGUI {
             return 20;
         }
     }
-
+    
     public String getPuzzleType() {
         return (String) changePuzzle.getSelectedItem();
     }
@@ -329,7 +329,7 @@ public class ViewGUI {
     public void printGreeting() {
         JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
                 + "\nEvery word needs to be over 1 and under 20 letters in length."
-                + "\nA maximum of 30 words can be added.", "Greetings!", 1);
+                + "\nA maximum of 25 words can be added.", "Greetings!", 1);
     }
 
     /**
@@ -369,6 +369,10 @@ public class ViewGUI {
         wordBox.selectAll();
     }
 
+    /**
+     *
+     * @param size The size of the puzzle.
+     */
     public void setPuzzleSize(int size) {
         if (size == 10) {
             puzzleSize.setSelectedIndex(0);
@@ -379,6 +383,10 @@ public class ViewGUI {
         }
     }
 
+    /**
+     *
+     * @param isWordsearch Whether the puzzle type is a wordsearch or not.
+     */
     public void setPuzzleType(boolean isWordsearch) {
         if (isWordsearch) {
             changePuzzle.setSelectedIndex(0);
@@ -387,11 +395,19 @@ public class ViewGUI {
         }
     }
 
+    /**
+     *
+     * @param isSolution Whether the solution should show or not.
+     */
     public void setSolution(boolean isSolution) {
         puzzleArea.setSolution(isSolution);
         puzzleArea.repaint();
     }
 
+    /**
+     * 
+     * @param puzzleSolution Solution configuration.
+     */
     public void setSolutionMatrix(char[][] puzzleSolution) {
         puzzleArea.setSolutionMatrix(puzzleSolution);
     }
