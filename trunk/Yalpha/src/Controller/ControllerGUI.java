@@ -20,6 +20,7 @@ import View.ViewGUI;
 public class ControllerGUI {
 
     private ViewGUI view;
+    private boolean loading = false;
     private boolean solutionDisplayed = false;
     private Model model;
 
@@ -75,7 +76,9 @@ public class ControllerGUI {
     private class ChangePuzzleListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            view.clearPuzzle();
+            if (!loading){
+                view.clearPuzzle();
+            }
             if (view.getPuzzleType().equals("Crossword")) {
                 model.choosePuzzle(Model.PuzzleType.CROSSWORD);
             } else {
@@ -99,7 +102,6 @@ public class ControllerGUI {
         }
     }
 
-    //I'm tipsy sand writing this code, I hope its' right
     private class ExportButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -122,15 +124,21 @@ public class ControllerGUI {
     private class GenerateButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            int puzzleSize = view.getPuzzleSize();
-            model.generate(puzzleSize);
-            solutionDisplayed = false;
-            if (view.getPuzzleType().equals("Crossword")) {
-                view.printCrossword(model.getMatrix());
-            } else {
-                view.printWordsearch(model.getMatrix());
+            view.clearPuzzle();
+
+            if (model.getwordList().length > 0) {
+                view.paintGenerating();
+                int puzzleSize = view.getPuzzleSize();
+                model.generate(puzzleSize);
+                solutionDisplayed = false;
+                if (view.getPuzzleType().equals("Crossword")) {
+                    view.printCrossword(model.getMatrix());
+                } else {
+                    view.printWordsearch(model.getMatrix());
+                }
+                view.setSolutionMatrix(model.getMatrixSolution());
+                //view.printWordsNotUsed(model.getWordsNotUsed());
             }
-            view.setSolutionMatrix(model.getMatrixSolution());
         }
     }
 
@@ -151,19 +159,30 @@ public class ControllerGUI {
 
         public void actionPerformed(ActionEvent e) {
             String filePath = view.fileOpenDialog();
+            view.clearPuzzle();
             if (filePath != null && !filePath.equals("")) {
+                loading = true;
                 try {
+
                     model.loadPuzzle(filePath);
+                    //System.out.println(model.getPuzzleType().equals(Model.PuzzleType.WORDSEARCH));
                     view.updateWordArea(model.getwordList());
+                    //shotty code next line
+                    view.setPuzzleSize(model.getMatrix().length);
+                    view.setSolutionMatrix(model.getMatrixSolution());
+
                     if (model.getPuzzleType().equals(Model.PuzzleType.WORDSEARCH)) {
                         view.printWordsearch(model.getMatrix());
-                    } else {
-                        view.printCrossword(model.getMatrix());
+                        view.setPuzzleType(true);
                     }
-                    view.setSolutionMatrix(model.getMatrixSolution());
+                     else {
+                        view.printCrossword(model.getMatrix());
+                        view.setPuzzleType(false);
+                    }
                 } catch (Exception ex) {
                     view.messageBox(ex.getMessage(), "Error");
                 }
+                loading = false;
             }
         }
     }

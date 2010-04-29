@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.filechooser.FileFilter;
@@ -50,7 +51,7 @@ public class ViewGUI {
      * Creates and formats the graphical user interface.
      */
     public ViewGUI() {
-        frame = new JFrame("Team Yalpha Word Search Iteration 2");
+        frame = new JFrame("Team Yalpha Word Search Iteration 3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setMinimumSize(new Dimension(800, 600));
@@ -108,14 +109,14 @@ public class ViewGUI {
         solutionButton.setSize(110, 30);
 
         changePuzzle = new JComboBox();
-        changePuzzle.setLocation(510, 10);
-        changePuzzle.setSize(100, 20);
+        changePuzzle.setLocation(490, 10);
+        changePuzzle.setSize(120, 20);
         changePuzzle.addItem("Word Search");
         changePuzzle.addItem("Crossword");
 
         puzzleSize = new JComboBox();
         puzzleSize.setLocation(410, 10);
-        puzzleSize.setSize(100, 20);
+        puzzleSize.setSize(80, 20);
         puzzleSize.addItem("10x10");
         puzzleSize.addItem("15x15");
         puzzleSize.addItem("20x20");
@@ -228,6 +229,7 @@ public class ViewGUI {
 
     public void clearPuzzle() {
         puzzleArea.clear();
+        puzzleArea.repaint();
     }
 
     public void createJOptionPane(String Description, String Title, int Symbol) {
@@ -252,15 +254,13 @@ public class ViewGUI {
         JOptionPane.showMessageDialog(frame, "", "", 0, aboutImage);
     }
 
-    public int getPuzzleSize(){
+    public int getPuzzleSize() {
         String selected = (String) puzzleSize.getSelectedItem();
-        if (selected.equals("10x10")){
+        if (selected.equals("10x10")) {
             return 10;
-        }
-        else if (selected.equals("15x15")){
+        } else if (selected.equals("15x15")) {
             return 15;
-        }
-        else {
+        } else {
             return 20;
         }
     }
@@ -293,44 +293,94 @@ public class ViewGUI {
 
     /**
      *
-     * @param puzzle    Takes a matrix of characters
+     * @param message  message to display
+     * @param title    title of dialog box
      */
-
-    public void printCrossword(char[][] puzzle) {
-        puzzleArea.setPuzzleType(false);
-        puzzleArea.setPuzzle(puzzle);
-        puzzleArea.repaint();
-    }
-
-/**
- *
- * @param puzzle    Takes a matrix of characters
- */
-    public void printGreeting() {
-        JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
-                + "\nEvery word needs to be over 1 and under 20 letters in length.", "Greetings!", 1);
-    }
-
- /**
-  *
-  * @param message  message to display
-  * @param title    title of dialog box
-  */
     public void messageBox(String message, String title) {
         JOptionPane.showMessageDialog(null, message, title, 1);
     }
-/**
- *
- * @param puzzle  Takes a matrix of characters
- */
-    public void printWordsearch(char[][] puzzle) {
-        puzzleArea.setPuzzleType(true);
+
+    /**
+     * Tells puzzleArea to paint the Generating text.
+     */
+    public void paintGenerating() {
+        puzzleArea.setGenerating(true);
+        puzzleArea.paintImmediately(200, 200, 120, 25);
+    }
+
+    /**
+     *
+     * @param puzzle    Takes a matrix of characters
+     */
+    public void printCrossword(char[][] puzzle) {
         puzzleArea.setPuzzle(puzzle);
+        puzzleArea.setGenerating(false);
+        puzzleArea.setPuzzleType(false);
         puzzleArea.repaint();
+    }
+
+    /**
+     * Prints greeting.
+     */
+    public void printGreeting() {
+        JOptionPane.showMessageDialog(null, "Welcome to Team Yalpha's puzzle generator! "
+                + "\nEvery word needs to be over 1 and under 20 letters in length."
+                + "\nA maximum of 30 words can be added.", "Greetings!", 1);
+    }
+
+    /**
+     *
+     * @param puzzle  Takes a matrix of characters
+     */
+    public void printWordsearch(char[][] puzzle) {
+        puzzleArea.setPuzzle(puzzle);
+        puzzleArea.setGenerating(false);
+        puzzleArea.setPuzzleType(true);
+        puzzleArea.repaint(100);
+    }
+
+    /**
+     *
+     * @param words
+     *
+     */
+    public void printWordsNotUsed(ArrayList<String> words) {
+        if (words.size() > 0) {
+            String list = "";
+            for (int i = 0; i < words.size() - 1; ++i) {
+                list += words.get(i) + ", ";
+                if (i % 6 == 5) {
+                    list += "\n";
+                }
+            }
+            if (!list.equals("")) {
+                list += "and ";
+            }
+            list += words.get(words.size() - 1) + ".";
+            JOptionPane.showMessageDialog(null, list, "Words Not in Puzzle", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void selectText() {
         wordBox.selectAll();
+    }
+
+    public void setPuzzleSize(int size) {
+        if (size == 10) {
+            puzzleSize.setSelectedIndex(0);
+        } else if (size == 15) {
+            puzzleSize.setSelectedIndex(1);
+        } else {
+            puzzleSize.setSelectedIndex(2);
+        }
+    }
+
+    public void setPuzzleType(boolean isWordsearch) {
+        if (isWordsearch) {
+            changePuzzle.setSelectedIndex(0);
+        } else {
+            changePuzzle.setSelectedIndex(1);
+        }
     }
 
     public void setSolution(boolean isSolution) {

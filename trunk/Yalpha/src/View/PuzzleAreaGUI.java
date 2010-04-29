@@ -15,13 +15,15 @@ public class PuzzleAreaGUI extends JPanel {
 
     char[][] puzzle;
     char[][] solutionMatrix;
-    boolean wordsearch;
+    boolean generating;
     boolean solution;
+    boolean wordsearch;
 
     /**
      * Initializes a new PuzzleAreaGUI.
      */
     public PuzzleAreaGUI() {
+        generating = false;
         puzzle = new char[0][0];
         solution = false;
         solutionMatrix = new char[0][0];
@@ -38,12 +40,19 @@ public class PuzzleAreaGUI extends JPanel {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, super.getWidth(), super.getHeight());
         g.setColor(Color.BLACK);
-        if (puzzle.length > 0) {
-            if (wordsearch) {
-                paintWordsearch(g);
-            } else {
-                paintCrossword(g);
+        if (!generating) {
+            if (puzzle.length > 0) {
+                if (wordsearch) {
+                    paintWordsearch(g);
+                } else {
+                    paintCrossword(g);
+                }
             }
+        } else {
+            int x = super.getWidth() / 2 - 45;
+            int y = super.getHeight() / 2 - 12;
+            g.setColor(Color.BLACK);
+            g.drawString("GENERATING...", x, y);
         }
     }
 
@@ -90,6 +99,7 @@ public class PuzzleAreaGUI extends JPanel {
                     g.drawString("" + puzzle[i][j], j * 20 + 5 + xBuffer, i * 20 + 15 + yBuffer);
                 }
             }
+            System.out.println(i);
         }
     }
 
@@ -102,11 +112,19 @@ public class PuzzleAreaGUI extends JPanel {
     }
 
     /**
+     * Sets whether to display generating message or not.
+     * @param isGenerating  True if puzzle area should show is generating.
+     */
+    public void setGenerating(boolean isGenerating) {
+        generating = isGenerating;
+    }
+
+    /**
      *  Set the puzzle matrix to be printed to the panel.
      * @param puzzle    The puzzle matrix.
      */
-    public void setPuzzle(char[][] puzzle) {
-        this.puzzle = puzzle;
+    public void setPuzzle(char[][] Puzzle) {
+        puzzle = Puzzle;
         solution = false;
     }
 
