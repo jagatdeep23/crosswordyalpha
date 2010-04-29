@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Contains a list of non-repeating lower-case valid words. A valid word is
@@ -40,7 +41,7 @@ public class WordList extends ArrayList<String> {
         wordLine = wordLine.toLowerCase();
         String word;
 
-        while (wordLine.indexOf(' ') > 0) {
+        while (wordLine.indexOf(' ') > 0 && super.size() < 25) {
             word = wordLine.substring(0, wordLine.indexOf(' '));
             if (!super.contains(word) && !m_profanityList.contains(word) && word.length() > 1 && word.length() < 20
                     && isLegalWord(word)) {
@@ -99,16 +100,25 @@ public class WordList extends ArrayList<String> {
     public boolean remove(String wordLine) {
         boolean wordRemoved = false;
         wordLine = wordLine.toLowerCase();
+        Scanner strScan = new Scanner(wordLine);
 
-        while (wordLine.indexOf(' ') > 0) {
-            if (super.remove(wordLine.substring(0, wordLine.indexOf(' ')))) {
+        while (strScan.hasNext())
+        {
+            if (super.remove(strScan.next()))
+            {
                 wordRemoved = true;
             }
-            wordLine = wordLine.substring(wordLine.indexOf(' ') + 1, wordLine.length());
         }
-        if (super.remove(wordLine)) {
-            wordRemoved = true;
-        }
+
+//        while (wordLine.indexOf(' ') > 0 || wordLine.indexOf('\n') > 0) {
+//            if (super.remove(wordLine.substring(0, wordLine.indexOf(' ')))) {
+//                wordRemoved = true;
+//            }
+//            wordLine = wordLine.substring(wordLine.indexOf(' ') + 1, wordLine.length());
+//        }
+//        if (super.remove(wordLine)) {
+//            wordRemoved = true;
+//        }
         return wordRemoved;
     }
 }
