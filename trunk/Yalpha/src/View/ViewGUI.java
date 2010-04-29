@@ -275,6 +275,10 @@ public class ViewGUI {
         return word;
     }
 
+    public String getSelected() {
+        return wordArea.getSelectedText();
+    }
+
     public String fileOpenDialog() {
         JFileChooser fc = new JFileChooser();
         if (fc.showOpenDialog(frame) == fc.APPROVE_OPTION) {
