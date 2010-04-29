@@ -99,7 +99,6 @@ public class PuzzleAreaGUI extends JPanel {
                     g.drawString("" + puzzle[i][j], j * 20 + 5 + xBuffer, i * 20 + 15 + yBuffer);
                 }
             }
-            System.out.println(i);
         }
     }
 

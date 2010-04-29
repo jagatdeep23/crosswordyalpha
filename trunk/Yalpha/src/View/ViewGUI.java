@@ -349,7 +349,7 @@ public class ViewGUI {
             String list = "";
             for (int i = 0; i < words.size() - 1; ++i) {
                 list += words.get(i) + ", ";
-                if (i % 6 == 5) {
+                if (i % 10 == 9) {
                     list += "\n";
                 }
             }
