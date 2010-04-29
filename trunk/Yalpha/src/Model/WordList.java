@@ -12,6 +12,18 @@ import java.util.ArrayList;
  */
 public class WordList extends ArrayList<String> {
 
+    private static ArrayList<String> m_profanityList;
+    
+    public WordList()
+    {
+        super();
+        
+        if (m_profanityList == null)
+        {
+            m_profanityList = FileHandler.loadProfanityList();
+        }
+    }
+
     /**
      * Adds a word to the WordList if it is a valid word. A valid word is
      * defined as a String that is between 3 and 12 characters exclusively with
@@ -30,14 +42,14 @@ public class WordList extends ArrayList<String> {
 
         while (wordLine.indexOf(' ') > 0) {
             word = wordLine.substring(0, wordLine.indexOf(' '));
-            if (!super.contains(word) && word.length() > 1 && word.length() < 20
+            if (!super.contains(word) && !m_profanityList.contains(word) && word.length() > 1 && word.length() < 20
                     && isLegalWord(word)) {
                 super.add(word);
                 wordAdded = true;
             }
             wordLine = wordLine.substring(wordLine.indexOf(' ') + 1, wordLine.length());
         }
-        if (!super.contains(wordLine) && wordLine.length() > 1 && wordLine.length() < 20
+        if (!super.contains(wordLine) && !m_profanityList.contains(wordLine) && wordLine.length() > 1 && wordLine.length() < 20
                 && isLegalWord(wordLine)) {
             super.add(wordLine);
             wordAdded = true;
