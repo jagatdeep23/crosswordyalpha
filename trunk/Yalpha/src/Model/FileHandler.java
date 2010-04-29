@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * Contains static methods that handle saving and loading from data files.
@@ -15,6 +16,26 @@ import java.util.Scanner;
  */
 public class FileHandler
 {
+    public static ArrayList<String> loadProfanityList()
+    {
+        ArrayList<String> profanityList = new ArrayList<String>();
+        try
+        {
+            Scanner fileScan = FileHandler.createFileScanner("proFill.txt", "profanity list");
+            while (fileScan.hasNext())
+            {
+                profanityList.add(fileScan.next());
+            }
+            fileScan.close();
+        }
+        catch (Exception e)
+        {
+            
+        }
+        
+        return profanityList;
+    }
+    
     /**
      * Loads a word list from a data file.
      *
