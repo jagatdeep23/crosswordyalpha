@@ -1,6 +1,6 @@
 package Model;
 import java.util.*;
-import java.util.concurrent.Semaphore;
+
 /**
  * Generates a crossword puzzle that attempts to elimnate any chance
  * that a word can't be used in the puzzle through an exausting recursive function.
@@ -92,7 +92,6 @@ public class Crossword extends Puzzle {
             }
         }
         return pointList;
-
     }
 
     /**
@@ -288,7 +287,7 @@ public class Crossword extends Puzzle {
      * @return
      */
     @Override
-     protected Word randomizeWord(WordMap tempMap, int end)
+    protected Word randomizeWord(WordMap tempMap, int end)
     {
         int index = myRandom.nextInt(end);
 
