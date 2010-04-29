@@ -206,7 +206,7 @@ public class ControllerGUI {
     private class RemoveButtonListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            model.remove(view.getWord());
+            model.remove(view.getSelected());
             view.updateWordArea(model.getwordList());
         }
     }
