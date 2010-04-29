@@ -191,10 +191,12 @@ public class Wordsearch extends Puzzle {
             return boolMap;
         }
 
-        //STILL NEEDS
-        //Search for - diaginals(x2)
-        //output - diaginals(x2) & updown
-        //Finds blocks of empty space in the (up/down), (left/right), (diaginal)
+        /**
+         * Searches for empty space 
+         * @param tempW
+         * @param tempBM
+         * @return
+         */
         private boolean correctByEmptySpace(Word tempW, final boolean tempBM [][])
         {
             ArrayList<ArrayList<ArrayList<Point>>> freeSpaceLR = new ArrayList<ArrayList<ArrayList<Point>>>(); //Left-Right
