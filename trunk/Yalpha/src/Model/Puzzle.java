@@ -12,6 +12,16 @@ import java.util.concurrent.Semaphore;
  */
 public abstract class Puzzle {
 
+    /**
+     *  Class PuzzleStop
+     *      ++This class is used to define what a thread should do when started.
+     *      ++The thread should just wait till 2 seconds have passed and set a boolean to false
+     *      ++This signal lets all the functions listeneing to that boolean know that they should stop at the next available "checkpoint"
+     * 
+     *
+     *  @author Team Yalpha: Patrick Martin
+     *  @version 1.0
+     */
     protected class PuzzleStop implements Runnable
         {
             Puzzle m_puz;
@@ -29,25 +39,26 @@ public abstract class Puzzle {
                     if((current-start) > 2000)
                     {
                         m_puz.setContinue(false);
-                        System.out.println("TIMED OUT: BEST PUZZLE IS USED");
                     }
                 }
-                System.out.println("EXITING");
             }
         }
 
+    //Finished Puzzle with all words ADDED to puzzle
     WordMap FinishedList = new WordMap();
+
+    //Removed List with all words NOT added to the puzzle
     WordMap RemovedList = new WordMap();
 
+    //Boolean that lets all the timed based functions know to continue or stop
     boolean m_continue = false;
-
+    
     Semaphore a = new Semaphore(1);
     Semaphore mutex = new Semaphore(1);
 
     protected Random myRandom = new Random();
 
     private char [][] map = null;
-    //private char [][] map_random = null
             
     /**
      * Function creates a specific puzzle
@@ -55,14 +66,14 @@ public abstract class Puzzle {
      */
     public abstract void generate(final WordList words, int pSize);
 
-    /**
-     * Default constructor
-     */
-    Puzzle()
-    {
-    }
-
-
+        /**
+         * This function is used in parity with a Timmed-Thread.
+         *  Mainly a Timmed-Thread will use this funtion to either tell...
+         *      A.) Functions when to push forward (Usually after timer is started and before the timmer is stopped).
+         *      B.) Functions when to stop (Usually after timer is stopped and before the timmer is started).
+         *
+         * @param pBool (Tell weither or not to continue code or to stop code)
+         */
         public void setContinue(boolean pBool)
         {
             try {
@@ -79,6 +90,13 @@ public abstract class Puzzle {
             mutex.release();
         }
 
+        /**
+         * This function is used in parity with a Timmed-Thread.
+         *
+         *  Used by other functions that are based on the timmed-Thread.
+         *
+         * @return (true: continue on with code) || (false: stop code here)
+         */
         public boolean getContinue()
         {
             boolean moveOn;
@@ -113,16 +131,29 @@ public abstract class Puzzle {
          return map;
     }
 
+    /**
+     *
+     * @return WordMap that has all the words being used
+     */
     public WordMap getWordsUsed()
     {
         return FinishedList;
     }
 
+
+    /**
+     *
+     * @param word
+     */
     public void setWordsUsed(WordMap words)
     {
         FinishedList = words;
     }
 
+    /**
+     * return words that aren't used in the puzzle
+     * @return
+     */
     public WordMap getWordsNotUsed()
     {
         return RemovedList;
@@ -135,21 +166,12 @@ public abstract class Puzzle {
     */
     protected void populateWordMatrix(final WordMap tempMap)
     {
-        //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
           map = new char [tempMap.getBound() ][tempMap.getBound()];
 
-          int LargestX = tempMap.getLargestX();
-            int SmallestX = tempMap.getSmallestX();
-            int LargestY = tempMap.getLargestY();
-            int SmallestY = tempMap.getSmallestY();
-            int bound = tempMap.getBound();
-
-        //Random randGen = new Random();
         for(int i=0; i < map.length; i++)
         {
             for(int j = 0; j < map[i].length; j++ )
             {
-               //map[i][j] = (char) (randGen.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
                map[i][j] = '~'; //function should generate random letters from a(97) to z(122)
             }
         }
@@ -168,10 +190,14 @@ public abstract class Puzzle {
     }
 
         /**
+         *
+         * Makes sure that word is inside the bounding box.
+         * If it isnt inside the bounding box then move it there.
+         * Check again after moving the word to inside the bounding box and make sure the word fits
          * 
-         * @param tempW
-         * @param tempMap
-         * @return
+         * @param tempW - Word being checked
+         * @param tempMap - Map containing the bounding box
+         * @return ( true: if word doesn't fit in bounding box) || (false: if the word does fit in the bounding box)
          */
         public boolean check_correctBounds(Word tempW, WordMap tempMap)
         {
@@ -187,7 +213,8 @@ public abstract class Puzzle {
 
 
 
-    /** removes word from tempMap
+        /**
+         *  removes word from tempMap
          *  gives word random direction and position
          *  then returns the randomized word
          *  Largest: the largest word in tempMap before any removes/changes are made to the first fully populated instance of tempMap
@@ -238,19 +265,10 @@ public abstract class Puzzle {
             return tempW;
         }
 
-    /*public void printW(Word tempW)
-        {
-            System.out.println(tempW);
-
-            System.out.println("PosX[0]: " + tempW.getCharPosX(0));
-            System.out.println("PosY[0]: " + tempW.getCharPosY(0));
-
-            System.out.println("PosX[LAST]: " + tempW.getCharPosX(tempW.size() -1));
-            System.out.println("PosY[LAST]: " + tempW.getCharPosY(tempW.size() -1));
-
-        }*/
-
-    //puts all the words into the char matrix(MxM)
+    /**
+     * Populates Matrix A with all the char Values in  matrix B
+     * @param tempMap
+     */
     public void populateWordMatrix(char [][] tempMap)
     {
         map = new char[tempMap.length][tempMap[0].length];
@@ -264,8 +282,11 @@ public abstract class Puzzle {
         }
 
     }
-
-    //puts all the words into the char matrix(MxM)
+    
+    /**
+     * Populates Matrix A with all the char Values in  matrix B
+     * @param tempMap
+     */
     public void populateSolutionMatrix(char [][] tempMap)
     {
         map = new char[tempMap.length][tempMap[0].length];

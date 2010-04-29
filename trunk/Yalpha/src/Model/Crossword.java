@@ -55,23 +55,11 @@ public class Crossword extends Puzzle {
             mList.add(random);
         }
 
-        System.out.println("STOP");
         setContinue(false);
-        //m_continue = true;
-        /*try
-        {
-            //timeOut.join();
-        }
-        catch(InterruptedException ie)
-        {
-            System.out.println("Error with interruption...");
-            System.exit(0);
-        }*/
 
         FinishedList.TranslatePositionalStateOfWordsToTheConditionOfBeingNotNegative();
 
         populateWordMatrix(FinishedList);
-        //rec(mList,SolvingPuzzle);
 
     }
 
@@ -217,21 +205,21 @@ public class Crossword extends Puzzle {
     private boolean rec(WordMap A, WordMap B)
     {
 
-    //Obtain the best possible list of words. So even if not all words are used we
-    if(FinishedList.size() < B.size())
-    {
-        FinishedList = B.clone();
-    }
+        //Obtain the best possible list of words. So even if not all words are used we
+        if(FinishedList.size() < B.size())
+        {
+            FinishedList = B.clone();
+        }
 
-    int Size = A.size();
-    boolean moveOn;
+        int Size = A.size();
+        boolean moveOn;
 
-    moveOn = getContinue();
+        moveOn = getContinue();
 
-    if(Size <= 0 ||!moveOn)
-    {
-        return true;
-    }else{
+        if(Size <= 0 ||!moveOn)
+        {
+            return true;
+        }else{
 
             for( ; Size > 0; Size--)
             {
@@ -246,17 +234,9 @@ public class Crossword extends Puzzle {
                 {
                     WordIntersection randomIntersection = randomizeIntersections(possibleIntersections,PIASize);
 
-                    //int choosenAnswer = checkSetWordWorks(B,A[random],possibleIntersectionAnswers[j]); // collision && boundBox
-                    //choosenAnswer is the word in B
-
                     //checkSetWordWorks alters the position of random once a possible intersection is found
                     if(checkSetWordWorks(B,random,randomIntersection))
                     {
-                           // string tempS = A[random];
-                           // A[random] = A.back();
-                           // A.pop_back();
-                            //Maninpulate tempS's position (which should be cell/word)
-                            //System.out.println("Random.LargestX: " + random.getLargestX() + " Random.LargestY: " + random.getLargestY());
 
                             B.add(random.clone());
                             if(checkCrosswordBound(B) && rec(A.clone(),B)) //tempAdd - adds List A and List B returns some List C
@@ -313,42 +293,6 @@ public class Crossword extends Puzzle {
         int index = myRandom.nextInt(end);
 
         Word tempW = tempMap.remove(index);
-
-        //int rX = myRandom.nextInt(tempMap.getBound());
-        //int rY = myRandom.nextInt(tempMap.getBound());
-
-        //tempW.setFirstCharPos(rX, rY);
-
-        //int rLR = myRandom.nextInt(3);
-        //int rUD = myRandom.nextInt(3);
-/*
-        if(rUD == 0)
-        {
-            tempW.setUp(true);
-        }
-        else if(rUD == 1)
-        {
-            tempW.setDown(true);
-        }
-        else if (rUD == 2)
-        {
-            tempW.setUp(false);
-            tempW.setDown(false);
-        }
-
-        if(rLR == 0)
-        {
-            tempW.setLeft(true);
-        }
-        else if(rLR == 1)
-        {
-            tempW.setRight(true);
-        }
-        else if(rLR == 2)
-        {
-            tempW.setLeft(false);
-            tempW.setRight(false);
-        }*/
 
         return tempW;
     }
