@@ -12,8 +12,7 @@ public class Wordsearch extends Puzzle {
 
         //Max size should be 20 
 
-       private int m_size = 10;
-       char map_Randomize [][] = null;//new char[FinishedList.getBound()][FinishedList.getBound()];
+       char map_Randomize [][] = null;
        
         public void generate(final WordList words, int pSize)
         {
@@ -21,25 +20,13 @@ public class Wordsearch extends Puzzle {
            
             FinishedList = new WordMap();
 
-            //randomWords.get(0).setFirstCharPos(0,1);
-            //randomWords.get(0).resetPos();
-            //randomWords.checkAllForLargest();
-            //recursivePuzzleSearch(randomWords, mappedWords);
             FinishedList = TEST(RemovedList);
-            //System.out.println(randomWords);
-           // System.out.println("WordSearch-Generate");
-           // System.out.println(words);
+            
             populateWordMatrix(FinishedList);
-        }
-
-        public void setSize(int size)
-        {
-            m_size = size;
         }
 
         public WordMap TEST(WordMap words)
         {
-            //System.out.println();
             WordMap temp = new WordMap();
             WordMap bad = new WordMap();
             try
@@ -55,18 +42,12 @@ public class Wordsearch extends Puzzle {
             Thread stop = new Thread(new PuzzleStop(this));
             stop.start();
 
-            //  lrg is obtained outside the loop because the longest word would change everytime a word was removed from "words"
-            //  So lrg is constant through the whole loop
-            //int lrg = words.getLongestWord();
-
             int size = words.size();
-           // Word w = randomizeWord(words, bad);
-           // temp.add(w);
+
             for(int i =0; i < size; i++)
             {
                 if(!getContinue())
                 {
-                    System.out.println("BEST WORDSEARCH:1");
                     break;
                 }
                 
@@ -76,7 +57,6 @@ public class Wordsearch extends Puzzle {
                     if(checkWord(w,temp) && !correctWordRandomly(w,temp) && !correctBackup(w,temp))
                     {
                         bad.add(w);
-                        System.out.println("NOT adding: " + w);
                     }
                     else
                     {
@@ -85,7 +65,6 @@ public class Wordsearch extends Puzzle {
                 }
             }
 
-            System.out.println("STOPPING");
             setContinue(false);
 
             words.add(bad);
@@ -116,7 +95,6 @@ public class Wordsearch extends Puzzle {
                         {
                             if(!getContinue())
                             {
-                                System.out.println("BEST WORDSEARCH:2");
                                 return false;
                             }
                             // if the words share a letter
@@ -127,7 +105,6 @@ public class Wordsearch extends Puzzle {
                                 // check if the word doesn't have a TRUE Collision with any other surounding word
                                 if(!checkWord(tempW,tempMap))
                                 {
-                                    //System.out.println("CorrectWordRandomly1: " + tempW);
                                     return true;
                                 }
                                 else
@@ -154,7 +131,6 @@ public class Wordsearch extends Puzzle {
                                 // check the word now that its direction is changed
                                 if(!checkWord(tempW,tempMap))
                                 {
-                                    //System.out.println("CorrectWordRandomly2: " + tempW);
                                     return true;
                                 }
 
@@ -175,7 +151,6 @@ public class Wordsearch extends Puzzle {
             
             if(correctByEmptySpace(tempW,space))
             {
-                //System.out.println("correctBackup: " + tempW);
                 return true;
             }
 
@@ -215,23 +190,6 @@ public class Wordsearch extends Puzzle {
             
             return boolMap;
         }
-
-        /*public void printW(Word tempW)
-        {
-            System.out.println(tempW);
-
-            System.out.println("PosX[0]: " + tempW.getCharPosX(0));
-            System.out.println("PosY[0]: " + tempW.getCharPosY(0));
-
-            System.out.println("PosX[LAST]: " + tempW.getCharPosX(tempW.size() -1));
-            System.out.println("PosY[LAST]: " + tempW.getCharPosY(tempW.size() -1));
-
-            System.out.println("UP: " + tempW.getUp());
-            System.out.println("DOWN: " + tempW.getDown());
-            System.out.println("LEFT: " + tempW.getLeft());
-            System.out.println("RIGHT: " + tempW.getRight());
-
-        }*/
 
         //STILL NEEDS
         //Search for - diaginals(x2)
@@ -273,7 +231,6 @@ public class Wordsearch extends Puzzle {
 
             if(!getContinue())
                 {
-                    System.out.println("BEST WORDSEARCH:3");
                     return false;
                 }
 
@@ -305,7 +262,6 @@ public class Wordsearch extends Puzzle {
 
              if(!getContinue())
                 {
-                    System.out.println("BEST WORDSEARCH:3");
                     return false;
                 }
 
@@ -319,8 +275,6 @@ public class Wordsearch extends Puzzle {
             
             while(row < tempBM[0].length-1)
             {
-                // x-=1;
-                // y+=1;
                 int tX = row;
                 int tY = 0;
                 while(tX > -1 && tY < tempBM.length)
@@ -346,8 +300,6 @@ public class Wordsearch extends Puzzle {
             int column =0;
             while(column < tempBM.length)
             {
-                // x-=1;
-                // y+=1;
                 int tX = row;
                 int tY = column;
                 while(tX > -1 && tY < tempBM.length)
@@ -373,7 +325,6 @@ public class Wordsearch extends Puzzle {
 
             if(!getContinue())
                 {
-                    System.out.println("BEST WORDSEARCH:3");
                     return false;
                 }
 
@@ -389,8 +340,6 @@ public class Wordsearch extends Puzzle {
 
             while(row > 0)
             {
-                // x-=1;
-                // y+=1;
                 int tX = row;
                 int tY = 0;
                 while(tX < tempBM[0].length && tY < tempBM.length)
@@ -416,8 +365,6 @@ public class Wordsearch extends Puzzle {
             column =0;
             while(column < tempBM.length)
             {
-                // x-=1;
-                // y+=1;
                 int tX = row;
                 int tY = column;
                 while(tX < tempBM[0].length && tY < tempBM.length)
@@ -444,7 +391,6 @@ public class Wordsearch extends Puzzle {
             
              if(!getContinue())
                 {
-                    System.out.println("BEST WORDSEARCH:3");
                     return false;
                 }
 
@@ -465,15 +411,11 @@ public class Wordsearch extends Puzzle {
                     {
                         if(!getContinue())
                         {
-                            System.out.println("BEST WORDSEARCH:3");
                             return false;
                         }
 
                         if(freeSpaceLR.get(i).get(j).size() >= tempW.size())
                         {
-                            //for(int k =0; k <freeSpaceLR.get(i).get(j).size(); k++)
-                            {
-                                //System.out.println("RIGHT-LEFT");
                                  
                                 correct = true;
                                 int tX = freeSpaceLR.get(i).get(j).get(0).getX();
@@ -484,7 +426,6 @@ public class Wordsearch extends Puzzle {
                                 tempW.setUp(false);
                                 tempW.setFirstCharPos(tX, tY);
                                 break;
-                            }
                         }
                     }
                 }
@@ -500,13 +441,8 @@ public class Wordsearch extends Puzzle {
                         {
                              if(!getContinue())
                             {
-                                System.out.println("BEST WORDSEARCH:3");
                                 return false;
                             }
-
-                            //for(int k =0; k <freeSpaceLR.get(i).get(j).size(); k++)
-                            {
-                                //System.out.println("UP-DOWN");
                                 correct = true;
                                 int tX = freeSpaceUD.get(i).get(j).get(0).getX();
                                 int tY = freeSpaceUD.get(i).get(j).get(0).getY();
@@ -517,7 +453,6 @@ public class Wordsearch extends Puzzle {
                                 
                                 tempW.setFirstCharPos(tX, tY);
                                 break;
-                            }
                         }
                     }
                 }
@@ -533,24 +468,17 @@ public class Wordsearch extends Puzzle {
                         {
                              if(!getContinue())
                             {
-                                System.out.println("BEST WORDSEARCH:3");
                                 return false;
                             }
 
-                            //for(int k =0; k <freeSpaceDR.get(i).get(j).size(); k++)
-                            {
-                                //System.out.println("DOWN-Right");
                                 correct = true;
                                 int tX = freeSpaceDR.get(i).get(j).get(0).getX();
                                 int tY = freeSpaceDR.get(i).get(j).get(0).getY();
 
                                 tempW.setRight(true);
-                                //tempW.setLeft(true);
                                 tempW.setDown(true);
-                                //tempW.setDown(true);
                                 tempW.setFirstCharPos(tX, tY);
                                 break;
-                            }
                         }
                     }
                 }
@@ -566,13 +494,8 @@ public class Wordsearch extends Puzzle {
                         {
                              if(!getContinue())
                             {
-                                System.out.println("BEST WORDSEARCH:3");
                                 return false;
                             }
-
-                            //for(int k =0; k <freeSpaceDL.get(i).get(j).size(); k++)
-                            {
-                                //System.out.println("DOWN-LEFT");
                                 correct = true;
                                 int tX = freeSpaceDL.get(i).get(j).get(0).getX();
                                 int tY = freeSpaceDL.get(i).get(j).get(0).getY();
@@ -582,14 +505,11 @@ public class Wordsearch extends Puzzle {
                                 //tempW.setDown(true);
                                 tempW.setFirstCharPos(tX, tY);
                                 break;
-                            }
                         }
                     }
                 }
             }
            }
-           //System.out.println("CorrectByEmptySpace: " + tempW);
-           //System.out.println("Directions: UP: " + tempW.getUp() + "\nDown: " + tempW.getDown() + "\nRight: " + tempW.getRight() + "\nLeft: " + tempW.getLeft());
             return true;
             
         }
@@ -607,70 +527,20 @@ public class Wordsearch extends Puzzle {
 
             while((tempA.getDown() == tempB.getDown() || tempA.getUp() == tempB.getUp()) && (tempA.getRight() == tempB.getRight() || tempA.getLeft() == tempB.getLeft()))
             {
-                //System.out.println("3.6");
-                //printW(tempA);
                 down = myRandom.nextBoolean();
                 tempA.setDown(down);
 
-               // System.out.println("3.7");
-               // printW(tempA);
                 up = myRandom.nextBoolean();
                 tempA.setUp(up);
 
-               // System.out.println("3.8");
-                //printW(tempA);
                 left = myRandom.nextBoolean();
                 tempA.setLeft(left);
 
-               // System.out.println("3.9");
-               // printW(tempA);
                 right = myRandom.nextBoolean();
                 tempA.setRight(right);
 
                 
             }
-            
-            /*
-            if (tempB.getDown() || tempB.getUp()) {
-                down = myRandom.nextBoolean();
-                tempA.setDown(down);
-
-                up = myRandom.nextBoolean();
-                tempA.setUp(up);
-            } else {
-                boolean chooseUD = myRandom.nextBoolean();
-                if (chooseUD) {
-                    tempA.setDown(true);
-                } else {
-                    tempA.setUp(true);
-                }
-            }
-
-            if (tempB.getRight() || tempB.getLeft()) {
-                if ((down == tempB.getDown() && down == true)) {
-                    if ((tempB.getRight() == true)) {
-                        tempA.setLeft(true);
-                    } else if (tempB.getLeft() == true) {
-                        tempA.setRight(true);
-                    }
-                } else if ((up == tempB.getUp() && up == true)) {
-                    if ((tempB.getRight() == true)) {
-                        tempA.setLeft(true);
-                    } else if (tempB.getLeft() == true) {
-                        tempA.setRight(true);
-                    }
-                } else {
-                    left = myRandom.nextBoolean();
-                    tempA.setLeft(left);
-                }
-            } else {
-                boolean chooseRL = myRandom.nextBoolean();
-                if (chooseRL) {
-                    tempA.setLeft(true);
-                } else {
-                    tempA.setRight(true);
-                }
-            }*/
         }
 
         public char [][] getMatrixRandomize()
@@ -684,25 +554,23 @@ public class Wordsearch extends Puzzle {
             super.populateWordMatrix(tempMap);
             char [][] map_R = super.getMatrixSolution();
             map_Randomize = new char [tempMap.getBound()][tempMap.getBound()];
-        //map = new char [(tempMap.getLargestY() +1) ][(tempMap.getLargestX() +1)];
-         // map_Randomize = new char [tempMap.getBound() ][tempMap.getBound()];
-        //Random randGen = new Random();
-        for(int i=0; i < map_Randomize.length; i++)
-        {
-            for(int j = 0; j < map_Randomize[i].length; j++ )
+
+            for(int i=0; i < map_Randomize.length; i++)
             {
-                
-                if(map_R[i][j] == '~')
+                for(int j = 0; j < map_Randomize[i].length; j++ )
                 {
-                    map_Randomize[i][j] = (char) (myRandom.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
+
+                    if(map_R[i][j] == '~')
+                    {
+                        map_Randomize[i][j] = (char) (myRandom.nextInt(24) + 97); //function should generate random letters from a(97) to z(122)
+                    }
+                    else
+                    {
+                        map_Randomize[i][j] = map_R[i][j];
+                    }
+
                 }
-                else
-                {
-                    map_Randomize[i][j] = map_R[i][j];
-                }
-                
             }
-        }
 
     }
 

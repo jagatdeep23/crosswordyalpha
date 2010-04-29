@@ -11,8 +11,6 @@ import java.util.ArrayList;
  * @author Team Yalpha, specifically Patrick Martin and Jordan Hollinger
  * @version 1.0
  */
-
-
 public class Model {
     public enum PuzzleType{CROSSWORD,WORDSEARCH};
     private Puzzle  m_puzzle = null;

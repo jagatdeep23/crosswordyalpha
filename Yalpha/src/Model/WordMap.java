@@ -118,18 +118,6 @@ import java.rmi.NotBoundException;
             return true;
         }
 
-        /*public boolean set(final WordMap tempWM)
-        {
-            this.clear();
-            
-            for(Word A: tempWM)
-            {
-                this.add(A.clone());
-            }
-
-            return true;
-        }*/
-
         @Override
         public WordMap clone()
         {
