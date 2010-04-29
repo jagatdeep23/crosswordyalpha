@@ -32,6 +32,7 @@ public class ControllerGUI {
         if (System.getProperty("mrj.version") != null) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
         }
+
         model = new Model();
         view = new ViewGUI();
         view.printGreeting();
@@ -168,7 +169,7 @@ public class ControllerGUI {
                     //System.out.println(model.getPuzzleType().equals(Model.PuzzleType.WORDSEARCH));
                     view.updateWordArea(model.getwordList());
                     //shotty code next line
-                    view.setPuzzleSize(model.getMatrix().length);
+                    view.setPuzzleSize(model.size());
                     view.setSolutionMatrix(model.getMatrixSolution());
 
                     if (model.getPuzzleType().equals(Model.PuzzleType.WORDSEARCH)) {
