@@ -137,7 +137,7 @@ public class ControllerGUI {
                     view.printWordsearch(model.getMatrix());
                 }
                 view.setSolutionMatrix(model.getMatrixSolution());
-                //view.printWordsNotUsed(model.getWordsNotUsed());
+                view.printWordsNotUsed(model.getWordsNotUsed());
             }
         }
     }
