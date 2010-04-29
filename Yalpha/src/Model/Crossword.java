@@ -22,7 +22,6 @@ public class Crossword extends Puzzle {
     {
         FinishedList.clear();
         WordMap mList = new WordMap(words, psize,false);
-        RemovedList = mList;
         WordMap SolvingPuzzle = new WordMap(false);
         try
         {
@@ -209,6 +208,7 @@ public class Crossword extends Puzzle {
         if(FinishedList.size() < B.size())
         {
             FinishedList = B.clone();
+            RemovedList = A.clone();
         }
 
         int Size = A.size();
