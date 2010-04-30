@@ -49,6 +49,13 @@ public class ViewGUI {
      * Creates and formats the graphical user interface.
      */
     public ViewGUI() {
+
+        // Find file path for the about image
+        String imagePath = ViewGUI.class.getClassLoader().getResource("View/ViewGUI.class").getPath();
+        imagePath = imagePath.substring(imagePath.indexOf(File.separatorChar), imagePath.lastIndexOf(File.separatorChar));
+        imagePath = imagePath.substring(0, imagePath.lastIndexOf(File.separatorChar));
+        imagePath = imagePath.substring(0, imagePath.lastIndexOf(File.separatorChar) + 1) + "about.gif";
+
         frame = new JFrame("Team Yalpha Word Search Iteration 3");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
@@ -60,7 +67,8 @@ public class ViewGUI {
         frame.setLocation((screenSize.width - 800) / 2,
                 (screenSize.height - 600) / 2);
 
-        aboutImage = new ImageIcon("src" + File.separatorChar + "about.gif");
+
+        aboutImage = new ImageIcon(imagePath);
 
         menuBar = new JMenuBar();
 
