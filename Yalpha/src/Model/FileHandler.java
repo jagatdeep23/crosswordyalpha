@@ -25,7 +25,14 @@ public class FileHandler
         ArrayList<String> profanityList = new ArrayList<String>();
         try
         {
-            Scanner fileScan = FileHandler.createFileScanner("proFill.txt", "profanity list");
+            // Find file path for the about image
+            String filePath = FileHandler.class.getClassLoader().getResource("Model/FileHandler.class").getPath();
+            filePath = filePath.substring(filePath.indexOf(File.separatorChar), filePath.lastIndexOf(File.separatorChar));
+            filePath = filePath.substring(0, filePath.lastIndexOf(File.separatorChar));
+            filePath = filePath.substring(0, filePath.lastIndexOf(File.separatorChar) + 1) + "proFill.txt";
+
+            Scanner fileScan = FileHandler.createFileScanner(filePath, "profanity list");
+
             while (fileScan.hasNext())
             {
                 profanityList.add(fileScan.next());
