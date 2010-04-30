@@ -12,10 +12,6 @@ import View.View;
  * @version 1.0
  */
 public class Controller {
-    /*
-    public Controller(){
-    run();
-    }*/
 
     /**
      * Gathers input until user exits. Based on input tells model and view how

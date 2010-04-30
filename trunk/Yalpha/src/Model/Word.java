@@ -18,6 +18,10 @@ package Model;
         private boolean m_up, m_down, m_left, m_right;
         private boolean m_checkPosNeg = true;
 
+        /**
+         * @param temp String containing the word
+         * @param checkPos Positive position checking on or off
+         */
         Word(String temp, boolean checkPos)
         {
            this(temp);
@@ -25,6 +29,9 @@ package Model;
            
         }
 
+        /**
+         * @param temp String containing the word
+         */
         Word(String temp)
         {
            initalizePoints(temp.length());
@@ -37,6 +44,10 @@ package Model;
            setRight(true);
         }
 
+        /**
+         * Copy Constructor
+         * @param tempW Word to copy
+         */
         Word(Word tempW)
         {
            initalizePoints(tempW.m_pos.length);
@@ -70,7 +81,7 @@ package Model;
         }
 
         /**
-         *  initalizes all the Points
+         * Initalizes all the Points
          * @param tempS the number of point that need to be initalized
          */
         private void initalizePoints(int tempS)
@@ -105,47 +116,43 @@ package Model;
         }
 
         /**
-         *
+         * Gets the largest X value of all the characters in the word
          * @return the Largest X value out of all the characters
          */
         public int getLargestX()
         {
-            //ObtainGreatest();
             return m_largest.getX();
         }
 
         /**
-         *
+         * Gets the largest Y value of all the characters in the word
          * @return the Largest Y value out of all the characters
          */
         public int getLargestY()
         {
-            //ObtainGreatest();
             return m_largest.getY();
         }
 
         /**
-         *
+         * Gets the smallest Y value of all the characters in the word
          * @return the Smallest Y value out of all the characters
          */
         public int getSmallestY()
         {
-            //ObtainSmallest();
             return m_smallest.getY();
         }
 
         /**
-         *
+         * Gets the largest X value of all the characters in the word
          * @return the Smallest X value out of all the characters
          */
         public int getSmallestX()
         {
-            //ObtainSmallest();
             return m_smallest.getX();
         }
 
         /**
-         *
+         * Determines if the direction of the word is up
          * @return Up - true/false
          */
         public boolean getUp()
@@ -154,7 +161,7 @@ package Model;
         }
 
         /**
-         *
+         * Determines if the direction of the word is down
          * @return Down - true/false
          */
         public boolean getDown()
@@ -163,7 +170,7 @@ package Model;
         }
 
         /**
-         *
+         * Determines if the direction of the word is right
          * @return Right - true/false
          */
         public boolean getRight()
@@ -172,7 +179,7 @@ package Model;
         }
 
         /**
-         *
+         * Determines if the direction of the word is left
          * @return Left - true/false
          */
         public boolean getLeft()
@@ -181,7 +188,7 @@ package Model;
         }
 
         /**
-         *
+         * Gets the number of letters in the word
          * @return number of characters
          */
         public int size()
@@ -190,7 +197,7 @@ package Model;
         }
 
         /**
-         *
+         * Gets a character array containing the word
          * @return array of characters in the word
          */
         public char [] getString()
@@ -198,12 +205,17 @@ package Model;
             return m_letters;
         }
 
+        /**
+         * Gets a String containing the word
+         * @return String containing the word
+         */
         public String toString()
         {
             return String.copyValueOf(m_letters);
         }
 
         /**
+         * Gets the character at a given index
          * @param index is index of the characters
          * @return character at index
          */
@@ -224,6 +236,10 @@ package Model;
             resetPos();
         }
 
+        /**
+         * Sets direction of the word to up or not
+         * @param temp true/false
+         */
         public void setUp(boolean temp)
         {
             m_up = temp;
@@ -245,6 +261,10 @@ package Model;
             resetPos();
         }
 
+        /**
+         * Sets direction down the word to up or not
+         * @param temp true/false
+         */
         public void setDown(boolean temp)
         {
             m_down = temp;
@@ -262,6 +282,10 @@ package Model;
             resetPos();
         }
 
+        /**
+         * Sets direction down the word to right or not
+         * @param temp true/false
+         */
         public void setRight(boolean temp)
         {
             m_right = temp;
@@ -280,6 +304,10 @@ package Model;
             resetPos();
         }
 
+        /**
+         * Sets direction down the word to left or not
+         * @param temp true/false
+         */
         public void setLeft(boolean temp)
         {
             m_left = temp;
@@ -298,6 +326,10 @@ package Model;
             resetPos();
         }
 
+        /**
+         * Creates a duplicate of this instance of Word
+         * @return Clone of this word
+         */
         @Override
         public Word clone()
         {
@@ -324,6 +356,10 @@ package Model;
 
         }
 
+        /**
+         * Sets the content of this word to the content of the string
+         * @param temp String representing the new word
+         */
         public void setString(String temp)
         {
             m_letters = (char [])temp.toCharArray().clone();
@@ -331,7 +367,7 @@ package Model;
         }
 
         /**
-         * resets the positions of each character based on direction and the first character's position.
+         * Resets the positions of each character based on direction and the first character's position.
          */
         public void resetPos()
         {
@@ -422,22 +458,6 @@ package Model;
             {
                 m_largest.setY(m_pos[0].getY());
             }
-
-//            m_largest.setX(m_pos[0].getX());
-//            m_largest.setY(m_pos[0].getY());
-//
-//            for(int i = 1; i < m_pos.length; i++)
-//            {
-//                if(m_largest.getX() < m_pos[i].getX())
-//                {
-//                    m_largest.setX(m_pos[i].getX());
-//                }
-//
-//                if(m_largest.getY() < m_pos[i].getY())
-//                {
-//                    m_largest.setY(m_pos[i].getY());
-//                }
-//            }
         }
 
         /**
@@ -465,29 +485,14 @@ package Model;
                 m_smallest.setY(m_pos[0].getY());
             }
 
-//            m_smallest.setX(m_pos[0].getX());
-//            m_smallest.setY(m_pos[0].getY());
-//            for(int i = 1; i < m_pos.length; i++)
-//            {
-//                if(m_smallest.getX() > m_pos[i].getX())
-//                {
-//                    m_smallest.setX(m_pos[i].getX());
-//                }
-//
-//                if(m_smallest.getY() > m_pos[i].getY())
-//                {
-//                    m_smallest.setY(m_pos[i].getY());
-//                }
-//            }
-
         }
 
         
        /**
         * If the word has no direction then the default direction is right and CheckDirection() returns false
-       * when all the directions are false then default direction is true
-       * @return true when at least one direction is set to true
-       */
+        * when all the directions are false then default direction is true
+        * @return true when at least one direction is set to true
+        */
         private boolean CheckDirection()
         {
             boolean ynDir = true;
@@ -500,6 +505,7 @@ package Model;
         }
 
         /**
+         * Determines if this word overlaps another
          * @param tempW is a word to check VS this for an overlapped position and character
          * @return (true: if words overlap) || (false: if words dont overlap)
          */
@@ -590,7 +596,7 @@ package Model;
         }
 
         /**
-         *
+         * Compares the position at a given index of this word with the position at a given index of another word
          * @param mytempI Index of character in this word
          * @param tempW word to compare to this word
          * @param tempI character index of tempW

@@ -6,8 +6,9 @@
 package Model;
 
 /**
- * Stores a point with three coordinates.
- * @author Patrick
+ * Stores data for an intersection between two words: the index of word B in a wordmap, the index of intersection in word one,
+ * and index of intersection in word two
+ * @author Team Yalpha, specifically Jordan Hollinger and Patrick Martin
  */
 public class WordIntersection
 {

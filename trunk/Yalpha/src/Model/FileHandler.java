@@ -16,6 +16,10 @@ import java.util.ArrayList;
  */
 public class FileHandler
 {
+    /**
+     * Loads an ArrayList of Strings to be checked for the profanity filter
+     * @return ArrayList of profanity strings
+     */
     public static ArrayList<String> loadProfanityList()
     {
         ArrayList<String> profanityList = new ArrayList<String>();

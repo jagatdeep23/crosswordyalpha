@@ -60,6 +60,10 @@ public abstract class Puzzle {
 
     private char [][] map = null;
 
+    /**
+     * Gets the size of the puzzle
+     * @return Size of the puzzle
+     */
     public int size()
     {
         return FinishedList.size();
@@ -122,7 +126,7 @@ public abstract class Puzzle {
         }
 
     /**
-     *
+     * Gets matrix filled by random letters for wordsearch, or same as solution for crossword
      * @return if used by wordsearch it returns matrix with true words hidden by random letters and crossword returns the same as MatrixSolution
      */
     public abstract char [][] getMatrixRandomize();
@@ -137,7 +141,7 @@ public abstract class Puzzle {
     }
 
     /**
-     *
+     * Return the words from the initial list that were used in the puzzle
      * @return WordMap that has all the words being used
      */
     public WordMap getWordsUsed()
@@ -147,8 +151,8 @@ public abstract class Puzzle {
 
 
     /**
-     *
-     * @param word
+     * Sets the words contained in puzzle
+     * @param word List words contained in the puzzle
      */
     public void setWordsUsed(WordMap words)
     {
@@ -156,7 +160,7 @@ public abstract class Puzzle {
     }
 
     /**
-     * return words that aren't used in the puzzle
+     * Return the words from the initial list that were not used in the puzzle
      * @return
      */
     public WordMap getWordsNotUsed()
@@ -224,6 +228,9 @@ public abstract class Puzzle {
          *  then returns the randomized word
          *  Largest: the largest word in tempMap before any removes/changes are made to the first fully populated instance of tempMap
          *  Assuming that user wants to go from "zero" to "end"
+         * @param tempMap map of the words
+         * @param end Index boundary of words to choose from
+         * @return Randomly chosen word
          */
         protected Word randomizeWord(WordMap tempMap, int end)
         {

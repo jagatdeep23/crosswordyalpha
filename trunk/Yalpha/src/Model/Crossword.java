@@ -63,10 +63,7 @@ public class Crossword extends Puzzle {
     }
 
     /**
-     * Obtains array of 3D points that keep track of...
-     *  //X = Index of WordA in Map
-     *  //Y = Index of character in WordA
-     *  //Z = Index of WordB that matches a character in WordA
+     * Obtains array of Word Intersections
      *
      * @param tempWM is a list of words to check VS a word tempW.
      * @return returns list of Point3D where character overlap.
@@ -83,9 +80,9 @@ public class Crossword extends Puzzle {
                 {
                     if(tempP.getCharAt(j) == tempW.getCharAt(k))
                     {
-                        //X = Index of WordA in Map
-                        //Y = Index of character in WordA
-                        //Z = Index of WordB that matches a character in WordA
+                        //i = Index of WordA in Map
+                        //j = Index of character in WordA
+                        //k = Index of WordB that matches a character in WordA
                         pointList.add(new WordIntersection(i,j,k));
                     }
                 }
@@ -141,7 +138,7 @@ public class Crossword extends Puzzle {
         return true;
     }
 
-    public boolean checkOverlappingWords(Word temp, WordMap tempList)
+    private boolean checkOverlappingWords(Word temp, WordMap tempList)
     {
         //first check if the word overlaps with any words in WordMap if it doesnt then
         for(int i =0; i < tempList.size(); i++)
@@ -158,7 +155,7 @@ public class Crossword extends Puzzle {
         return false;
     }
 
-    public boolean checkBuntingWords(Word temp, WordMap tempList)
+    private boolean checkBuntingWords(Word temp, WordMap tempList)
     {
         int wordSmallestX = temp.getSmallestX(), wordLargestX = temp.getLargestX(),
             wordSmallestY = temp.getSmallestY(), wordLargestY = temp.getLargestY();
@@ -255,14 +252,13 @@ public class Crossword extends Puzzle {
     }
 
     /**
-     *
      * Finds the top of the crossword and the bottom of the crossword and
      * makes sure that the length isnt greater then the bound of the bounding box
      *
      * @param temp
      * @return TRUE for if the crossword fits inside the bounds
      */
-    boolean checkCrosswordBound(WordMap temp)
+    private boolean checkCrosswordBound(WordMap temp)
     {
         int LargestX = temp.getLargestX();
         int SmallestX = temp.getSmallestX();
@@ -279,7 +275,6 @@ public class Crossword extends Puzzle {
     }
 
     /**
-     *
      * randomly removes a word from tempMap
      *
      * @param tempMap word list to randomly choose from
@@ -310,7 +305,7 @@ public class Crossword extends Puzzle {
     }
 
     /**
-     *
+     * Returns the same as the solution matrix for crossword
      *
      * @return the same answer as getMatrixSolution in puzzle...
      */

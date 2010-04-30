@@ -12,7 +12,12 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Model {
+    /**
+     * Represents the type a type of puzzle: Crossword or Word search
+     */
     public enum PuzzleType{CROSSWORD,WORDSEARCH};
+
+
     private Puzzle  m_puzzle = null;
     private WordList m_list = null;
 
@@ -129,6 +134,12 @@ public class Model {
         FileHandler.saveWordList(temp, m_list);
     }
 
+    /**
+     * Exports the current puzzle to HTML
+     * @param fileName Destination path of the file
+     * @param isSolution Determines whether to export the puzzle or solution
+     * @throws IOException error writing the HTML file
+     */
     public void export(String fileName, boolean isSolution)
         throws IOException
     {
@@ -163,13 +174,17 @@ public class Model {
     {
         m_puzzle.generate(m_list, size);
     }
+    
+    /**
+     * Generates a puzzle of default size
+     */
     public void generate()
     {
         m_puzzle.generate(m_list, 10);
     }
 
     /**
-     * gets the puzzle matrix, including randomized characters to fill in word search
+     * Gets the puzzle matrix, including randomized characters to fill in word search
      * @return the puzzle matrix
      */
     public char [][] getMatrix()
@@ -187,13 +202,17 @@ public class Model {
         return m_list.toArray(tempS);
     }
 
+    /**
+     * Gets the size of the current puzzle
+     * @return Size of the current puzzle
+     */
     public int size()
     {
         return m_puzzle.size();
     }
 
     /**
-     *
+     * Gets an ArrayList of the words from the wordlist that are not currently used in the puzzle
      * @return Arraylist of words not used in the currently generated puzzle
      */
     public ArrayList<String> getWordsNotUsed()
