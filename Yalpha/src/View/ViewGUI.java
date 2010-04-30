@@ -1,7 +1,5 @@
 package View;
 
-import Model.WordMap;
-import Model.Word;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -300,19 +298,19 @@ public class ViewGUI {
         JOptionPane.showMessageDialog(null, Description, Title, Symbol);
     }
 
-    public char[][] createSolution(WordMap map, int numRows, int numCols) {
-        Word[] arrayMap = new Word[map.size()];
-        map.toArray(arrayMap);
-
-        char[][] puzzle = new char[numRows][numCols];
-
-        for (int word = 0; word <= arrayMap.length; ++word) {
-            for (int letter = 0; letter < arrayMap[word].size(); ++letter) {
-                puzzle[arrayMap[word].getCharPosX(letter)][arrayMap[word].getCharPosY(letter)] = arrayMap[word].getCharAt(letter);
-            }
-        }
-        return puzzle;
-    }
+//    public char[][] createSolution(WordMap map, int numRows, int numCols) {
+//        Word[] arrayMap = new Word[map.size()];
+//        map.toArray(arrayMap);
+//
+//        char[][] puzzle = new char[numRows][numCols];
+//
+//        for (int word = 0; word <= arrayMap.length; ++word) {
+//            for (int letter = 0; letter < arrayMap[word].size(); ++letter) {
+//                puzzle[arrayMap[word].getCharPosX(letter)][arrayMap[word].getCharPosY(letter)] = arrayMap[word].getCharAt(letter);
+//            }
+//        }
+//        return puzzle;
+//    }
 
     /**
      * Display the about box

@@ -1,8 +1,6 @@
 package View;
 
 import java.util.ArrayList;
-import Model.WordMap;
-import Model.Word;
 
 /**
  * Displays information and state of the model as well the puzzle.
@@ -85,30 +83,6 @@ public class View {
                 System.out.println();
             }
 	}
-
-
-        /**
-         *
-         * @param map       Wordmap that stores all letter locations
-         * @param numRows   num of rows
-         * @param numCols   num of columns
-         * @return          returns a character array of the puzzle solution
-         */
-        public char[][] createSolution(WordMap map, int numRows, int numCols) {
-            Word[] arrayMap = new Word[map.size()];
-            map.toArray(arrayMap);
-
-            char[][] puzzle = new char[numRows][numCols];
-
-            for(int word = 0; word <= arrayMap.length; ++word)
-            {
-                for(int letter = 0; letter < arrayMap[word].size(); ++letter )
-                {
-                    puzzle[arrayMap[word].getCharPosX(letter)][arrayMap[word].getCharPosY(letter)] = arrayMap[word].getCharAt(letter);
-                }
-            }
-            return puzzle;
-        }
 
 
         /**
