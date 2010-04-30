@@ -159,58 +159,105 @@ public class ViewGUI {
     }
 
     /**
-     * The following methods add all the ActionListeners necessary for the GUI.
-     *
+     * Adds an action listener to the view to send actions to the controller.
      * @param click- The ActionListener class from the Controller.
      */
     public void addAboutMenuListener(ActionListener click) {
         aboutMenuItem.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addAddButtonListener(ActionListener click) {
         addButton.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addChangePuzzleListener(ActionListener click) {
         changePuzzle.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addClearButtonListener(ActionListener click) {
         clearButton.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addExportButtonListener(ActionListener click) {
         exportButton.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addExitMenuListener(ActionListener click) {
         exitMenuItem.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addGenerateButtonListener(ActionListener click) {
         generateButton.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addHelpMenuItemListener(ActionListener click) {
         helpMenuItem.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addOpenPuzzleListener(ActionListener click) {
         openPuzzle.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addOpenWordListListener(ActionListener click) {
         openWordList.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addRemoveButtonListener(ActionListener click) {
         removeButton.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addSavePuzzleListener(ActionListener click) {
         savePuzzle.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addSaveWordListListener(ActionListener click) {
         saveWordList.addActionListener(click);
     }
@@ -219,19 +266,36 @@ public class ViewGUI {
         solutionButton.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addWordBoxListener(ActionListener click) {
         wordBox.addActionListener(click);
     }
 
+    /**
+     * Adds an action listener to the view to send actions to the controller.
+     * @param click- The ActionListener class from the Controller.
+     */
     public void addWordBoxMouseListener(MouseListener click) {
         wordBox.addMouseListener(click);
     }
 
+    /**
+     * Clears the puzzle area
+     */
     public void clearPuzzle() {
         puzzleArea.clear();
         puzzleArea.repaint();
     }
 
+    /**
+     * Creates a message dialog box
+     * @param Description Text in the box
+     * @param Title Title of the box
+     * @param Symbol Symbol to display
+     */
     public void createJOptionPane(String Description, String Title, int Symbol) {
         JOptionPane.showMessageDialog(null, Description, Title, Symbol);
     }
@@ -250,10 +314,17 @@ public class ViewGUI {
         return puzzle;
     }
 
+    /**
+     * Display the about box
+     */
     public void displayAbout() {
         JOptionPane.showMessageDialog(frame, "", "", 0, aboutImage);
     }
 
+    /**
+     * Get user selected size for puzzle to generate
+     * @return Selected size
+     */
     public int getPuzzleSize() {
         String selected = (String) puzzleSize.getSelectedItem();
         if (selected.equals("10x10")) {
@@ -264,21 +335,37 @@ public class ViewGUI {
             return 20;
         }
     }
-    
+
+    /**
+     * Get user selected puzzle type to generate
+     * @return Selected puzzle type
+     */
     public String getPuzzleType() {
         return (String) changePuzzle.getSelectedItem();
     }
 
+    /**
+     * Get text from word entry box
+     * @return Line of words
+     */
     public String getWord() {
         String word = wordBox.getText();
         wordBox.setText("");
         return word;
     }
 
+    /**
+     * Get selected text from word list display
+     * @return Selected text from text area
+     */
     public String getSelected() {
         return wordArea.getSelectedText();
     }
 
+    /**
+     * Display file open browser window
+     * @return selected file path
+     */
     public String fileOpenDialog() {
         JFileChooser fc = new JFileChooser();
         if (fc.showOpenDialog(frame) == fc.APPROVE_OPTION) {
@@ -287,6 +374,10 @@ public class ViewGUI {
         return "";
     }
 
+    /**
+     * Show file save browser window
+     * @return Selected file path
+     */
     public String fileSaveDialog() {
         JFileChooser fc = new JFileChooser();
         if (fc.showSaveDialog(frame) == fc.APPROVE_OPTION) {
@@ -296,7 +387,7 @@ public class ViewGUI {
     }
 
     /**
-     *
+     * Display a message dialog box
      * @param message  message to display
      * @param title    title of dialog box
      */
@@ -313,7 +404,7 @@ public class ViewGUI {
     }
 
     /**
-     *
+     * Print the crossword puzzle to screen
      * @param puzzle    Takes a matrix of characters
      */
     public void printCrossword(char[][] puzzle) {
@@ -333,7 +424,7 @@ public class ViewGUI {
     }
 
     /**
-     *
+     * Print the word search puzzle to the screen
      * @param puzzle  Takes a matrix of characters
      */
     public void printWordsearch(char[][] puzzle) {
@@ -344,9 +435,8 @@ public class ViewGUI {
     }
 
     /**
-     *
-     * @param words
-     *
+     * Show dialog box with unused words in puzzle
+     * @param words The unused words
      */
     public void printWordsNotUsed(ArrayList<String> words) {
         if (words.size() > 0) {
@@ -365,12 +455,15 @@ public class ViewGUI {
         }
     }
 
+    /**
+     * Select all text in word list area
+     */
     public void selectText() {
         wordBox.selectAll();
     }
 
     /**
-     *
+     * Set puzzle size selection
      * @param size The size of the puzzle.
      */
     public void setPuzzleSize(int size) {
@@ -384,7 +477,7 @@ public class ViewGUI {
     }
 
     /**
-     *
+     * Set selected puzzle type
      * @param isWordsearch Whether the puzzle type is a wordsearch or not.
      */
     public void setPuzzleType(boolean isWordsearch) {
@@ -396,7 +489,7 @@ public class ViewGUI {
     }
 
     /**
-     *
+     * Set solution display mode on or off
      * @param isSolution Whether the solution should show or not.
      */
     public void setSolution(boolean isSolution) {
@@ -405,7 +498,7 @@ public class ViewGUI {
     }
 
     /**
-     * 
+     * Give the solution matrix to the view
      * @param puzzleSolution Solution configuration.
      */
     public void setSolutionMatrix(char[][] puzzleSolution) {
@@ -413,7 +506,7 @@ public class ViewGUI {
     }
 
     /**
-     *
+     * Give the updated word list to the view
      * @param words Takes the list of words
      */
     public void updateWordArea(String[] words) {

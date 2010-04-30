@@ -14,7 +14,12 @@ public class Wordsearch extends Puzzle {
 
        char map_Randomize [][] = null;
        
-        public void generate(final WordList words, int pSize)
+       /**
+        * Generates a word search puzzle
+        * @param words list of words to add to puzzle
+        * @param pSize size of word search
+        */ 
+       public void generate(final WordList words, int pSize)
         {
             RemovedList = new WordMap(words, pSize);
            
@@ -25,6 +30,11 @@ public class Wordsearch extends Puzzle {
             populateWordMatrix(FinishedList);
         }
 
+       /**
+        * Pat's test function
+        * @param words WordMap to test
+        * @return resulting WordMap
+        */
         public WordMap TEST(WordMap words)
         {
             WordMap temp = new WordMap();
@@ -545,11 +555,19 @@ public class Wordsearch extends Puzzle {
             }
         }
 
+        /**
+         * Gets matrix containing the word search, filled in with random letters
+         * @return
+         */
         public char [][] getMatrixRandomize()
         {
             return map_Randomize;
         }
 
+        /**
+         * Puts the mapped words into the puzzle matrix
+         * @param tempMap Mapped words to include in puzzle
+         */
         @Override
         protected void populateWordMatrix(final WordMap tempMap)
        {
@@ -576,7 +594,10 @@ public class Wordsearch extends Puzzle {
 
     }
 
-    //puts all the words into the char matrix(MxM)
+    /**
+     * Puts all the words into the char matrix(MxM)
+     *  @param tempMap Matrix containing Wordsearch
+     */
     public void populateWordMatrix(char [][] tempMap)
     {
         map_Randomize = new char[tempMap.length][tempMap[0].length];

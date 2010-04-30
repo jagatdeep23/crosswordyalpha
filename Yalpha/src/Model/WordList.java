@@ -15,6 +15,9 @@ public class WordList extends ArrayList<String> {
 
     private static ArrayList<String> m_profanityList;
     
+    /**
+     * Default constructor; loads profanity list if not already loaded
+     */
     public WordList()
     {
         super();
@@ -110,15 +113,6 @@ public class WordList extends ArrayList<String> {
             }
         }
 
-//        while (wordLine.indexOf(' ') > 0 || wordLine.indexOf('\n') > 0) {
-//            if (super.remove(wordLine.substring(0, wordLine.indexOf(' ')))) {
-//                wordRemoved = true;
-//            }
-//            wordLine = wordLine.substring(wordLine.indexOf(' ') + 1, wordLine.length());
-//        }
-//        if (super.remove(wordLine)) {
-//            wordRemoved = true;
-//        }
         return wordRemoved;
     }
 }

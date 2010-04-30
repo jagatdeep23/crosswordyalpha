@@ -16,9 +16,9 @@ public class View {
 	}
 
         /**
+         * Print the puzzle text
          * @param puzzle    matrix of characters from the model
          */
-
 	public void printPuzzle(char[][] puzzle){
             if (puzzle.length > 1){
 		for (int i = 0; i < puzzle.length; ++i){
@@ -31,6 +31,7 @@ public class View {
 	}
 
         /**
+         * Print wordsearch text
          * @param puzzle    matrix of characters from the model
          */
 
@@ -48,6 +49,7 @@ public class View {
 
 
         /**
+         * Print crossword text
          * @param puzzle    matrix of characters from the model
          */
         public void printCrossword(char[][] puzzle)
@@ -67,6 +69,7 @@ public class View {
 
 
         /**
+         * Print crossword solution text
          * @param puzzle    matrix of characters from the model
          */
         public void printCrosswordSolution(char[][] puzzle){
@@ -108,7 +111,9 @@ public class View {
         }
 
 
-
+        /**
+         * Print the Yalpha greeting
+         */
         public void printGreeting()
         {
             System.out.println("Welcome to Yalpha's puzzle! \nThe rules are:\nEvery word needs to be over 1 and under 20 letters in length. \nIf help needed type h.");
@@ -116,7 +121,7 @@ public class View {
 
 
         /**
-         *
+         * Print the current list of words
          * @param words The list of words
          */
 	public void printWordList(ArrayList<String> words){
@@ -125,6 +130,10 @@ public class View {
 			System.out.println(words.get(i));
 		}
 	}
+
+        /**
+         * Print the help information
+         */
 	public void printHelp(){
 		System.out
 		.println("Valid Commands:"

@@ -29,6 +29,12 @@ import java.rmi.NotBoundException;
         int m_bound = 1;
         boolean m_checkNeg = true;
 
+        /**
+         * 
+         * @param temp List of words to add
+         * @param bounds Bounds for puzzle generation
+         * @param checkNeg Positive position checking on or off
+         */
         WordMap(final WordList temp, int bounds, boolean checkNeg)
         {
             super();
@@ -47,6 +53,11 @@ import java.rmi.NotBoundException;
             add(temp);
         }
 
+        /**
+         *
+         * @param temp List of words to add
+         * @param bounds
+         */
         WordMap(final WordList temp, int bounds)
         {
             super();
@@ -54,7 +65,11 @@ import java.rmi.NotBoundException;
             m_bound = bounds;
             add(temp);
         }
-        
+
+        /**
+         *
+         * @param temp List of words to add
+         */
         WordMap(final WordList temp)
         {
             super();
@@ -62,17 +77,27 @@ import java.rmi.NotBoundException;
             add(temp);
         }
 
+        /**
+         *
+         * @param checkNeg Positive position checking on or off
+         */
         WordMap(boolean checkNeg)
         {
             this();
             m_checkNeg = checkNeg;
         }
 
+        /**
+         * Default constructor
+         */
         WordMap()
         {
            initalize();
         }
 
+        /**
+         * Initialize data
+         */
         private void initalize()
         {
             m_bound = 10;
@@ -108,6 +133,11 @@ import java.rmi.NotBoundException;
             }
         }
 
+        /**
+         * Add contents of a WordList to this instance
+         * @param temp WordList to add
+         * @return true
+         */
         private boolean add(final WordList temp)
         {
             for(int i =0; i < temp.size(); i++)
@@ -118,6 +148,10 @@ import java.rmi.NotBoundException;
             return true;
         }
 
+        /**
+         * Creates a duplicat of the current instance
+         * @return The clone of the current WordMap
+         */
         @Override
         public WordMap clone()
         {
@@ -136,7 +170,7 @@ import java.rmi.NotBoundException;
         }
 
         /**
-         * 
+         * Adds an offset to all words in the map
          * @param hPoint the offset to add all the other points
          */
         private void addOffset(Point hPoint)
@@ -164,6 +198,11 @@ import java.rmi.NotBoundException;
             }
         }
 
+        /**
+         * Adds the contents of a WordMap to this instance
+         * @param temp the WordMap to add
+         * @return true
+         */
         public boolean add(final WordMap temp)
         {
             for(int i =0; i < temp.size(); i++)
@@ -174,11 +213,20 @@ import java.rmi.NotBoundException;
             return true;
         }
 
+        /**
+         * Gets the size bound of the wordmap
+         * @return
+         */
         public int getBound()
         {
             return m_bound;
         }
 
+        /**
+         * Sets the size bound
+         * @param tempB Desired size for puzzle generation
+         * @throws Exception Eror setting bounds
+         */
         public void setBound(int tempB) throws Exception
         {
             if(tempB >= 10)
@@ -191,6 +239,10 @@ import java.rmi.NotBoundException;
             }
         }
 
+        /**
+         * Gets the longest word in the map
+         * @return The longest word
+         */
         public int getLongestWord()
         {
             if(size() > 0)
@@ -209,54 +261,89 @@ import java.rmi.NotBoundException;
             return -1;
         }
 
+        /**
+         * Gets the largest X value of all the words in the wordmap
+         * @return the largest X value
+         */
         public int getLargestX()
         {
             checkAllForLargest();
             return m_largest.getX();
         }
 
+        /**
+         * Gets the largest X value of all the words in the wordmap
+         * @return the largest X value
+         */
         public int posLargestX()
         {
             checkAllForLargest();
             return m_indexLargest.getX();
         }
 
+        /**
+         * Gets the largest Y value of all the words in the wordmap
+         * @return the largest Y value
+         */
         public int getLargestY()
         {
             checkAllForLargest();
             return m_largest.getY();
         }
 
+        /**
+         * Gets the largest Y value of all the words in the wordmap
+         * @return the largest Y value
+         */
         public int posLargestY()
         {
             checkAllForLargest();
             return m_indexLargest.getY();
         }
 
+        /**
+         * Gets the smallest X value of all the words in the wordmap
+         * @return the smallest X value
+         */
         public int getSmallestX()
         {
             checkAllForSmallest();
             return m_smallest.getX();
         }
-
+        /**
+         * Gets the smallest X value of all the words in the wordmap
+         * @return the smallest X value
+         */
         public int posSmallestX()
         {
             checkAllForSmallest();
             return m_indexSmallest.getX();
         }
 
+        /**
+         * Gets the smallest Y value of all the words in the wordmap
+         * @return the smallest Y value
+         */
         public int getSmallestY()
         {
             checkAllForSmallest();
             return m_smallest.getY();
         }
 
+        /**
+         * Gets the smallest Y value of all the words in the wordmap
+         * @return the smallest Y value
+         */
         public int posSmallestY()
         {
             checkAllForSmallest();
             return m_indexSmallest.getY();
         }
 
+        /**
+         * Gets WordList containing all the words from this map
+         * @return WordList
+         */
         public WordList toWordList()
         {
             WordList list = new WordList();
@@ -269,6 +356,11 @@ import java.rmi.NotBoundException;
             return list;
         }
 
+        /**
+         *
+         * @param temp
+         * @param index
+         */
         private void checkLargest(final Word temp, int index)
         {
             if(temp.getLargestX() > m_largest.getX())
@@ -284,6 +376,11 @@ import java.rmi.NotBoundException;
 
         }
 
+        /**
+         * 
+         * @param temp
+         * @param index
+         */
         private void checkSmallest(final Word temp, int index)
         {
             if(temp.getSmallestX() < m_smallest.getX())
