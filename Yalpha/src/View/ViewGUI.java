@@ -57,6 +57,7 @@ public class ViewGUI {
         imagePath = imagePath.substring(0, imagePath.lastIndexOf(File.separatorChar) + 1) + "about.gif";
 
         frame = new JFrame("Team Yalpha Word Search Iteration 3");
+        frame = new JFrame(imagePath);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setMinimumSize(new Dimension(800, 600));
