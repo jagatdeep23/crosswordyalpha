@@ -26,10 +26,13 @@ public class FileHandler
         try
         {
             // Find file path for the about image
+            char separator = File.separatorChar;
             String filePath = FileHandler.class.getClassLoader().getResource("Model/FileHandler.class").getPath();
-            filePath = filePath.substring(filePath.indexOf(File.separatorChar), filePath.lastIndexOf(File.separatorChar));
-            filePath = filePath.substring(0, filePath.lastIndexOf(File.separatorChar));
-            filePath = filePath.substring(0, filePath.lastIndexOf(File.separatorChar) + 1) + "proFill.txt";
+            filePath = filePath.replace('/', separator);
+            int start = (separator == '\\' ? filePath.indexOf('\\') + 1 : filePath.indexOf(separator));
+            filePath = filePath.substring(start, filePath.lastIndexOf(separator));
+            filePath = filePath.substring(0, filePath.lastIndexOf(separator));
+            filePath = filePath.substring(0, filePath.lastIndexOf(separator) + 1) + "proFill.txt";
 
             Scanner fileScan = FileHandler.createFileScanner(filePath, "profanity list");
 
