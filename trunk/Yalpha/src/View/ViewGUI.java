@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.border.Border;
 import javax.swing.BorderFactory;
-import javax.swing.filechooser.FileFilter;
 
 /**
  * Graphically sets and displays buttons and text field for puzzles and word
@@ -51,13 +50,22 @@ public class ViewGUI {
     public ViewGUI() {
 
         // Find file path for the about image
-        String imagePath = ViewGUI.class.getClassLoader().getResource("View/ViewGUI.class").getPath();
-        imagePath = imagePath.substring(imagePath.indexOf(File.separatorChar), imagePath.lastIndexOf(File.separatorChar));
-        imagePath = imagePath.substring(0, imagePath.lastIndexOf(File.separatorChar));
-        imagePath = imagePath.substring(0, imagePath.lastIndexOf(File.separatorChar) + 1) + "about.gif";
+        String imagePath = "";
+
+        try {
+            char separator = File.separatorChar;
+            imagePath = ViewGUI.class.getClassLoader().getResource("View/ViewGUI.class").getPath();
+            imagePath = imagePath.replace('/', separator);
+            int start = (separator == '\\' ? imagePath.indexOf('\\') + 1 : imagePath.indexOf(separator));
+            imagePath = imagePath.substring(start, imagePath.lastIndexOf(separator));
+            imagePath = imagePath.substring(0, imagePath.lastIndexOf(separator));
+            imagePath = imagePath.substring(0, imagePath.lastIndexOf(separator) + 1) + "about.gif";
+        }
+        catch (Exception e) {
+            imagePath = "about.jpg";
+        }
 
         frame = new JFrame("Team Yalpha Word Search Iteration 3");
-        frame = new JFrame(imagePath);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
         frame.setMinimumSize(new Dimension(800, 600));
@@ -67,7 +75,6 @@ public class ViewGUI {
         Dimension screenSize = toolkit.getScreenSize();
         frame.setLocation((screenSize.width - 800) / 2,
                 (screenSize.height - 600) / 2);
-
 
         aboutImage = new ImageIcon(imagePath);
 
